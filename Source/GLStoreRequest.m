@@ -1,0 +1,223 @@
+//
+//  GLStoreRequest.m
+//  Glassfy
+//
+//  Created by Luca Garbolino on 18/12/20.
+//
+
+#import "GLStoreRequest.h"
+#import "Glassfy+Private.h"
+#import "GLOffering.h"
+#import <StoreKit/StoreKit.h>
+#import "GLSku.h"
+#import "GLLogger.h"
+
+
+typedef void (^GLProductResponseHandler)(SKProductsResponse* _Nullable, NSError* _Nullable);
+
+@interface GLStoreRequest() <SKProductsRequestDelegate>
+@property (nonatomic, strong, nullable) NSMapTable<SKRequest*, NSSet*> *requestedProductIds;
+@property (nonatomic, strong, nullable) NSMapTable<SKRequest*, NSArray<GLProductResponseHandler>*> *productCompletions;
+
+@property (nonatomic, strong, nullable) NSMutableArray<GLRefreshReceiptCompletion> *receiptCompletions;
+
+@property (nonatomic, strong, nullable) NSMutableArray<SKRequest*> *reqs;
+@end
+
+@implementation GLStoreRequest
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.reqs = [NSMutableArray array];
+        self.receiptCompletions = [NSMutableArray array];
+        self.productCompletions = [NSMapTable mapTableWithKeyOptions:NSMapTableWeakMemory valueOptions:NSMapTableCopyIn];
+        self.requestedProductIds = [NSMapTable mapTableWithKeyOptions:NSMapTableWeakMemory valueOptions:NSMapTableStrongMemory];
+    }
+    return self;
+}
+
+
+#pragma mark - public
+
+- (void)productWithOfferings:(NSArray<GLOffering *> *)offerings completion:(GLStoreProductsCompletion)block
+{
+    NSMutableSet *productIds = [NSMutableSet set];
+    for (GLOffering *o in offerings) {
+        for (GLSku *s in o.skus) {
+            [productIds addObject:s.productId];
+        }
+    }
+    [self productWithIdentifiers:productIds completion:block];
+}
+
+- (void)productWithSkus:(NSArray<GLSku *> *)skus completion:(GLStoreProductsCompletion)block
+{
+    NSMutableSet *productIds = [NSMutableSet set];
+    [skus enumerateObjectsUsingBlock:^(GLSku *sku, NSUInteger idx, BOOL *stop) {
+        [productIds addObject:sku.productId];
+    }];
+    [self productWithIdentifiers:productIds completion:block];
+}
+
+- (void)productWithIdentifiers:(NSSet<NSString *> *)productIds completion:(GLStoreProductsCompletion)block
+{
+    if (productIds.count == 0) {
+        block(@[], nil);
+        return;
+    }
+    
+    [self startProductRequest:productIds completion:^(SKProductsResponse *res, NSError *err) {
+        typeof(block) __strong completion = block;
+        if (completion) {
+            completion(res.products ?: @[], err);
+        }
+    }];
+}
+
+- (void)productWithIdentifier:(NSString *)productId completion:(GLStoreProductCompletion)block
+{
+    [self startProductRequest:[NSSet setWithObject:productId] completion:^(SKProductsResponse *res, NSError *err) {
+        typeof(block) __strong completion = block;
+        if (completion) {
+            completion(res.products.firstObject, err);
+        }
+    }];
+}
+
+- (void)refreshReceipt:(GLRefreshReceiptCompletion)block
+{
+    [self startRefreshReceiptWithCompletion:block];
+}
+
+
+#pragma mark - private
+
+- (void)startProductRequest:(NSSet<NSString *> *)ids completion:(GLProductResponseHandler)block
+{
+    for (SKRequest *r in self.reqs) {
+        NSSet *rIds = [self.requestedProductIds objectForKey:r];
+        if (![ids isEqualToSet:rIds]) {
+            continue;
+        }
+        
+        GLLog(@"STORE IN FLIGHT product request: %@", [ids.allObjects componentsJoinedByString:@","]);
+    
+        NSArray *completions = [self.productCompletions objectForKey:r];
+        completions = [completions arrayByAddingObject:block];
+        [self.productCompletions setObject:completions forKey:r];
+        
+        return;
+    }
+    
+    
+    GLLog(@"STORE START product request: %@", [ids.allObjects componentsJoinedByString:@","]);
+    
+    SKProductsRequest *req = [[SKProductsRequest alloc] initWithProductIdentifiers:ids];
+    req.delegate = self;
+    [self.productCompletions setObject:@[block] forKey:req];
+    [self.requestedProductIds setObject:ids forKey:req];
+    [self.reqs addObject:req];
+    
+    [req start];
+}
+
+- (void)startRefreshReceiptWithCompletion:(GLRefreshReceiptCompletion)block
+{
+    if (self.receiptCompletions.count) {
+        GLLog(@"STORE IN FLIGHT refresh receipt");
+        
+        [self.receiptCompletions addObject:block];
+        return;
+    }
+
+    GLLog(@"STORE START refresh receipt");
+
+    [self.receiptCompletions addObject:block];
+    SKReceiptRefreshRequest *req = [[SKReceiptRefreshRequest alloc] init];
+    req.delegate = self;
+    
+    [self.reqs addObject:req];
+    
+    [req start];
+}
+
+- (void)handleSuccessfulRequest:(SKRequest *)req response:(nullable SKProductsResponse *)response
+{
+    if ([req isKindOfClass:SKProductsRequest.class]) {
+        GLLog(@"STORE FOUND %lu products", (unsigned long)response.products.count);
+        if (response.invalidProductIdentifiers.count) {
+            GLLog(@"STORE INVALID products: %@", response.invalidProductIdentifiers);
+        }
+        NSArray *completions = [self.productCompletions objectForKey:req];
+        [self.productCompletions removeObjectForKey:req];
+        [self.requestedProductIds removeObjectForKey:req];
+        for (GLProductResponseHandler completion in completions) {
+            completion(response,nil);
+        }
+    }
+    else if ([req isKindOfClass:SKReceiptRefreshRequest.class]) {
+        GLLog(@"STORE SUCCESS refresh receipt");
+        for (GLRefreshReceiptCompletion completion in self.receiptCompletions) {
+            completion(nil);
+        }
+    }
+    [self.reqs removeObject:req];
+}
+
+- (void)handleFailedRequest:(SKRequest *)req withError:(NSError *)error
+{
+    GLLogErr(@"STORE ERROR: %@", error.debugDescription);
+    
+    if ([req isKindOfClass:SKProductsRequest.class]) {
+        NSArray *completions = [self.productCompletions objectForKey:req];
+        [self.productCompletions removeObjectForKey:req];
+        [self.requestedProductIds removeObjectForKey:req];
+        for (GLProductResponseHandler completion in completions) {
+            completion(nil, error);
+        }
+    }
+    else if ([req isKindOfClass:SKReceiptRefreshRequest.class]) {
+        NSArray *completions = self.receiptCompletions;
+        self.receiptCompletions = [NSMutableArray array];
+        for (GLRefreshReceiptCompletion completion in completions) {
+            completion(error);
+        }
+    }
+    [self.reqs removeObject:req];
+}
+
+
+#pragma mark - SKProductsRequest
+
+- (void)request:(SKRequest *)request didFailWithError:(NSError *)error
+{
+    typeof(self) __weak weakSelf = self;
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [weakSelf handleFailedRequest:request withError:error];
+    });
+}
+
+- (void)requestDidFinish:(SKRequest *)request
+{
+    if ([request isKindOfClass:SKReceiptRefreshRequest.class]) {
+        typeof(self) __weak weakSelf = self;
+        dispatch_async(Glassfy.shared.glqueue, ^{
+            [weakSelf handleSuccessfulRequest:request response:nil];
+        });
+    }
+}
+
+
+#pragma mark - SKProductsRequestDelegate
+
+- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
+{
+    typeof(self) __weak weakSelf = self;
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [weakSelf handleSuccessfulRequest:request response:response];
+    });
+}
+
+@end

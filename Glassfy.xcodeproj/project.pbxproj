@@ -1,0 +1,744 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		81010F292590C1AB00B07DE4 /* GLAPIOfferingsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 81010F252590C1AB00B07DE4 /* GLAPIOfferingsResponse.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		81010F2A2590C1AB00B07DE4 /* GLAPIOfferingsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 81010F262590C1AB00B07DE4 /* GLAPIOfferingsResponse.m */; };
+		8104537725909F320015A728 /* GLAPIInitResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8104537525909F320015A728 /* GLAPIInitResponse.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8104537825909F320015A728 /* GLAPIInitResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8104537625909F320015A728 /* GLAPIInitResponse.m */; };
+		8104538C2590A15E0015A728 /* GLAPIBaseResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8104538A2590A15E0015A728 /* GLAPIBaseResponse.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8104538D2590A15E0015A728 /* GLAPIBaseResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8104538B2590A15E0015A728 /* GLAPIBaseResponse.m */; };
+		810F6FB425E50CFF00D3009E /* GLOfferings.m in Sources */ = {isa = PBXBuildFile; fileRef = 810F6FB225E50CFF00D3009E /* GLOfferings.m */; };
+		811BCDDF2608DA90007742D9 /* GLSysInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 811BCDDD2608DA90007742D9 /* GLSysInfo.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		811BCDE12608DA90007742D9 /* GLSysInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 811BCDDE2608DA90007742D9 /* GLSysInfo.m */; };
+		811F31A826317EBB00777020 /* GLOffers+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 810F6FB725E50D2000D3009E /* GLOffers+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		811F31AD26317EC200777020 /* GLPermissions+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 81C2816825E3F6AC0048189D /* GLPermissions+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		811F31B226317EC800777020 /* GLOffering+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 81359D7025B1DBFC009B1A4B /* GLOffering+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		811F31B726317ECD00777020 /* GLPermission+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 81EFB55025A7736B00706FCB /* GLPermission+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		811F31BC26317ED300777020 /* GLTransaction+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8161C49E2594DF87009CA563 /* GLTransaction+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		811F31C126317ED800777020 /* GLSku+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 81A7064425ACADB200169564 /* GLSku+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		811F322E2631CC6C00777020 /* Glassfy+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 811F322D2631CC6C00777020 /* Glassfy+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8138BA5F25923E78005CB44E /* GLCodableProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 8138BA5D25923E78005CB44E /* GLCodableProtocol.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8138BA8925924B42005CB44E /* SKProduct+GLEncode.h in Headers */ = {isa = PBXBuildFile; fileRef = 8138BA8725924B42005CB44E /* SKProduct+GLEncode.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8138BA8A25924B42005CB44E /* SKProduct+GLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8138BA8825924B42005CB44E /* SKProduct+GLEncode.m */; };
+		8138BA9B25924C8F005CB44E /* SKProductDiscount+GLEncode.h in Headers */ = {isa = PBXBuildFile; fileRef = 8138BA9925924C8F005CB44E /* SKProductDiscount+GLEncode.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8138BA9C25924C8F005CB44E /* SKProductDiscount+GLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8138BA9A25924C8F005CB44E /* SKProductDiscount+GLEncode.m */; };
+		8138BAA225924CB4005CB44E /* SKPaymentTransaction+GLEncode.h in Headers */ = {isa = PBXBuildFile; fileRef = 8138BAA025924CB4005CB44E /* SKPaymentTransaction+GLEncode.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8138BAA325924CB4005CB44E /* SKPaymentTransaction+GLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8138BAA125924CB4005CB44E /* SKPaymentTransaction+GLEncode.m */; };
+		8138BAA825924CDF005CB44E /* SKPaymentDiscount+GLEncode.h in Headers */ = {isa = PBXBuildFile; fileRef = 8138BAA625924CDF005CB44E /* SKPaymentDiscount+GLEncode.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8138BAA925924CDF005CB44E /* SKPaymentDiscount+GLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8138BAA725924CDF005CB44E /* SKPaymentDiscount+GLEncode.m */; };
+		8138BAB225924D0A005CB44E /* SKProductSubscriptionPeriod+GLEncode.h in Headers */ = {isa = PBXBuildFile; fileRef = 8138BAB025924D0A005CB44E /* SKProductSubscriptionPeriod+GLEncode.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8138BAB325924D0A005CB44E /* SKProductSubscriptionPeriod+GLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8138BAB125924D0A005CB44E /* SKProductSubscriptionPeriod+GLEncode.m */; };
+		8161C42825948D82009CA563 /* GLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 8161C42625948D82009CA563 /* GLError.m */; };
+		8161C4992594DD2F009CA563 /* GLTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8161C4972594DD2F009CA563 /* GLTransaction.m */; };
+		816830B8258B6EE400565968 /* GLManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 816830B6258B6EE400565968 /* GLManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		816830B9258B6EE400565968 /* GLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 816830B7258B6EE400565968 /* GLManager.m */; };
+		817A1C3E258CC9EA00D1BA10 /* GLOffering.m in Sources */ = {isa = PBXBuildFile; fileRef = 817A1C3C258CC9EA00D1BA10 /* GLOffering.m */; };
+		817A1C4A258CCA7000D1BA10 /* GLSku.m in Sources */ = {isa = PBXBuildFile; fileRef = 817A1C48258CCA7000D1BA10 /* GLSku.m */; };
+		817A1C76258CE0A200D1BA10 /* Glassfy.m in Sources */ = {isa = PBXBuildFile; fileRef = 817A1C75258CE0A200D1BA10 /* Glassfy.m */; };
+		817A1CB7258CE81000D1BA10 /* GLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 817A1CB5258CE81000D1BA10 /* GLLogger.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		817A1CB8258CE81000D1BA10 /* GLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 817A1CB6258CE81000D1BA10 /* GLLogger.m */; };
+		817A1CE7258CF46600D1BA10 /* GLCacheManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 817A1CE5258CF46600D1BA10 /* GLCacheManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		817A1CE8258CF46600D1BA10 /* GLCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 817A1CE6258CF46600D1BA10 /* GLCacheManager.m */; };
+		817A1CF5258CF63600D1BA10 /* GLAPIManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 817A1CF3258CF63600D1BA10 /* GLAPIManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		817A1CF6258CF63600D1BA10 /* GLAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 817A1CF4258CF63600D1BA10 /* GLAPIManager.m */; };
+		817A1CFF258CF7EE00D1BA10 /* GLStoreRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 817A1CFD258CF7EE00D1BA10 /* GLStoreRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		817A1D00258CF7EE00D1BA10 /* GLStoreRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 817A1CFE258CF7EE00D1BA10 /* GLStoreRequest.m */; };
+		81951CD126443F65003901F1 /* Glassfy.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CD026443F65003901F1 /* Glassfy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81951CD326443F82003901F1 /* GLTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CD226443F82003901F1 /* GLTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81951CD626443F94003901F1 /* GLOffering.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CD426443F94003901F1 /* GLOffering.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81951CD726443F94003901F1 /* GLOfferings.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CD526443F94003901F1 /* GLOfferings.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81951CDA26443FAA003901F1 /* GLTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CD826443FAA003901F1 /* GLTransaction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81951CDB26443FAA003901F1 /* GLSku.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CD926443FAA003901F1 /* GLSku.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81951CDE26443FB8003901F1 /* GLPermissions.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CDC26443FB8003901F1 /* GLPermissions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81951CDF26443FB8003901F1 /* GLPermission.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CDD26443FB8003901F1 /* GLPermission.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81951CE12644400B003901F1 /* GLError.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CE02644400B003901F1 /* GLError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81C2816325E3F58C0048189D /* GLPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C2816125E3F58C0048189D /* GLPermissions.m */; };
+		81C684652602633500223D3E /* GLAPISignatureResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 81C684632602633500223D3E /* GLAPISignatureResponse.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		81C684662602633500223D3E /* GLAPISignatureResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C684642602633500223D3E /* GLAPISignatureResponse.m */; };
+		81D8D498258B7193006BFE51 /* GlassfyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D8D497258B7193006BFE51 /* GlassfyTests.swift */; };
+		81D8D49A258B7193006BFE51 /* Glassfy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8168309F258B6D9C00565968 /* Glassfy.framework */; };
+		81E1DC3225933FC7003B5EBD /* SKPayment+GLEncode.h in Headers */ = {isa = PBXBuildFile; fileRef = 81E1DC3025933FC7003B5EBD /* SKPayment+GLEncode.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		81E1DC3325933FC7003B5EBD /* SKPayment+GLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E1DC3125933FC7003B5EBD /* SKPayment+GLEncode.m */; };
+		81EFB54425A772D900706FCB /* GLAPIPermissionsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 81EFB54225A772D900706FCB /* GLAPIPermissionsResponse.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		81EFB54525A772D900706FCB /* GLAPIPermissionsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFB54325A772D900706FCB /* GLAPIPermissionsResponse.m */; };
+		81EFB54B25A772F200706FCB /* GLPermission.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFB54925A772F200706FCB /* GLPermission.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		81D8D49B258B7193006BFE51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 81683096258B6D9C00565968 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8168309E258B6D9C00565968;
+			remoteInfo = Briseide;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		81010F252590C1AB00B07DE4 /* GLAPIOfferingsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLAPIOfferingsResponse.h; sourceTree = "<group>"; };
+		81010F262590C1AB00B07DE4 /* GLAPIOfferingsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLAPIOfferingsResponse.m; sourceTree = "<group>"; };
+		8104537525909F320015A728 /* GLAPIInitResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLAPIInitResponse.h; sourceTree = "<group>"; };
+		8104537625909F320015A728 /* GLAPIInitResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLAPIInitResponse.m; sourceTree = "<group>"; };
+		8104538A2590A15E0015A728 /* GLAPIBaseResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLAPIBaseResponse.h; sourceTree = "<group>"; };
+		8104538B2590A15E0015A728 /* GLAPIBaseResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLAPIBaseResponse.m; sourceTree = "<group>"; };
+		810F6FB225E50CFF00D3009E /* GLOfferings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLOfferings.m; sourceTree = "<group>"; };
+		810F6FB725E50D2000D3009E /* GLOffers+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLOffers+Private.h"; sourceTree = "<group>"; };
+		811BCDDD2608DA90007742D9 /* GLSysInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLSysInfo.h; sourceTree = "<group>"; };
+		811BCDDE2608DA90007742D9 /* GLSysInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLSysInfo.m; sourceTree = "<group>"; };
+		811F322D2631CC6C00777020 /* Glassfy+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Glassfy+Private.h"; sourceTree = "<group>"; };
+		81359D7025B1DBFC009B1A4B /* GLOffering+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLOffering+Private.h"; sourceTree = "<group>"; };
+		81359D7B25B1DE1F009B1A4B /* Briseide.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Briseide.podspec; sourceTree = SOURCE_ROOT; };
+		8138BA5D25923E78005CB44E /* GLCodableProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLCodableProtocol.h; sourceTree = "<group>"; };
+		8138BA8725924B42005CB44E /* SKProduct+GLEncode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SKProduct+GLEncode.h"; sourceTree = "<group>"; };
+		8138BA8825924B42005CB44E /* SKProduct+GLEncode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SKProduct+GLEncode.m"; sourceTree = "<group>"; };
+		8138BA9925924C8F005CB44E /* SKProductDiscount+GLEncode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SKProductDiscount+GLEncode.h"; sourceTree = "<group>"; };
+		8138BA9A25924C8F005CB44E /* SKProductDiscount+GLEncode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SKProductDiscount+GLEncode.m"; sourceTree = "<group>"; };
+		8138BAA025924CB4005CB44E /* SKPaymentTransaction+GLEncode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SKPaymentTransaction+GLEncode.h"; sourceTree = "<group>"; };
+		8138BAA125924CB4005CB44E /* SKPaymentTransaction+GLEncode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SKPaymentTransaction+GLEncode.m"; sourceTree = "<group>"; };
+		8138BAA625924CDF005CB44E /* SKPaymentDiscount+GLEncode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SKPaymentDiscount+GLEncode.h"; sourceTree = "<group>"; };
+		8138BAA725924CDF005CB44E /* SKPaymentDiscount+GLEncode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SKPaymentDiscount+GLEncode.m"; sourceTree = "<group>"; };
+		8138BAB025924D0A005CB44E /* SKProductSubscriptionPeriod+GLEncode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SKProductSubscriptionPeriod+GLEncode.h"; sourceTree = "<group>"; };
+		8138BAB125924D0A005CB44E /* SKProductSubscriptionPeriod+GLEncode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SKProductSubscriptionPeriod+GLEncode.m"; sourceTree = "<group>"; };
+		8161C42625948D82009CA563 /* GLError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLError.m; sourceTree = "<group>"; };
+		8161C4972594DD2F009CA563 /* GLTransaction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLTransaction.m; sourceTree = "<group>"; };
+		8161C49E2594DF87009CA563 /* GLTransaction+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GLTransaction+Private.h"; sourceTree = "<group>"; };
+		8168309F258B6D9C00565968 /* Glassfy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Glassfy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		816830A3258B6D9C00565968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		816830B6258B6EE400565968 /* GLManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLManager.h; sourceTree = "<group>"; };
+		816830B7258B6EE400565968 /* GLManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLManager.m; sourceTree = "<group>"; };
+		817A1C3C258CC9EA00D1BA10 /* GLOffering.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLOffering.m; sourceTree = "<group>"; };
+		817A1C48258CCA7000D1BA10 /* GLSku.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLSku.m; sourceTree = "<group>"; };
+		817A1C75258CE0A200D1BA10 /* Glassfy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Glassfy.m; sourceTree = "<group>"; };
+		817A1CB5258CE81000D1BA10 /* GLLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLLogger.h; sourceTree = "<group>"; };
+		817A1CB6258CE81000D1BA10 /* GLLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLLogger.m; sourceTree = "<group>"; };
+		817A1CE5258CF46600D1BA10 /* GLCacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLCacheManager.h; sourceTree = "<group>"; };
+		817A1CE6258CF46600D1BA10 /* GLCacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLCacheManager.m; sourceTree = "<group>"; };
+		817A1CF3258CF63600D1BA10 /* GLAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLAPIManager.h; sourceTree = "<group>"; };
+		817A1CF4258CF63600D1BA10 /* GLAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLAPIManager.m; sourceTree = "<group>"; };
+		817A1CFD258CF7EE00D1BA10 /* GLStoreRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLStoreRequest.h; sourceTree = "<group>"; };
+		817A1CFE258CF7EE00D1BA10 /* GLStoreRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLStoreRequest.m; sourceTree = "<group>"; };
+		81951CD026443F65003901F1 /* Glassfy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Glassfy.h; path = Public/Glassfy.h; sourceTree = "<group>"; };
+		81951CD226443F82003901F1 /* GLTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLTypes.h; path = Public/GLTypes.h; sourceTree = "<group>"; };
+		81951CD426443F94003901F1 /* GLOffering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLOffering.h; path = Public/GLOffering.h; sourceTree = "<group>"; };
+		81951CD526443F94003901F1 /* GLOfferings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLOfferings.h; path = Public/GLOfferings.h; sourceTree = "<group>"; };
+		81951CD826443FAA003901F1 /* GLTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLTransaction.h; path = Public/GLTransaction.h; sourceTree = "<group>"; };
+		81951CD926443FAA003901F1 /* GLSku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLSku.h; path = Public/GLSku.h; sourceTree = "<group>"; };
+		81951CDC26443FB8003901F1 /* GLPermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLPermissions.h; path = Public/GLPermissions.h; sourceTree = "<group>"; };
+		81951CDD26443FB8003901F1 /* GLPermission.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLPermission.h; path = Public/GLPermission.h; sourceTree = "<group>"; };
+		81951CE02644400B003901F1 /* GLError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLError.h; path = Public/GLError.h; sourceTree = "<group>"; };
+		81A7064425ACADB200169564 /* GLSku+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLSku+Private.h"; sourceTree = "<group>"; };
+		81C2816125E3F58C0048189D /* GLPermissions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLPermissions.m; sourceTree = "<group>"; };
+		81C2816825E3F6AC0048189D /* GLPermissions+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLPermissions+Private.h"; sourceTree = "<group>"; };
+		81C684632602633500223D3E /* GLAPISignatureResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLAPISignatureResponse.h; sourceTree = "<group>"; };
+		81C684642602633500223D3E /* GLAPISignatureResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLAPISignatureResponse.m; sourceTree = "<group>"; };
+		81D8D495258B7193006BFE51 /* GlassfyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GlassfyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		81D8D497258B7193006BFE51 /* GlassfyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassfyTests.swift; sourceTree = "<group>"; };
+		81D8D499258B7193006BFE51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		81E1DC3025933FC7003B5EBD /* SKPayment+GLEncode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SKPayment+GLEncode.h"; sourceTree = "<group>"; };
+		81E1DC3125933FC7003B5EBD /* SKPayment+GLEncode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SKPayment+GLEncode.m"; sourceTree = "<group>"; };
+		81EFB54225A772D900706FCB /* GLAPIPermissionsResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLAPIPermissionsResponse.h; sourceTree = "<group>"; };
+		81EFB54325A772D900706FCB /* GLAPIPermissionsResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLAPIPermissionsResponse.m; sourceTree = "<group>"; };
+		81EFB54925A772F200706FCB /* GLPermission.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLPermission.m; sourceTree = "<group>"; };
+		81EFB55025A7736B00706FCB /* GLPermission+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLPermission+Private.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8168309C258B6D9C00565968 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81D8D492258B7193006BFE51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81D8D49A258B7193006BFE51 /* Glassfy.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8104537B25909F380015A728 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8104538A2590A15E0015A728 /* GLAPIBaseResponse.h */,
+				8104538B2590A15E0015A728 /* GLAPIBaseResponse.m */,
+				8104537525909F320015A728 /* GLAPIInitResponse.h */,
+				8104537625909F320015A728 /* GLAPIInitResponse.m */,
+				81010F252590C1AB00B07DE4 /* GLAPIOfferingsResponse.h */,
+				81010F262590C1AB00B07DE4 /* GLAPIOfferingsResponse.m */,
+				81EFB54225A772D900706FCB /* GLAPIPermissionsResponse.h */,
+				81EFB54325A772D900706FCB /* GLAPIPermissionsResponse.m */,
+				81C684632602633500223D3E /* GLAPISignatureResponse.h */,
+				81C684642602633500223D3E /* GLAPISignatureResponse.m */,
+				8138BAE225925705005CB44E /* Categories */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		8138BAE225925705005CB44E /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				8138BA5D25923E78005CB44E /* GLCodableProtocol.h */,
+				8138BA8725924B42005CB44E /* SKProduct+GLEncode.h */,
+				8138BA8825924B42005CB44E /* SKProduct+GLEncode.m */,
+				8138BAA625924CDF005CB44E /* SKPaymentDiscount+GLEncode.h */,
+				8138BAA725924CDF005CB44E /* SKPaymentDiscount+GLEncode.m */,
+				8138BAA025924CB4005CB44E /* SKPaymentTransaction+GLEncode.h */,
+				8138BAA125924CB4005CB44E /* SKPaymentTransaction+GLEncode.m */,
+				8138BA9925924C8F005CB44E /* SKProductDiscount+GLEncode.h */,
+				8138BA9A25924C8F005CB44E /* SKProductDiscount+GLEncode.m */,
+				8138BAB025924D0A005CB44E /* SKProductSubscriptionPeriod+GLEncode.h */,
+				8138BAB125924D0A005CB44E /* SKProductSubscriptionPeriod+GLEncode.m */,
+				81E1DC3025933FC7003B5EBD /* SKPayment+GLEncode.h */,
+				81E1DC3125933FC7003B5EBD /* SKPayment+GLEncode.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		81683095258B6D9C00565968 = {
+			isa = PBXGroup;
+			children = (
+				816830A1258B6D9C00565968 /* Source */,
+				81D8D496258B7193006BFE51 /* Tests */,
+				816830A0258B6D9C00565968 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		816830A0258B6D9C00565968 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8168309F258B6D9C00565968 /* Glassfy.framework */,
+				81D8D495258B7193006BFE51 /* GlassfyTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		816830A1258B6D9C00565968 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				81951CD026443F65003901F1 /* Glassfy.h */,
+				817A1C75258CE0A200D1BA10 /* Glassfy.m */,
+				81951CD526443F94003901F1 /* GLOfferings.h */,
+				810F6FB225E50CFF00D3009E /* GLOfferings.m */,
+				81951CD426443F94003901F1 /* GLOffering.h */,
+				817A1C3C258CC9EA00D1BA10 /* GLOffering.m */,
+				81951CD926443FAA003901F1 /* GLSku.h */,
+				817A1C48258CCA7000D1BA10 /* GLSku.m */,
+				81951CD826443FAA003901F1 /* GLTransaction.h */,
+				8161C4972594DD2F009CA563 /* GLTransaction.m */,
+				81951CDC26443FB8003901F1 /* GLPermissions.h */,
+				81C2816125E3F58C0048189D /* GLPermissions.m */,
+				81951CDD26443FB8003901F1 /* GLPermission.h */,
+				81EFB54925A772F200706FCB /* GLPermission.m */,
+				81951CD226443F82003901F1 /* GLTypes.h */,
+				816830B3258B6EA100565968 /* Core */,
+				8104537B25909F380015A728 /* Data */,
+				817A1CC7258CE9C700D1BA10 /* Utils */,
+				816830C0258B6F2800565968 /* Supporting Files */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		816830B3258B6EA100565968 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				816830B6258B6EE400565968 /* GLManager.h */,
+				816830B7258B6EE400565968 /* GLManager.m */,
+				817A1CE5258CF46600D1BA10 /* GLCacheManager.h */,
+				817A1CE6258CF46600D1BA10 /* GLCacheManager.m */,
+				817A1CF3258CF63600D1BA10 /* GLAPIManager.h */,
+				817A1CF4258CF63600D1BA10 /* GLAPIManager.m */,
+				817A1CFD258CF7EE00D1BA10 /* GLStoreRequest.h */,
+				817A1CFE258CF7EE00D1BA10 /* GLStoreRequest.m */,
+				811F322D2631CC6C00777020 /* Glassfy+Private.h */,
+				81A7064425ACADB200169564 /* GLSku+Private.h */,
+				8161C49E2594DF87009CA563 /* GLTransaction+Private.h */,
+				81EFB55025A7736B00706FCB /* GLPermission+Private.h */,
+				81359D7025B1DBFC009B1A4B /* GLOffering+Private.h */,
+				81C2816825E3F6AC0048189D /* GLPermissions+Private.h */,
+				810F6FB725E50D2000D3009E /* GLOffers+Private.h */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		816830C0258B6F2800565968 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				81359D7B25B1DE1F009B1A4B /* Briseide.podspec */,
+				816830A3258B6D9C00565968 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		817A1CC7258CE9C700D1BA10 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				81951CE02644400B003901F1 /* GLError.h */,
+				8161C42625948D82009CA563 /* GLError.m */,
+				817A1CB5258CE81000D1BA10 /* GLLogger.h */,
+				817A1CB6258CE81000D1BA10 /* GLLogger.m */,
+				811BCDDD2608DA90007742D9 /* GLSysInfo.h */,
+				811BCDDE2608DA90007742D9 /* GLSysInfo.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		81D8D496258B7193006BFE51 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				81D8D497258B7193006BFE51 /* GlassfyTests.swift */,
+				81D8D499258B7193006BFE51 /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8168309A258B6D9C00565968 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				811BCDDF2608DA90007742D9 /* GLSysInfo.h in Headers */,
+				81951CE12644400B003901F1 /* GLError.h in Headers */,
+				8138BA8925924B42005CB44E /* SKProduct+GLEncode.h in Headers */,
+				817A1CFF258CF7EE00D1BA10 /* GLStoreRequest.h in Headers */,
+				817A1CB7258CE81000D1BA10 /* GLLogger.h in Headers */,
+				81010F292590C1AB00B07DE4 /* GLAPIOfferingsResponse.h in Headers */,
+				81951CD726443F94003901F1 /* GLOfferings.h in Headers */,
+				8138BAB225924D0A005CB44E /* SKProductSubscriptionPeriod+GLEncode.h in Headers */,
+				817A1CF5258CF63600D1BA10 /* GLAPIManager.h in Headers */,
+				817A1CE7258CF46600D1BA10 /* GLCacheManager.h in Headers */,
+				81E1DC3225933FC7003B5EBD /* SKPayment+GLEncode.h in Headers */,
+				8138BA9B25924C8F005CB44E /* SKProductDiscount+GLEncode.h in Headers */,
+				81C684652602633500223D3E /* GLAPISignatureResponse.h in Headers */,
+				811F31B726317ECD00777020 /* GLPermission+Private.h in Headers */,
+				811F31A826317EBB00777020 /* GLOffers+Private.h in Headers */,
+				811F31BC26317ED300777020 /* GLTransaction+Private.h in Headers */,
+				811F31B226317EC800777020 /* GLOffering+Private.h in Headers */,
+				81951CD326443F82003901F1 /* GLTypes.h in Headers */,
+				81951CD126443F65003901F1 /* Glassfy.h in Headers */,
+				811F322E2631CC6C00777020 /* Glassfy+Private.h in Headers */,
+				81951CD626443F94003901F1 /* GLOffering.h in Headers */,
+				811F31C126317ED800777020 /* GLSku+Private.h in Headers */,
+				81EFB54425A772D900706FCB /* GLAPIPermissionsResponse.h in Headers */,
+				811F31AD26317EC200777020 /* GLPermissions+Private.h in Headers */,
+				816830B8258B6EE400565968 /* GLManager.h in Headers */,
+				8104537725909F320015A728 /* GLAPIInitResponse.h in Headers */,
+				8138BAA825924CDF005CB44E /* SKPaymentDiscount+GLEncode.h in Headers */,
+				81951CDF26443FB8003901F1 /* GLPermission.h in Headers */,
+				8104538C2590A15E0015A728 /* GLAPIBaseResponse.h in Headers */,
+				81951CDA26443FAA003901F1 /* GLTransaction.h in Headers */,
+				81951CDE26443FB8003901F1 /* GLPermissions.h in Headers */,
+				8138BAA225924CB4005CB44E /* SKPaymentTransaction+GLEncode.h in Headers */,
+				8138BA5F25923E78005CB44E /* GLCodableProtocol.h in Headers */,
+				81951CDB26443FAA003901F1 /* GLSku.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8168309E258B6D9C00565968 /* Glassfy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 816830A7258B6D9C00565968 /* Build configuration list for PBXNativeTarget "Glassfy" */;
+			buildPhases = (
+				8168309A258B6D9C00565968 /* Headers */,
+				8168309B258B6D9C00565968 /* Sources */,
+				8168309C258B6D9C00565968 /* Frameworks */,
+				8168309D258B6D9C00565968 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Glassfy;
+			productName = Briseide;
+			productReference = 8168309F258B6D9C00565968 /* Glassfy.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		81D8D494258B7193006BFE51 /* GlassfyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 81D8D49D258B7193006BFE51 /* Build configuration list for PBXNativeTarget "GlassfyTests" */;
+			buildPhases = (
+				81D8D491258B7193006BFE51 /* Sources */,
+				81D8D492258B7193006BFE51 /* Frameworks */,
+				81D8D493258B7193006BFE51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				81D8D49C258B7193006BFE51 /* PBXTargetDependency */,
+			);
+			name = GlassfyTests;
+			productName = BriseideTests;
+			productReference = 81D8D495258B7193006BFE51 /* GlassfyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		81683096258B6D9C00565968 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					8168309E258B6D9C00565968 = {
+						CreatedOnToolsVersion = 12.3;
+					};
+					81D8D494258B7193006BFE51 = {
+						CreatedOnToolsVersion = 12.3;
+					};
+				};
+			};
+			buildConfigurationList = 81683099258B6D9C00565968 /* Build configuration list for PBXProject "Glassfy" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 81683095258B6D9C00565968;
+			productRefGroup = 816830A0258B6D9C00565968 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8168309E258B6D9C00565968 /* Glassfy */,
+				81D8D494258B7193006BFE51 /* GlassfyTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8168309D258B6D9C00565968 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81D8D493258B7193006BFE51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8168309B258B6D9C00565968 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8104538D2590A15E0015A728 /* GLAPIBaseResponse.m in Sources */,
+				8104537825909F320015A728 /* GLAPIInitResponse.m in Sources */,
+				81C2816325E3F58C0048189D /* GLPermissions.m in Sources */,
+				8138BAA325924CB4005CB44E /* SKPaymentTransaction+GLEncode.m in Sources */,
+				817A1CB8258CE81000D1BA10 /* GLLogger.m in Sources */,
+				81E1DC3325933FC7003B5EBD /* SKPayment+GLEncode.m in Sources */,
+				8138BA9C25924C8F005CB44E /* SKProductDiscount+GLEncode.m in Sources */,
+				816830B9258B6EE400565968 /* GLManager.m in Sources */,
+				811BCDE12608DA90007742D9 /* GLSysInfo.m in Sources */,
+				8161C4992594DD2F009CA563 /* GLTransaction.m in Sources */,
+				8138BA8A25924B42005CB44E /* SKProduct+GLEncode.m in Sources */,
+				817A1C4A258CCA7000D1BA10 /* GLSku.m in Sources */,
+				81C684662602633500223D3E /* GLAPISignatureResponse.m in Sources */,
+				817A1C3E258CC9EA00D1BA10 /* GLOffering.m in Sources */,
+				8161C42825948D82009CA563 /* GLError.m in Sources */,
+				817A1CE8258CF46600D1BA10 /* GLCacheManager.m in Sources */,
+				810F6FB425E50CFF00D3009E /* GLOfferings.m in Sources */,
+				817A1D00258CF7EE00D1BA10 /* GLStoreRequest.m in Sources */,
+				817A1CF6258CF63600D1BA10 /* GLAPIManager.m in Sources */,
+				81EFB54525A772D900706FCB /* GLAPIPermissionsResponse.m in Sources */,
+				8138BAA925924CDF005CB44E /* SKPaymentDiscount+GLEncode.m in Sources */,
+				8138BAB325924D0A005CB44E /* SKProductSubscriptionPeriod+GLEncode.m in Sources */,
+				817A1C76258CE0A200D1BA10 /* Glassfy.m in Sources */,
+				81EFB54B25A772F200706FCB /* GLPermission.m in Sources */,
+				81010F2A2590C1AB00B07DE4 /* GLAPIOfferingsResponse.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81D8D491258B7193006BFE51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81D8D498258B7193006BFE51 /* GlassfyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		81D8D49C258B7193006BFE51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8168309E258B6D9C00565968 /* Glassfy */;
+			targetProxy = 81D8D49B258B7193006BFE51 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		816830A5258B6D9C00565968 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		816830A6258B6D9C00565968 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		816830A8258B6D9C00565968 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdk;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		816830A9258B6D9C00565968 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdk;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		81D8D49E258B7193006BFE51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XJH4632ZJM;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdkTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		81D8D49F258B7193006BFE51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XJH4632ZJM;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdkTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		81683099258B6D9C00565968 /* Build configuration list for PBXProject "Glassfy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				816830A5258B6D9C00565968 /* Debug */,
+				816830A6258B6D9C00565968 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		816830A7258B6D9C00565968 /* Build configuration list for PBXNativeTarget "Glassfy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				816830A8258B6D9C00565968 /* Debug */,
+				816830A9258B6D9C00565968 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		81D8D49D258B7193006BFE51 /* Build configuration list for PBXNativeTarget "GlassfyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81D8D49E258B7193006BFE51 /* Debug */,
+				81D8D49F258B7193006BFE51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 81683096258B6D9C00565968 /* Project object */;
+}
