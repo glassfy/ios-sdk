@@ -7,12 +7,12 @@
 
 
 #import "Glassfy.h"
-#import "GLManager.h"
-#import "GLLogger.h"
+#import "GYManager.h"
+#import "GYLogger.h"
 
 @interface Glassfy()
 @property (nonnull, nonatomic, strong) dispatch_queue_t glqueue;
-@property (nullable, nonatomic, strong) GLManager *manager;
+@property (nullable, nonatomic, strong) GYManager *manager;
 @end
 
 @implementation Glassfy
@@ -40,112 +40,102 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.1.2";
+    return @"1.1.3";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
 {
-    [self initializeWithAPIKey:apiKey completion:nil];
+    [self initializeWithAPIKey:apiKey watcherMode:NO];
 }
 
-+ (void)initializeWithAPIKey:(NSString *)apiKey completion:(GLErrorCompletion)block
-{
-    [self initializeWithAPIKey:apiKey userId:nil completion:block];
-}
-
-+ (void)initializeWithAPIKey:(NSString *)apiKey userId:(NSString *)userId completion:(GLErrorCompletion)block
-{
-    [self initializeWithAPIKey:apiKey userId:userId watcherMode:NO completion:block];
-}
-
-+ (void)initializeWithAPIKey:(NSString *)apiKey userId:(NSString *_Nullable)userId watcherMode:(BOOL)watcherMode completion:(GLErrorCompletion _Nullable)block
++ (void)initializeWithAPIKey:(NSString *)apiKey watcherMode:(BOOL)watcherMode
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
-        Glassfy.shared.manager = [GLManager managerWithApiKey:apiKey userId:userId watcherMode:watcherMode completion:block];
+        Glassfy.shared.manager = [GYManager managerWithApiKey:apiKey watcherMode:watcherMode];
     });
 }
 
-+ (void)setUserId:(NSString *)userId
++ (void)loginUser:(NSString *_Nullable)userId withCompletion:(GYErrorCompletion _Nullable)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
-        Glassfy.shared.manager.userId = userId;
+        [Glassfy.shared.manager loginUser:userId withCompletion:block];
     });
 }
 
-+ (void)logoutWithCompletion:(GLErrorCompletion)block
++ (void)logoutWithCompletion:(GYErrorCompletion)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager logoutWithCompletion:block];
     });
 }
 
-+ (void)permissionsWithCompletion:(GLPermissionsCompletion)block
++ (void)permissionsWithCompletion:(GYPermissionsCompletion)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager permissionsWithCompletion:block];
     });
 }
 
-+ (void)permissionWithIdentifier:(NSString *)identifier completion:(GLPermissionsCompletion)block
-{
-    dispatch_async(Glassfy.shared.glqueue, ^{
-        [Glassfy.shared.manager permissionWithIdentifier:identifier completion:block];
-    });
-}
-
-+ (void)offeringsWithCompletion:(GLOfferingsCompletion)block
++ (void)offeringsWithCompletion:(GYOfferingsCompletion)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager offeringsWithCompletion:block];
     });
 }
 
-+ (void)offeringWithIdentifier:(NSString *)identifier completion:(GLOfferingsCompletion)block
-{
-    dispatch_async(Glassfy.shared.glqueue, ^{
-        [Glassfy.shared.manager offeringWithIdentifier:identifier completion:block];
-    });
-}
-
-+ (void)purchaseSku:(GLSku *)sku completion:(GLPaymentTransactionBlock)block
++ (void)purchaseSku:(GYSku *)sku completion:(GYPaymentTransactionBlock)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager purchaseSku:sku completion:block];
     });
 }
 
-+ (void)purchase:(NSString *)productId completion:(GLPaymentTransactionBlock)block
++ (void)purchase:(NSString *)productId completion:(GYPaymentTransactionBlock)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager purchase:productId completion:block];
     });
 }
 
-+ (void)purchaseProduct:(SKProduct *)product completion:(GLPaymentTransactionBlock)block
++ (void)purchaseProduct:(SKProduct *)product completion:(GYPaymentTransactionBlock)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager purchaseProduct:product completion:block];
     });
 }
 
-+ (void)purchaseProduct:(SKProduct *)product withDiscount:(SKProductDiscount *)discount completion:(GLPaymentTransactionBlock)block
++ (void)purchaseProduct:(SKProduct *)product withDiscount:(SKProductDiscount *)discount completion:(GYPaymentTransactionBlock)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager purchaseProduct:product withDiscount:discount completion:block];
     });
 }
 
-+ (void)restorePurchasesWithCompletion:(GLPermissionsCompletion)block
++ (void)restorePurchasesWithCompletion:(GYPermissionsCompletion)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager restorePurchasesWithCompletion:block];
     });
 }
 
-+ (void)setLogLevel:(GLLogLevel)level
++ (void)addUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYUserPropertiesCompletion)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
-        GLLogSetLevel(level);
+        [Glassfy.shared.manager addUserProperty:property value:obj completion:block];
+    });
+}
+
++ (void)getUserProperties:(GYUserPropertiesCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager getUserProperties:block];
+    });
+}
+
++ (void)setLogLevel:(GYLogLevel)level
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        GYLogSetLevel(level);
     });
 }
 

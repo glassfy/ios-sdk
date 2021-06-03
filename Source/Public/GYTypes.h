@@ -1,0 +1,89 @@
+//
+//  GYTypes.h
+//  Glassfy
+//
+//  Created by Luca Garbolino on 21/12/20.
+//
+
+#ifndef Types_h
+#define Types_h
+
+#import <Foundation/Foundation.h>
+@class SKPaymentTransaction;
+@class GYTransaction;
+@class GYPermissions;
+@class GYOfferings;
+@class GYUserProperties;
+
+NS_ASSUME_NONNULL_BEGIN
+
+typedef void(^GYPaymentTransactionBlock)(GYTransaction* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaymentTransactionBlock);
+typedef void(^GYOfferingsCompletion)(GYOfferings* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.OfferingsCompletion);
+typedef void(^GYPermissionsCompletion)(GYPermissions* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PermissionsCompletion);
+typedef void(^GYBooleanCompletion)(BOOL, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.BooleanCompletion);
+typedef void(^GYErrorCompletion)(NSError* _Nullable) NS_SWIFT_NAME(Glassfy.ErrorCompletion);
+typedef void(^GYUserPropertiesCompletion)(GYUserProperties* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.UserPropertiesCompletion);
+
+typedef NS_ENUM(NSUInteger, GYSkuEligibility) {
+    GYSkuEligibilityEligible,
+    GYSkuEligibilityNonEligible,
+    GYSkuEligibilityUnknown
+} NS_SWIFT_NAME(Glassfy.SkuEligibility);
+
+typedef NS_ENUM(NSInteger, GYEntitlement) {
+    // The customer never bought any products.
+    GYEntitlementNeverBuy = -9,
+    // The customer received a refund for the subscription.
+    GYEntitlementOtherRefund = -8,
+    // The customer received a refund due to a perceived issue with the app.
+    GYEntitlementIssueRefund = -7,
+    // The system canceled the subscription because the customer upgraded.
+    GYEntitlementUpgraded = -6,
+    // The customer intentionally cancelled the subscription.
+    GYEntitlementExpiredVoloutary = -5,
+    // The product is no longer available.
+    GYEntitlementProductNotAvailable = -4,
+    // The customer did not accept the price increase.
+    GYEntitlementFailToAcceptIncrase = -3,
+    // The receipt is fully expired due to a billing issue.
+    GYEntitlementExpiredFromBilling = -2,
+    // The receipt is expired but the subscription is still in a billing-retry state.
+    // If grace period is enabled this state excludes subscriptions in grace period.
+    GYEntitlementInRetry = -1,
+    // The receipt is out of date or there is another purchase issue.
+    GYEntitlementMissingInfo = 0,
+    // The subscription expired but is in grace period.
+    GYEntitlementExpiredInGrace = 1,
+    // The subscription is an off-platform subscription.
+    GYEntitlementOffPlatform = 2,
+    // The subscription is a non-renewing subscription.
+    GYEntitlementNonRenewing = 3,
+    // The subscription is active and auto-renew is off.
+    GYEntitlementAutoRenewOff = 4,
+    // The subscription is active and auto-renew is on.
+    GYEntitlementAutoRenewOn = 5,
+} NS_SWIFT_NAME(Glassfy.Entitlement);
+
+typedef NS_OPTIONS(NSUInteger, GYLogFlag) {
+    GYLogFlagError = 1 << 0,
+    GYLogFlagDebug = 1 << 1,
+    GYLogFlagInfo = 1 << 2
+} NS_SWIFT_NAME(Glassfy.LogFlag);
+
+typedef NS_ENUM(NSUInteger, GYUserPropertyType) {
+    GYPropertyTypeEmail,    // string
+    GYPropertyTypeToken,    // string
+    GYPropertyTypeExtra     // dictionary
+} NS_SWIFT_NAME(Glassfy.UserPropertyType);
+
+typedef NS_ENUM(NSUInteger, GYLogLevel) {
+    GYLogLevelOff   = 0,
+    GYLogLevelError = (GYLogLevelOff | GYLogFlagError),
+    GYLogLevelDebug = (GYLogLevelError | GYLogFlagDebug),
+    GYLogLevelInfo  = (GYLogLevelDebug | GYLogFlagInfo),
+    GYLogLevelAll   = NSUIntegerMax
+} NS_SWIFT_NAME(Glassfy.LogLevel);
+
+NS_ASSUME_NONNULL_END
+
+#endif /* Types_h */
