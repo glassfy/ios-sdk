@@ -6,16 +6,17 @@
 //
 
 #import <CommonCrypto/CommonDigest.h>
+#import "Glassfy+Private.h"
+#import "GYUserProperties+Private.h"
+#import "GYSku+Private.h"
+#import "SKPaymentTransaction+GYEncode.h"
+#import "SKProduct+GYEncode.h"
 #import "GYSysInfo.h"
 #import "GYAPIManager.h"
-#import "Glassfy+Private.h"
-#import "SKProduct+GYEncode.h"
-#import "SKPaymentTransaction+GYEncode.h"
 #import "GYError.h"
 #import "GYLogger.h"
 #import "GYCacheManager.h"
 #import "GYUtils.h"
-#import "GYUserProperties+Private.h"
 
 #define BASE_URL @"https://api.glassfy.net/v0"
 
@@ -78,6 +79,18 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     
     NSURLRequest *req = [self authorizedRequestWithComponents:url];
     [self callApiWithRequest:req response:GYAPIInitResponse.class completion:block];
+}
+
+- (void)getSku:(NSString *)skuid withCompletion:(GYGetSkuCompletion)block
+{
+    NSURLComponents *url = [self baseURL];
+    url.path = [url.path stringByAppendingPathComponent:@"sku"];
+    NSMutableArray<NSURLQueryItem*> *queryItems = [(url.queryItems ?: @[]) mutableCopy];
+    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"identifier" value:skuid]];
+    url.queryItems = queryItems;
+
+    NSURLRequest *req = [self authorizedRequestWithComponents:url];
+    [self callApiWithRequest:req response:GYAPISkuResponse.class completion:block];
 }
 
 - (void)getOfferingsWithCompletion:(GYGetOfferingsCompletion)block
@@ -155,13 +168,16 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 }
 
 - (void)postReceipt:(NSData *)receipt
-            product:(SKProduct *)product
+                sku:(GYSku *)sku
         transaction:(SKPaymentTransaction *)transaction
          completion:(GYGetPermissionsCompletion)block
 {
     NSMutableDictionary *bodyEncoded = [NSMutableDictionary dictionary];
+    NSDictionary *skuinfo = [sku encodedObject];
+    if ([skuinfo isKindOfClass:NSDictionary.class]) {
+        [bodyEncoded addEntriesFromDictionary:skuinfo];
+    }
     bodyEncoded[@"receiptdata"] = [receipt base64EncodedStringWithOptions:kNilOptions];
-    bodyEncoded[@"productinfo"] = [product encodedObject];
     bodyEncoded[@"transactioninfo"] = [transaction encodedObject];
     
     NSError *err;

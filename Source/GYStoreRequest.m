@@ -78,6 +78,10 @@ typedef void (^GYProductResponseHandler)(SKProductsResponse* _Nullable, NSError*
 
 - (void)productWithIdentifier:(NSString *)productId completion:(GYStoreProductCompletion)block
 {
+    if (productId.length == 0) {
+        block(nil, nil);
+        return;
+    }
     [self startProductRequest:[NSSet setWithObject:productId] completion:^(SKProductsResponse *res, NSError *err) {
         typeof(block) __strong completion = block;
         if (completion) {

@@ -55,6 +55,8 @@
 		817A1CF6258CF63600D1BA10 /* GYAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 817A1CF4258CF63600D1BA10 /* GYAPIManager.m */; };
 		817A1CFF258CF7EE00D1BA10 /* GYStoreRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 817A1CFD258CF7EE00D1BA10 /* GYStoreRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		817A1D00258CF7EE00D1BA10 /* GYStoreRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 817A1CFE258CF7EE00D1BA10 /* GYStoreRequest.m */; };
+		817C95692678F79200DB4945 /* GYAPISkuResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 817C95682678F78400DB4945 /* GYAPISkuResponse.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		817C956B2678F7D300DB4945 /* GYAPISkuResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 817C956A2678F7D300DB4945 /* GYAPISkuResponse.m */; };
 		8191E86B26690C850077BDD7 /* GYUserProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 8191E86A26690C850077BDD7 /* GYUserProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		81951CD126443F65003901F1 /* Glassfy.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CD026443F65003901F1 /* Glassfy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		81951CD326443F82003901F1 /* GYTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CD226443F82003901F1 /* GYTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -136,6 +138,8 @@
 		817A1CF4258CF63600D1BA10 /* GYAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYAPIManager.m; sourceTree = "<group>"; };
 		817A1CFD258CF7EE00D1BA10 /* GYStoreRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GYStoreRequest.h; sourceTree = "<group>"; };
 		817A1CFE258CF7EE00D1BA10 /* GYStoreRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYStoreRequest.m; sourceTree = "<group>"; };
+		817C95682678F78400DB4945 /* GYAPISkuResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GYAPISkuResponse.h; sourceTree = "<group>"; };
+		817C956A2678F7D300DB4945 /* GYAPISkuResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYAPISkuResponse.m; sourceTree = "<group>"; };
 		8191E86A26690C850077BDD7 /* GYUserProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GYUserProperties.h; path = Public/GYUserProperties.h; sourceTree = "<group>"; };
 		81951CD026443F65003901F1 /* Glassfy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Glassfy.h; path = Public/Glassfy.h; sourceTree = "<group>"; };
 		81951CD226443F82003901F1 /* GYTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GYTypes.h; path = Public/GYTypes.h; sourceTree = "<group>"; };
@@ -196,6 +200,8 @@
 				81C684642602633500223D3E /* GYAPISignatureResponse.m */,
 				816EF28B26611C5900513FB1 /* GYAPIPropertiesResponse.h */,
 				816EF28C26611C5900513FB1 /* GYAPIPropertiesResponse.m */,
+				817C95682678F78400DB4945 /* GYAPISkuResponse.h */,
+				817C956A2678F7D300DB4945 /* GYAPISkuResponse.m */,
 				8138BAE225925705005CB44E /* Categories */,
 			);
 			name = Data;
@@ -358,6 +364,7 @@
 				81EFB54425A772D900706FCB /* GYAPIPermissionsResponse.h in Headers */,
 				811F31AD26317EC200777020 /* GYPermissions+Private.h in Headers */,
 				816830B8258B6EE400565968 /* GYManager.h in Headers */,
+				817C95692678F79200DB4945 /* GYAPISkuResponse.h in Headers */,
 				8104537725909F320015A728 /* GYAPIInitResponse.h in Headers */,
 				8138BAA825924CDF005CB44E /* SKPaymentDiscount+GYEncode.h in Headers */,
 				8191E86B26690C850077BDD7 /* GYUserProperties.h in Headers */,
@@ -484,6 +491,7 @@
 				81C684662602633500223D3E /* GYAPISignatureResponse.m in Sources */,
 				817A1C3E258CC9EA00D1BA10 /* GYOffering.m in Sources */,
 				8161C42825948D82009CA563 /* GYError.m in Sources */,
+				817C956B2678F7D300DB4945 /* GYAPISkuResponse.m in Sources */,
 				817A1CE8258CF46600D1BA10 /* GYCacheManager.m in Sources */,
 				810F6FB425E50CFF00D3009E /* GYOfferings.m in Sources */,
 				817A1D00258CF7EE00D1BA10 /* GYStoreRequest.m in Sources */,
@@ -660,7 +668,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -687,7 +695,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

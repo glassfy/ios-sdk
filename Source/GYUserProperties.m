@@ -21,17 +21,17 @@
     GYUserProperties *properties = [GYUserProperties new];
     
     NSString *propertyType;
-    propertyType = [GYUserProperties stringWithPropertyType:GYPropertyTypeEmail];
+    propertyType = [GYUserProperties stringWithPropertyType:GYUserPropertyTypeEmail];
     NSString *email = obj[propertyType];
     if ([email isKindOfClass:NSString.class] && email.length) {
         properties.email = email;
     }
-    propertyType = [GYUserProperties stringWithPropertyType:GYPropertyTypeToken];
+    propertyType = [GYUserProperties stringWithPropertyType:GYUserPropertyTypeToken];
     NSString *token = obj[propertyType];
     if ([token isKindOfClass:NSString.class] && token.length) {
         properties.token = token;
     }
-    propertyType = [GYUserProperties stringWithPropertyType:GYPropertyTypeExtra];
+    propertyType = [GYUserProperties stringWithPropertyType:GYUserPropertyTypeExtra];
     NSDictionary *extra = obj[propertyType];
     if ([extra isKindOfClass:NSDictionary.class]) {
         properties.extra = extra;
@@ -44,13 +44,13 @@
 {
     NSString *propertyStr;
     switch (property) {
-        case GYPropertyTypeEmail:
+        case GYUserPropertyTypeEmail:
             propertyStr = @"email";
             break;
-        case GYPropertyTypeToken:
+        case GYUserPropertyTypeToken:
             propertyStr = @"token";
             break;
-        case GYPropertyTypeExtra:
+        case GYUserPropertyTypeExtra:
             propertyStr = @"info";
             break;
     }

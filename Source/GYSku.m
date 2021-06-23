@@ -7,10 +7,12 @@
 
 #import "GYSku+Private.h"
 #import "GYError.h"
+#import "SKProduct+GYEncode.h"
 
 @interface GYSku()
 @property(nonatomic, strong) NSString *identifier;
 @property(nonatomic, strong) NSString *productId;
+@property(nonatomic, nullable, strong) NSString *offeringId;
 @property(nonatomic, assign) GYSkuEligibility introductoryEligibility;
 @property(nonatomic, assign) GYSkuEligibility promotionalEligibility;
 @property(nonatomic, strong) NSDictionary<NSString*, NSString*>* extravars;
@@ -73,6 +75,29 @@
         self.promotionalEligibility = promotionalEligibility;
     }
     return self;
+}
+
++ (instancetype)skuWithProduct:(SKProduct *)product
+{
+    GYSku *sku = [GYSku new];
+    if (sku) {
+        sku.product = product;
+        sku.extravars = @{};
+        sku.identifier = @"";
+        sku.productId = product.productIdentifier;
+        sku.introductoryEligibility = GYSkuEligibilityUnknown;
+        sku.promotionalEligibility = GYSkuEligibilityUnknown;
+    }
+    return sku;
+}
+
+- (id)encodedObject
+{
+    NSMutableDictionary *skuInfo = [NSMutableDictionary dictionary];
+    skuInfo[@"productinfo"] = [self.product encodedObject];
+    skuInfo[@"offeringidentifier"] = self.offeringId;
+    
+    return skuInfo;
 }
 
 @end

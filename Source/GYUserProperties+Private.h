@@ -6,6 +6,7 @@
 //
 
 #import "GYUserProperties.h"
+#import "GYCodableProtocol.h"
 #import "GYTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN

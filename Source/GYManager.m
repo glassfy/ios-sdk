@@ -32,7 +32,7 @@
 @property(nonatomic, assign) BOOL watcherMode;
 @property(nonatomic, assign) BOOL initialized;
 
-@property(nonatomic, strong) NSMapTable<SKProduct*, GYPaymentTransactionBlock> *purchaseCompletions;
+@property(nonatomic, strong) NSMapTable<GYSku*, GYPaymentTransactionBlock> *purchaseCompletions;
 @end
 
 @implementation GYManager
@@ -130,99 +130,36 @@
     }];
 }
 
-- (void)purchaseSku:(GYSku *)sku completion:(GYPaymentTransactionBlock)block
+- (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block
 {
-    [self purchaseProduct:sku.product completion:block];
-}
-
-- (void)purchase:(NSString *)productId completion:(GYPaymentTransactionBlock)block
-{
-    typeof(self) __weak weakSelf = self;
-    [self.store productWithIdentifier:productId completion:^(SKProduct *product, NSError *err) {
-        if (product) {
-            [weakSelf purchaseProduct:product completion:block];
-        }
-        else {
+    [self.api getSku:skuid withCompletion:^(GYAPISkuResponse *res, NSError *apiErr) {
+        GYSku *sku = res.sku;
+        [self.store productWithIdentifier:sku.productId completion:^(SKProduct *product, NSError *storeErr) {
+            sku.product = product;
+            
+            NSError *err = apiErr ?: storeErr;
+            if (!err && !product) {
+                err = GYError.storeProductNotFound;
+            }
+            
             typeof(block) __strong completion = block;
             if (completion) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(nil, err ?: GYError.storeProductNotFound);
+                    err ? completion(nil, err) : completion(sku, nil);
                 });
             }
-        }
+        }];
     }];
 }
 
-- (void)purchaseProduct:(SKProduct *)product completion:(GYPaymentTransactionBlock)block
+- (void)purchaseSku:(GYSku *)sku completion:(GYPaymentTransactionBlock)block
 {
-    for (SKProduct *p in self.purchaseCompletions.keyEnumerator) {
-        if ([p.productIdentifier isEqualToString:product.productIdentifier]) {
-            GYLogErr(@"PURCHASE already in progress");
-            
-            GYPaymentTransactionBlock completion = block;
-            if (completion) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(nil, GYError.purchaseInProgress);
-                });
-            }
-            return;
-        }
-    }
-    
-    [self.purchaseCompletions setObject:block forKey:product];
-    
-    SKPayment *payment = [SKPayment paymentWithProduct:product];
-    [SKPaymentQueue.defaultQueue addPayment:payment];
+    [self purchaseSku:sku withDiscountId:nil completion:block];
 }
 
-- (void)purchaseProduct:(SKProduct *)product withDiscount:(SKProductDiscount *)discount completion:(GYPaymentTransactionBlock)block
+- (void)purchaseSku:(GYSku *)sku withDiscount:(SKProductDiscount *_Nullable)discount completion:(GYPaymentTransactionBlock)block
 {
-    if (discount == nil) {
-        [self purchaseProduct:product completion:block];
-        
-        return;
-    }
-    
-    for (SKProduct *p in self.purchaseCompletions.keyEnumerator) {
-        if ([p.productIdentifier isEqualToString:product.productIdentifier]) {
-            GYLogErr(@"PURCHASE already in progress");
-            
-            GYPaymentTransactionBlock completion = block;
-            if (completion) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(nil, GYError.purchaseInProgress);
-                });
-            }
-            return;
-        }
-    }
-    
-    [self.purchaseCompletions setObject:block forKey:product];
-    
-    [self.api getSignatureForProductId:product.productIdentifier
-                               offerId:discount.identifier
-                            completion:^(GYAPISignatureResponse *res, NSError *err)
-    {
-        if (err) {
-            GYPaymentTransactionBlock completion = [self.purchaseCompletions objectForKey:product];
-            [self.purchaseCompletions removeObjectForKey:product];
-            if (completion) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(nil, err);
-                });
-            }
-        }
-
-        SKPaymentDiscount *paymentDiscount = [[SKPaymentDiscount alloc] initWithIdentifier:discount.identifier
-                                                                             keyIdentifier:res.keyIdentifier
-                                                                                     nonce:res.nonce
-                                                                                 signature:res.signature
-                                                                                 timestamp:res.timestamp];
-        SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
-        payment.paymentDiscount = paymentDiscount;
-//        payment.applicationUsername = weakSelf.cache.userId;
-        [SKPaymentQueue.defaultQueue addPayment:payment];
-    }];
+    [self purchaseSku:sku withDiscountId:discount.identifier completion:block];
 }
 
 - (void)restorePurchasesWithCompletion:(GYPermissionsCompletion)block
@@ -230,7 +167,7 @@
     NSURL *reciptURL = NSBundle.mainBundle.appStoreReceiptURL;
     if (reciptURL && [NSFileManager.defaultManager fileExistsAtPath:reciptURL.path]) {
         [self.api postReceipt:[NSData dataWithContentsOfURL:reciptURL]
-                      product:nil
+                          sku:nil
                   transaction:nil
                    completion:^(GYAPIPermissionsResponse *res, NSError *err)
         {
@@ -261,7 +198,7 @@
     }
 }
 
-- (void)addUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYUserPropertiesCompletion)block
+- (void)setUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYUserPropertiesCompletion)block
 {
     [self.api postProperty:property obj:obj completion:^(GYAPIPropertiesResponse *res, NSError *err) {
         typeof(block) __strong completion = block;
@@ -344,12 +281,12 @@
 - (void)handlePurchasedTransaction:(GYTransaction *)t
 {
     GYPaymentTransactionBlock completion;
-    SKProduct *product;
-    for (SKProduct *p in self.purchaseCompletions.keyEnumerator) {
-        if ([p.productIdentifier isEqualToString:t.productIdentifier]) {
-            product = p;
-            completion = [self.purchaseCompletions objectForKey:p];
-            [self.purchaseCompletions removeObjectForKey:p];
+    GYSku *sku;
+    for (GYSku *s in self.purchaseCompletions.keyEnumerator) {
+        if ([s.productId isEqualToString:t.productIdentifier]) {
+            sku = s;
+            completion = [self.purchaseCompletions objectForKey:s];
+            [self.purchaseCompletions removeObjectForKey:s];
             
             break;
         }
@@ -363,15 +300,16 @@
     NSURL *appStoreURL = NSBundle.mainBundle.appStoreReceiptURL;
     if (appStoreURL && [NSFileManager.defaultManager fileExistsAtPath:appStoreURL.path]) {
         __weak typeof(self) weakSelf = self;
-        if (!product) {
+        if (!sku) {
             [self.store productWithIdentifier:t.productIdentifier completion:^(SKProduct *p, NSError *err) {
                 if (p) {
-                    [weakSelf.purchaseCompletions setObject:completion forKey:p];
+                    GYSku *s = [GYSku skuWithProduct:p];
+                    [weakSelf.purchaseCompletions setObject:completion forKey:s];
                     [weakSelf handlePurchasedTransaction:t];
                 }
                 else {
                     [weakSelf.api postReceipt:[NSData dataWithContentsOfURL:appStoreURL]
-                                      product:nil
+                                          sku:nil
                                   transaction:t.paymentTransaction
                                    completion:^(GYAPIPermissionsResponse *res, NSError *err) {
                         t.permissions = res.permissions ?: @[];
@@ -387,7 +325,7 @@
         }
         else {
             [self.api postReceipt:[NSData dataWithContentsOfURL:appStoreURL]
-                          product:product
+                              sku:sku
                       transaction:t.paymentTransaction
                            completion:^(GYAPIPermissionsResponse *res, NSError *err) {
                 t.permissions = res.permissions ?: @[];
@@ -417,10 +355,10 @@
     //ToDo - send reason to server
     
     GYPaymentTransactionBlock completion;
-    for (SKProduct *p in self.purchaseCompletions.keyEnumerator) {
-        if ([p.productIdentifier isEqualToString:t.productIdentifier]) {
-            completion = [self.purchaseCompletions objectForKey:p];
-            [self.purchaseCompletions removeObjectForKey:p];
+    for (GYSku *s in self.purchaseCompletions.keyEnumerator) {
+        if ([s.productId isEqualToString:t.productIdentifier]) {
+            completion = [self.purchaseCompletions objectForKey:s];
+            [self.purchaseCompletions removeObjectForKey:s];
             break;
         }
     }
@@ -436,10 +374,10 @@
 - (void)handleDeferredTransaction:(GYTransaction *)t
 {
     GYPaymentTransactionBlock completion;
-    for (SKProduct *p in self.purchaseCompletions.keyEnumerator) {
-        if ([p.productIdentifier isEqualToString:t.productIdentifier]) {
-            completion = [self.purchaseCompletions objectForKey:p];
-            [self.purchaseCompletions removeObjectForKey:p];
+    for (GYSku *s in self.purchaseCompletions.keyEnumerator) {
+        if ([s.productId isEqualToString:t.productIdentifier]) {
+            completion = [self.purchaseCompletions objectForKey:s];
+            [self.purchaseCompletions removeObjectForKey:s];
             break;
         }
     }
@@ -474,7 +412,7 @@
         if (shouldSendReceipt && receiptURL && [NSFileManager.defaultManager fileExistsAtPath:receiptURL.path]) {
             GYLogInfo(@"MANAGER STARTSDK sending local receipt");
             [weakSelf.api postReceipt:[NSData dataWithContentsOfURL:receiptURL]
-                              product:nil
+                                  sku:nil
                           transaction:nil
                            completion:^(GYAPIPermissionsResponse *r, NSError *e)
             {
@@ -501,6 +439,60 @@
                 sendReceipt(shouldSendReceipt);
             }
         }];
+    }];
+}
+
+- (void)purchaseSku:(GYSku *)sku withDiscountId:(NSString *)discountid completion:(GYPaymentTransactionBlock)block
+{
+    for (GYSku *s in self.purchaseCompletions.keyEnumerator) {
+        if ([s.productId isEqualToString:sku.productId]) {
+            GYLogErr(@"PURCHASE already in progress");
+            
+            GYPaymentTransactionBlock completion = block;
+            if (completion) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(nil, GYError.purchaseInProgress);
+                });
+            }
+            return;
+        }
+    }
+    
+    [self.purchaseCompletions setObject:block forKey:sku];
+    
+    if (discountid == nil) {
+        SKPayment *payment = [SKPayment paymentWithProduct:sku.product];
+        [SKPaymentQueue.defaultQueue addPayment:payment];
+        return;
+    }
+        
+    [self.api getSignatureForProductId:sku.productId
+                               offerId:discountid
+                            completion:^(GYAPISignatureResponse *res, NSError *err)
+    {
+        if (err) {
+            GYPaymentTransactionBlock completion = [self.purchaseCompletions objectForKey:sku];
+            [self.purchaseCompletions removeObjectForKey:sku];
+            if (completion) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(nil, err);
+                });
+            }
+        }
+
+    
+        SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:sku.product];
+        if (@available(iOS 12.2, *)) {
+            SKPaymentDiscount *paymentDiscount = [[SKPaymentDiscount alloc] initWithIdentifier:discountid
+                                                                                 keyIdentifier:res.keyIdentifier
+                                                                                         nonce:res.nonce
+                                                                                     signature:res.signature
+                                                                                     timestamp:res.timestamp];
+//            payment.applicationUsername = weakSelf.cache.userId;
+            payment.paymentDiscount = paymentDiscount;
+        }
+
+        [SKPaymentQueue.defaultQueue addPayment:payment];
     }];
 }
 

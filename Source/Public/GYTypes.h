@@ -14,9 +14,11 @@
 @class GYPermissions;
 @class GYOfferings;
 @class GYUserProperties;
+@class GYSku;
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^GYSkuBlock)(GYSku* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.SkuBlock);
 typedef void(^GYPaymentTransactionBlock)(GYTransaction* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaymentTransactionBlock);
 typedef void(^GYOfferingsCompletion)(GYOfferings* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.OfferingsCompletion);
 typedef void(^GYPermissionsCompletion)(GYPermissions* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PermissionsCompletion);
@@ -71,9 +73,9 @@ typedef NS_OPTIONS(NSUInteger, GYLogFlag) {
 } NS_SWIFT_NAME(Glassfy.LogFlag);
 
 typedef NS_ENUM(NSUInteger, GYUserPropertyType) {
-    GYPropertyTypeEmail,    // string
-    GYPropertyTypeToken,    // string
-    GYPropertyTypeExtra     // dictionary
+    GYUserPropertyTypeEmail,    // string
+    GYUserPropertyTypeToken,    // string
+    GYUserPropertyTypeExtra     // dictionary
 } NS_SWIFT_NAME(Glassfy.UserPropertyType);
 
 typedef NS_ENUM(NSUInteger, GYLogLevel) {

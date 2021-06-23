@@ -38,6 +38,7 @@
             
             GYSku *s = [[GYSku alloc] initWithObject:sku error:nil];
             if (s) {
+                s.offeringId = identifier;
                 [skus addObject:s];
             }
         }

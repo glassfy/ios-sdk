@@ -23,13 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)permissionsWithCompletion:(GYPermissionsCompletion)block;
 - (void)offeringsWithCompletion:(GYOfferingsCompletion)block;
+- (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block;
 
 - (void)purchaseSku:(GYSku *)sku completion:(GYPaymentTransactionBlock)block;
-- (void)purchase:(NSString *)productId completion:(GYPaymentTransactionBlock)block;
-- (void)purchaseProduct:(SKProduct *)product completion:(GYPaymentTransactionBlock)block;
-- (void)purchaseProduct:(SKProduct *)product withDiscount:(SKProductDiscount *_Nullable)discount completion:(GYPaymentTransactionBlock)block API_AVAILABLE(ios(12.2));
+- (void)purchaseSku:(GYSku *)sku withDiscount:(SKProductDiscount *_Nullable)discount completion:(GYPaymentTransactionBlock)block API_AVAILABLE(ios(12.2));
 
-- (void)addUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYUserPropertiesCompletion)block;
+- (void)setUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYUserPropertiesCompletion)block;
 - (void)getUserProperties:(GYUserPropertiesCompletion)block;
 
 - (void)restorePurchasesWithCompletion:(GYPermissionsCompletion)block;

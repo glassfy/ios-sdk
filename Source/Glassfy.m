@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.1.3";
+    return @"1.1.4";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -83,6 +83,13 @@
     });
 }
 
++ (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager skuWithIdentifier:skuid completion:block];
+    });
+}
+
 + (void)purchaseSku:(GYSku *)sku completion:(GYPaymentTransactionBlock)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
@@ -90,24 +97,10 @@
     });
 }
 
-+ (void)purchase:(NSString *)productId completion:(GYPaymentTransactionBlock)block
++ (void)purchaseSku:(GYSku *)sku withDiscount:(SKProductDiscount *)discount completion:(GYPaymentTransactionBlock)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
-        [Glassfy.shared.manager purchase:productId completion:block];
-    });
-}
-
-+ (void)purchaseProduct:(SKProduct *)product completion:(GYPaymentTransactionBlock)block
-{
-    dispatch_async(Glassfy.shared.glqueue, ^{
-        [Glassfy.shared.manager purchaseProduct:product completion:block];
-    });
-}
-
-+ (void)purchaseProduct:(SKProduct *)product withDiscount:(SKProductDiscount *)discount completion:(GYPaymentTransactionBlock)block
-{
-    dispatch_async(Glassfy.shared.glqueue, ^{
-        [Glassfy.shared.manager purchaseProduct:product withDiscount:discount completion:block];
+        [Glassfy.shared.manager purchaseSku:sku withDiscount:discount completion:block];
     });
 }
 
@@ -118,10 +111,10 @@
     });
 }
 
-+ (void)addUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYUserPropertiesCompletion)block
++ (void)setUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYUserPropertiesCompletion)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
-        [Glassfy.shared.manager addUserProperty:property value:obj completion:block];
+        [Glassfy.shared.manager setUserProperty:property value:obj completion:block];
     });
 }
 

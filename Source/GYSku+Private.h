@@ -10,9 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GYSku (Private) <GYDecodeProtocol>
+@interface GYSku (Private) <GYDecodeProtocol, GYEncodeProtocol>
++ (instancetype)skuWithProduct:(SKProduct *)product;
+
 @property(nonatomic, strong) NSString *identifier;
 @property(nonatomic, strong) NSString *productId;
+@property(nonatomic, nullable, strong) NSString *offeringId;
 @property(nonatomic, assign) GYSkuEligibility introductoryEligibility;
 @property(nonatomic, assign) GYSkuEligibility promotionalEligibility;
 @property(nonatomic, strong) NSDictionary<NSString*, NSString*>* extravars;
