@@ -312,7 +312,7 @@
                                           sku:nil
                                   transaction:t.paymentTransaction
                                    completion:^(GYAPIPermissionsResponse *res, NSError *err) {
-                        t.permissions = res.permissions ?: @[];
+                        t.permissions = [GYPermissions permissionsWithResponse:res];
                         t.receiptValidated = (err.code != GYErrorCodeAppleReceiptStatusError);
                         dispatch_async(dispatch_get_main_queue(), ^{
                             completion(t, err);
@@ -328,7 +328,7 @@
                               sku:sku
                       transaction:t.paymentTransaction
                            completion:^(GYAPIPermissionsResponse *res, NSError *err) {
-                t.permissions = res.permissions ?: @[];
+                t.permissions = [GYPermissions permissionsWithResponse:res];
                 t.receiptValidated = (err.code != GYErrorCodeAppleReceiptStatusError);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(t, err);

@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 @class SKPaymentTransaction;
-@class GYPermission;
+@class GYPermissions;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,7 +16,7 @@ NS_SWIFT_NAME(Glassfy.Transaction)
 @property(nonatomic, readonly) SKPaymentTransaction *paymentTransaction;
 @property(nonatomic, readonly) NSString *productIdentifier;
 @property(nonatomic, readonly) BOOL receiptValidated;
-@property(nonatomic, readonly) NSArray<GYPermission *> *permissions;
+@property(nonatomic, readonly) GYPermissions *permissions;
 @end
 
 NS_ASSUME_NONNULL_END

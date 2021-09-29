@@ -6,13 +6,14 @@
 //
 
 #import <StoreKit/StoreKit.h>
+#import "GYPermissions+Private.h"
 #import "GYTransaction.h"
 #import "GYTransaction+Private.h"
 
 
 @interface GYTransaction()
 @property(nonatomic, readwrite, strong) SKPaymentTransaction *paymentTransaction;
-@property(nonatomic, readwrite, strong) NSArray<GYPermission*> *permissions;
+@property(nonatomic, readwrite, strong) GYPermissions *permissions;
 @property(nonatomic, assign) BOOL receiptValidated;
 @end
 
@@ -22,7 +23,7 @@
 {
     GYTransaction *transaction = [[self alloc] init];
     transaction.paymentTransaction = t;
-    transaction.permissions = @[];
+    transaction.permissions = [GYPermissions new];
     
     return transaction;
 }

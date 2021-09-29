@@ -27,6 +27,15 @@
     return installation;
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.all = @[];
+    }
+    return self;
+}
+
 @end
 
 @implementation GYPermissions
