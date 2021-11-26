@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GYOffering (Private) <GYDecodeProtocol>
-@property(nonatomic, nullable, strong) NSString *name;
+//@property(nonatomic, nullable, strong) NSString *name;
 @property(nonatomic, strong) NSString *identifier;
 @property(nonatomic, strong) NSArray<GYSku*> *skus;
 @end

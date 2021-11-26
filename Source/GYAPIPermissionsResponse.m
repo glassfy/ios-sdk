@@ -19,11 +19,11 @@
     }
     
     if (self) {
-        NSMutableArray<GYPermission *> *permissions = [NSMutableArray array];
+        NSMutableArray<GYPermission*> *permissions = [NSMutableArray array];
         if ([obj[@"permissions"] isKindOfClass:NSArray.class]) {
             NSArray *permissionsJSON = obj[@"permissions"];
             for (NSDictionary *permissionJSON in permissionsJSON) {
-                if (![permissionJSON isKindOfClass:[NSDictionary class]]) {
+                if (![permissionJSON isKindOfClass:NSDictionary.class]) {
                     continue;
                 }
                 
@@ -36,9 +36,22 @@
                         if ([dateJSON isKindOfClass:NSNumber.class] && dateJSON.integerValue > 0) {
                             expireDate = [NSDate dateWithTimeIntervalSince1970:dateJSON.integerValue];
                         }
+                        
+                        NSMutableSet<NSString*> *skuIds = [NSMutableSet set];
+                        NSArray *skuidsJSON = permissionJSON[@"skuarray"];
+                        if ([skuidsJSON isKindOfClass:NSArray.class]) {
+                            for (NSString *skuId in skuidsJSON) {
+                                if (![skuId isKindOfClass:NSString.class]) {
+                                    continue;
+                                }
+                                [skuIds addObject:skuId];
+                            }
+                        }
+                        
                         GYPermission *permission = [GYPermission permissionWithIdentifier:identifier
                                                                               entitlement:entitlementJSON.integerValue
-                                                                                   expire:expireDate];
+                                                                                   expire:expireDate
+                                                                          accountableSkus:skuIds];
                         [permissions addObject:permission];
                     }
                 }

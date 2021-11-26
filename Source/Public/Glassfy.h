@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Initialize the SDK
  
- @note For more details, follow instruction at https://docs.glassfy.net/get-started/configuration
+ @note For more details, follow instruction at https://docs.glassfy.io/get-started/configuration
  
  @param apiKey API Key
  */
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Initialize the SDK
  
- @note For more details, follow instruction at https://docs.glassfy.net/get-started/configuration
+ @note For more details, follow instruction at https://docs.glassfy.io/get-started/configuration
  
  @param apiKey API Key
  @param watcherMode Take advantage of our charts and stats without change your existing code
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Chek permissions status of the user
  
- @note For more details, check the documentation https://docs.glassfy.net/dashboard/configure-permissions.html
+ @note For more details, check the documentation https://docs.glassfy.io/dashboard/configure-permissions.html
  
  @param block Completion block with results
  */
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Fetch offerings
  
- @note For more details, check the documentation https://docs.glassfy.net/dashboard/configure-offerings
+ @note For more details, check the documentation https://docs.glassfy.io/dashboard/configure-offerings
  
  @param block Completion block with results
  */
@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Fetch Sku
  
- @note For more details, check the documentation https://docs.glassfy.net/dashboard/configure-products
+ @note For more details, check the documentation https://docs.glassfy.io/dashboard/configure-products
   
  @param skuid Sku's identifier
  @param block Completion block with result
@@ -121,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Make a purchase applying a Promotional Offers. Introductory offers are automatically applied to the purchase if user is eligible (new subscriber) while, Promotional Offers can be applied to lapsed/current subscribers
 
- @note Be sure to load Subscription p8 Key File/ID on https://dashboard.glassfy.net so we that we can sign the purchase on your behalf
+ @note Be sure to load Subscription p8 Key File/ID on https://dashboard.glassfy.io so we that we can sign the purchase on your behalf
 
  @param sku Reference to the sku to buy. To get a reference call our offering API
  @param discount The discount to apply

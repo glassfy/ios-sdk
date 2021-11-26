@@ -10,6 +10,7 @@
 
 @implementation SKProductDiscount (GYEncode)
 
+API_AVAILABLE(ios(11.2), macos(10.13.2), watchos(6.2))
 NSString *GYProductDiscountPaymentMode(SKProductDiscountPaymentMode type) {
     NSString *discountPaymentMode;
     switch (type) {
@@ -23,7 +24,7 @@ NSString *GYProductDiscountPaymentMode(SKProductDiscountPaymentMode type) {
             discountPaymentMode = @"freetrial";
             break;
         default:
-            discountPaymentMode = @ "unknow";
+            discountPaymentMode = @"unknow";
     }
     return discountPaymentMode;
 }

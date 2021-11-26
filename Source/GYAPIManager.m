@@ -18,7 +18,7 @@
 #import "GYCacheManager.h"
 #import "GYUtils.h"
 
-#define BASE_URL @"https://api.glassfy.net/v0"
+#define BASE_URL @"https://api.glassfy.io/v0"
 
 typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 

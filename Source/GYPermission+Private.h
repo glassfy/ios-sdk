@@ -11,7 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GYPermission (Private)
-+ (instancetype)permissionWithIdentifier:(NSString *)identifier entitlement:(GYEntitlement)entitlement expire:(nullable NSDate *)date;
++ (instancetype)permissionWithIdentifier:(NSString *)identifier
+                             entitlement:(GYEntitlement)entitlement
+                                  expire:(nullable NSDate *)date
+                         accountableSkus:(NSSet<NSString*> *)skuIds;
 @end
 
 NS_ASSUME_NONNULL_END
