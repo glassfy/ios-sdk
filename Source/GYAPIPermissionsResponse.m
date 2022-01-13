@@ -68,6 +68,12 @@
         if ([originalApplicationDate isKindOfClass:NSNumber.class] && originalApplicationDate.integerValue > 0) {
             self.originalApplicationDate = [NSDate dateWithTimeIntervalSince1970:originalApplicationDate.integerValue];
         }
+        
+        NSString *subscriberId = obj[@"subscriberid"];
+        if ([subscriberId isKindOfClass:NSString.class] && subscriberId.length > 0) {
+            self.subscriberId = subscriberId;
+        }
+        
     }
     return self;
 }

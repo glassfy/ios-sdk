@@ -110,7 +110,7 @@
 
 - (void)permissionsWithCompletion:(GYPermissionsCompletion)block
 {
-    [self permissionsMaxRetries:2 completion:block];
+    [self permissionsMaxRetries:10 completion:block];
 }
 
 - (void)offeringsWithCompletion:(GYOfferingsCompletion)block
@@ -138,8 +138,18 @@
             sku.product = product;
             
             NSError *err = apiErr ?: storeErr;
-            if (!err && !product) {
-                err = GYError.storeProductNotFound;
+            if (!err) {
+                if (!product) {
+                    err = GYError.storeProductNotFound;
+                }
+                else if (@available(iOS 12.2, macOS 10.14.4, watchOS 6.2, *)) {
+                    if (sku.promotionalId && !sku.discount) {
+                        err = GYError.storeProductNotFound;
+                    }
+                }
+                else if (sku.promotionalId) {
+                    err = GYError.storeProductNotFound;
+                }
             }
             
             typeof(block) __strong completion = block;
@@ -154,7 +164,7 @@
 
 - (void)purchaseSku:(GYSku *)sku completion:(GYPaymentTransactionBlock)block
 {
-    [self purchaseSku:sku withDiscountId:nil completion:block];
+    [self purchaseSku:sku withDiscountId:sku.promotionalId completion:block];
 }
 
 - (void)purchaseSku:(GYSku *)sku withDiscount:(SKProductDiscount *_Nullable)discount completion:(GYPaymentTransactionBlock)block
@@ -165,13 +175,15 @@
 - (void)restorePurchasesWithCompletion:(GYPermissionsCompletion)block
 {
     NSURL *reciptURL = NSBundle.mainBundle.appStoreReceiptURL;
+    typeof(self) __weak weakSelf = self;
     if (reciptURL && [NSFileManager.defaultManager fileExistsAtPath:reciptURL.path]) {
         [self.api postReceipt:[NSData dataWithContentsOfURL:reciptURL]
                           sku:nil
                   transaction:nil
                    completion:^(GYAPIPermissionsResponse *res, NSError *err)
         {
-            GYPermissions *installation = [GYPermissions permissionsWithResponse:res];
+            GYPermissions *installation = [GYPermissions permissionsWithResponse:res
+                                                                  installationId:weakSelf.cache.installationId];
             
             GYPermissionsCompletion completion = block;
             if (completion) {
@@ -182,7 +194,6 @@
         }];
     }
     else {
-        __weak typeof(self) weakSelf = self;
         [self.store refreshReceipt:^(NSError *err) {
             if (err) {
                 GYPermissionsCompletion completion = block;
@@ -198,16 +209,65 @@
     }
 }
 
-- (void)setUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYUserPropertiesCompletion)block
+- (void)setEmailUserProperty:(NSString *)email completion:(GYErrorCompletion)block
 {
-    [self.api postProperty:property obj:obj completion:^(GYAPIPropertiesResponse *res, NSError *err) {
+    if (email && ![email isKindOfClass:NSString.class]) {
+        NSError *err = GYError.wrongParameterType;
         typeof(block) __strong completion = block;
         if (completion) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                err ? completion(nil, err) : completion(res.properties, nil);
+                completion(err);
             });
         }
-    }];
+        return;
+    }
+    [self setUserProperty:GYUserPropertyTypeEmail value:email completion:block];
+}
+
+- (void)setDeviceToken:(NSString *)deviceToken completion:(GYErrorCompletion)block
+{
+    if (deviceToken && ![deviceToken isKindOfClass:NSString.class]) {
+        NSError *err = GYError.wrongParameterType;
+        typeof(block) __strong completion = block;
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(err);
+            });
+        }
+        return;
+    }
+    [self setUserProperty:GYUserPropertyTypeToken value:deviceToken completion:block];
+}
+
+- (void)setExtraUserProperty:(NSDictionary *)extra completion:(GYErrorCompletion)block
+{
+    if (extra) {
+        NSError *err;
+        if (![extra isKindOfClass:NSDictionary.class]) {
+            err = GYError.wrongParameterType;
+        }
+        else {
+            for (id key in extra.allKeys) {
+                if (![key isKindOfClass:NSString.class] ||
+                    ![extra[key] isKindOfClass:NSString.class])
+                {
+                    err = GYError.wrongParameterType;
+                    break;
+                }
+            }
+        }
+        
+        if (err) {
+            typeof(block) __strong completion = block;
+            if (completion) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(err);
+                });
+            }
+            return;
+        }
+    }
+    [self setUserProperty:GYUserPropertyTypeExtra value:extra completion:block];
 }
 
 - (void)getUserProperties:(GYUserPropertiesCompletion)block
@@ -299,7 +359,7 @@
     
     NSURL *appStoreURL = NSBundle.mainBundle.appStoreReceiptURL;
     if (appStoreURL && [NSFileManager.defaultManager fileExistsAtPath:appStoreURL.path]) {
-        __weak typeof(self) weakSelf = self;
+        typeof(self) __weak weakSelf = self;
         if (!sku) {
             [self.store productWithIdentifier:t.productIdentifier completion:^(SKProduct *p, NSError *err) {
                 if (p) {
@@ -312,7 +372,8 @@
                                           sku:nil
                                   transaction:t.paymentTransaction
                                    completion:^(GYAPIPermissionsResponse *res, NSError *err) {
-                        t.permissions = [GYPermissions permissionsWithResponse:res];
+                        t.permissions = [GYPermissions permissionsWithResponse:res
+                                                                installationId:weakSelf.cache.installationId];
                         t.receiptValidated = (err.code != GYErrorCodeAppleReceiptStatusError);
                         dispatch_async(dispatch_get_main_queue(), ^{
                             completion(t, err);
@@ -328,7 +389,8 @@
                               sku:sku
                       transaction:t.paymentTransaction
                            completion:^(GYAPIPermissionsResponse *res, NSError *err) {
-                t.permissions = [GYPermissions permissionsWithResponse:res];
+                t.permissions = [GYPermissions permissionsWithResponse:res
+                                                        installationId:weakSelf.cache.installationId];
                 t.receiptValidated = (err.code != GYErrorCodeAppleReceiptStatusError);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(t, err);
@@ -362,6 +424,43 @@
             break;
         }
     }
+    
+    // add description and hint of error resolution
+#ifdef DEBUG
+    if ([t.paymentTransaction.error.domain isEqualToString:@"SKErrorDomain"]) {
+        switch (t.paymentTransaction.error.code) {
+            case SKErrorUnknown:
+                GYLogErr(@"An Unknown error occurs");
+                break;
+            case SKErrorClientInvalid:
+                GYLogErr(@"Client is not allowed to issue the request, etc.");
+                break;
+            case SKErrorPaymentCancelled:
+                GYLogErr(@"User cancelled the payment request, etc.");
+                break;
+            case SKErrorPaymentNotAllowed:
+                GYLogErr(@"This device (user) is not allowed to authorize payments");
+                break;
+        }
+        if (@available(iOS 12.2, macOS 10.14.4, watchOS 6.2, *)) {
+            switch (t.paymentTransaction.error.code) {
+                case SKErrorInvalidSignature:
+                    GYLogErr(@"The cryptographic signature provided for SKPaymentDiscount is not valid: Make sure 'Subscription p8 Key File' and 'Subscription p8 Key ID' are correct on the app settings page at https://dashboard.glassfy.io.");
+                    break;
+                case SKErrorInvalidOfferPrice:
+                    GYLogErr(@"The price (specified in App Store Connect) of the selected offer is no longer valid (e.g. lower than the current base subscription price");
+                    break;
+            }
+        }
+        if (@available(iOS 14, macOS 11, watchOS 7, *)) {
+            switch (t.paymentTransaction.error.code) {
+                case SKErrorIneligibleForOffer:
+                    GYLogErr(@"User is not eligible for the subscription offer");
+                    break;
+            }
+        }
+    }
+#endif
     
     if (completion) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -482,13 +581,13 @@
 
     
         SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:sku.product];
-        if (@available(iOS 12.2, *)) {
+        if (@available(iOS 12.2, macOS 10.14.4, watchOS 6.2, *)) {
             SKPaymentDiscount *paymentDiscount = [[SKPaymentDiscount alloc] initWithIdentifier:discountid
                                                                                  keyIdentifier:res.keyIdentifier
                                                                                          nonce:res.nonce
                                                                                      signature:res.signature
                                                                                      timestamp:res.timestamp];
-//            payment.applicationUsername = weakSelf.cache.userId;
+            payment.applicationUsername = res.applicationUsername;
             payment.paymentDiscount = paymentDiscount;
         }
 
@@ -498,15 +597,16 @@
 
 - (void)permissionsMaxRetries:(NSUInteger)times completion:(GYPermissionsCompletion)block
 {
+    typeof(self) __weak weakSelf = self;
     GYGetPermissionsCompletion apiCompletion = ^(GYAPIPermissionsResponse *res, NSError *err) {
         if (err && times > 0) {
-            typeof(self) __weak weakSelf = self;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), Glassfy.shared.glqueue, ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8f * NSEC_PER_SEC)), Glassfy.shared.glqueue, ^{
                 [weakSelf permissionsMaxRetries:(times-1) completion:block];
             });
         }
         else {
-            GYPermissions *permssions = [GYPermissions permissionsWithResponse:res];
+            GYPermissions *permssions = [GYPermissions permissionsWithResponse:res
+                                                                installationId:weakSelf.cache.installationId];
             
             typeof(block) __strong completion = block;
             if (completion) {
@@ -525,20 +625,16 @@
     [self.api getPermissionsWithCompletion:apiCompletion];
 }
 
-- (void)matchSkusInOfferings:(NSArray<GYOffering*>*)offerings withProducts:(NSArray<SKProduct*>*)products
+- (void)setUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYErrorCompletion)block
 {
-    for (GYOffering *o in offerings) {
-        // match sku with product
-        for (GYSku *s in o.skus) {
-            NSPredicate *p = [NSPredicate predicateWithFormat:@"productIdentifier = %@", s.productId];
-            s.product = [products filteredArrayUsingPredicate:p].firstObject;
+    [self.api postProperty:property obj:obj completion:^(GYAPIBaseResponse *res, NSError *err) {
+        typeof(block) __strong completion = block;
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(err);
+            });
         }
-        
-        // filter sku without product
-        NSPredicate *p = [NSPredicate predicateWithFormat:@"product != nil"];
-        o.skus = [o.skus filteredArrayUsingPredicate:p];
-    }
+    }];
 }
-
 
 @end

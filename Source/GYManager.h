@@ -26,9 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block;
 
 - (void)purchaseSku:(GYSku *)sku completion:(GYPaymentTransactionBlock)block;
-- (void)purchaseSku:(GYSku *)sku withDiscount:(SKProductDiscount *_Nullable)discount completion:(GYPaymentTransactionBlock)block API_AVAILABLE(ios(12.2));
+- (void)purchaseSku:(GYSku *)sku withDiscount:(SKProductDiscount *_Nullable)discount completion:(GYPaymentTransactionBlock)block API_AVAILABLE(ios(12.2), macos(10.14.4), watchos(6.2));
 
-- (void)setUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYUserPropertiesCompletion)block;
+- (void)setEmailUserProperty:(NSString *)email completion:(GYErrorCompletion)block;
+- (void)setDeviceToken:(NSString *)deviceToken completion:(GYErrorCompletion)block;
+- (void)setExtraUserProperty:(NSDictionary<NSString*,NSString*> *)extra completion:(GYErrorCompletion)block;
+
 - (void)getUserProperties:(GYUserPropertiesCompletion)block;
 
 - (void)restorePurchasesWithCompletion:(GYPermissionsCompletion)block;

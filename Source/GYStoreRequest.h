@@ -19,11 +19,11 @@ typedef GYErrorCompletion GYRefreshReceiptCompletion;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GYStoreRequest : NSObject
-- (void)productWithOfferings:(NSArray<GYOffering *> *)offerings completion:(GYStoreProductsCompletion)block;
-- (void)productWithSkus:(nullable NSArray<GYSku *> *)skus completion:(GYStoreProductsCompletion)block;
+- (void)productWithOfferings:(NSArray<GYOffering*> *)offerings completion:(GYStoreProductsCompletion)block;
+- (void)productWithSkus:(nullable NSArray<GYSku*> *)skus completion:(GYStoreProductsCompletion)block;
 
 - (void)productWithIdentifier:(NSString *)productId completion:(GYStoreProductCompletion)block;
-- (void)productWithIdentifiers:(NSSet<NSString *> *)productIds completion:(GYStoreProductsCompletion)block;
+- (void)productWithIdentifiers:(NSSet<NSString*> *)productIds completion:(GYStoreProductsCompletion)block;
 
 - (void)refreshReceipt:(GYRefreshReceiptCompletion)block;
 @end

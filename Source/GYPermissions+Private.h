@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GYPermissions (Private)
 
-+ (instancetype)permissionsWithResponse:(GYAPIPermissionsResponse * _Nullable)permission;
++ (instancetype)permissionsWithResponse:(GYAPIPermissionsResponse * _Nullable)permission
+                         installationId:(NSString * _Nullable)installationId;
 
 @end
 

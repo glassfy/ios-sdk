@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GYTypes.h"
+#import "GYUserProperties+Private.h"
 #import "GYAPIInitResponse.h"
 #import "GYAPIPermissionsResponse.h"
 #import "GYAPIOfferingsResponse.h"
@@ -55,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)postLogoutWithCompletion:(GYLogoutCompletion _Nullable)block;
 - (void)postLogin:(NSString *)userId withCompletion:(GYLoginCompletion _Nullable)block;
 
-- (void)postProperty:(GYUserPropertyType)property obj:(id _Nullable)obj completion:(GYGetPropertiesCompletion _Nullable)block;
+- (void)postProperty:(GYUserPropertyType)property obj:(id _Nullable)obj completion:(GYPropertyCompletion _Nullable)block;
 - (void)getPropertiesWithCompletion:(GYGetPropertiesCompletion _Nullable)block;
 
 - (void)getSignatureForProductId:(NSString *)productId offerId:(NSString *)offerId completion:(GYGetSignatureCompletion _Nullable)block;

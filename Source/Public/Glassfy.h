@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param discount The discount to apply
  @param block Completion block with results
  */
-+ (void)purchaseSku:(GYSku *)sku withDiscount:(SKProductDiscount *_Nullable)discount completion:(GYPaymentTransactionBlock)block NS_SWIFT_NAME(purchase(sku:discount:completion:)) API_AVAILABLE(ios(12.2));
++ (void)purchaseSku:(GYSku *)sku withDiscount:(SKProductDiscount *_Nullable)discount completion:(GYPaymentTransactionBlock)block NS_SWIFT_NAME(purchase(sku:discount:completion:)) API_AVAILABLE(ios(12.2), macos(10.14.4), watchos(6.2));
 
 /**
  Restore all user's purchases
@@ -143,15 +143,29 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)setLogLevel:(GYLogLevel)level NS_SWIFT_NAME(log(level:));
 
+/**
+Save push notification device token
+
+@param deviceToken A globally unique token that identifies this device to APNs
+@param block Completion block
+*/
++ (void)setDeviceToken:(NSString *_Nullable)deviceToken completion:(GYErrorCompletion)block NS_SWIFT_NAME(setDeviceToken(_:completion:));
 
 /**
- Save user properties
+ Save user email
  
- @param property Property type
- @param obj Property value
+ @param email Email
  @param block Completion block
  */
-+ (void)setUserProperty:(GYUserPropertyType)property value:(id _Nullable)obj completion:(GYUserPropertiesCompletion)block NS_SWIFT_NAME(set(userProperty:value:completion:));
++ (void)setEmailUserProperty:(NSString *_Nullable)email completion:(GYErrorCompletion)block NS_SWIFT_NAME(setUserProperty(email:completion:));
+
+/**
+Save extra user properties
+
+@param extra Addional user properties
+@param block Completion block
+*/
++ (void)setExtraUserProperty:(NSDictionary<NSString*,NSString*> *_Nullable)extra completion:(GYErrorCompletion)block NS_SWIFT_NAME(setUserProperty(extra:completion:));
 
 /**
  Fetch user properties

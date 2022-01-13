@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *keyIdentifier;
 @property(nonatomic, strong) NSUUID *nonce;
 @property(nonatomic, strong) NSNumber *timestamp;
+@property(nonatomic, strong) NSString *applicationUsername;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -20,6 +20,7 @@ typedef NS_ERROR_ENUM(GYErrorDomain, GYErrorCode) {
     GYErrorCodeDeferredPurchase,
     GYErrorCodeStoreProductNotFound,
     GYErrorCodeSizeLimit,
+    GYErrorCodeWrongParameterType,
     GYErrorCodeInvalidAPIToken          = 1000,
     GYErrorCodeSubscriberIDNotFound     = 1001,
     GYErrorCodeInstallationIDNotFound   = 1002,
@@ -48,6 +49,7 @@ NS_SWIFT_NAME(Glassfy.Error)
 @property(class, readonly) NSError *deferredPurchase;
 @property(class, readonly) NSError *storeProductNotFound;
 @property(class, readonly) NSError *exceedSizeLimits;
+@property(class, readonly) NSError *wrongParameterType;
 
 + (NSError *)serverError:(GYErrorCode)code description:(nullable NSString *)description;
 @end

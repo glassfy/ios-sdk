@@ -61,7 +61,7 @@ typedef void (^GYProductResponseHandler)(SKProductsResponse* _Nullable, NSError*
     [self productWithIdentifiers:productIds completion:block];
 }
 
-- (void)productWithIdentifiers:(NSSet<NSString *> *)productIds completion:(GYStoreProductsCompletion)block
+- (void)productWithIdentifiers:(NSSet<NSString*> *)productIds completion:(GYStoreProductsCompletion)block
 {
     if (productIds.count == 0) {
         block(@[], nil);
@@ -98,7 +98,7 @@ typedef void (^GYProductResponseHandler)(SKProductsResponse* _Nullable, NSError*
 
 #pragma mark - private
 
-- (void)startProductRequest:(NSSet<NSString *> *)ids completion:(GYProductResponseHandler)block
+- (void)startProductRequest:(NSSet<NSString*> *)ids completion:(GYProductResponseHandler)block
 {
     for (SKRequest *r in self.reqs) {
         NSSet *rIds = [self.requestedProductIds objectForKey:r];

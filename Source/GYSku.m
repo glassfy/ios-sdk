@@ -12,6 +12,7 @@
 @interface GYSku()
 @property(nonatomic, strong) NSString *identifier;
 @property(nonatomic, strong) NSString *productId;
+@property(nonatomic, nullable, strong) NSString *promotionalId;
 @property(nonatomic, nullable, strong) NSString *offeringId;
 @property(nonatomic, assign) GYSkuEligibility introductoryEligibility;
 @property(nonatomic, assign) GYSkuEligibility promotionalEligibility;
@@ -29,6 +30,10 @@
     NSString *productId;
     if ([obj[@"productid"] isKindOfClass:NSString.class]) {
         productId = obj[@"productid"];
+    }
+    NSString *promotionalId;
+    if ([obj[@"promotionalid"] isKindOfClass:NSString.class] && [obj[@"promotionalid"] length]) {
+        promotionalId = obj[@"promotionalid"];
     }
     
     NSDictionary<NSString*, NSString*>* extravars = @{};
@@ -71,6 +76,7 @@
         self.extravars = extravars;
         self.identifier = identifier;
         self.productId = productId;
+        self.promotionalId = promotionalId;
         self.introductoryEligibility = introductoryEligibility;
         self.promotionalEligibility = promotionalEligibility;
     }
@@ -79,7 +85,7 @@
 
 + (instancetype)skuWithProduct:(SKProduct *)product
 {
-    GYSku *sku = [GYSku new];
+    GYSku *sku = [[self alloc] init];
     if (sku) {
         sku.product = product;
         sku.extravars = @{};
@@ -96,6 +102,7 @@
     NSMutableDictionary *skuInfo = [NSMutableDictionary dictionary];
     skuInfo[@"productinfo"] = [self.product encodedObject];
     skuInfo[@"offeringidentifier"] = self.offeringId;
+    skuInfo[@"promotionalid"] = self.promotionalId;
     
     return skuInfo;
 }
@@ -103,4 +110,11 @@
 @end
 
 @implementation GYSku
+
+- (SKProductDiscount *)discount
+{
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"identifier = %@", self.promotionalId];
+    return [self.product.discounts filteredArrayUsingPredicate:p].firstObject;
+}
+
 @end

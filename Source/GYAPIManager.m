@@ -18,7 +18,11 @@
 #import "GYCacheManager.h"
 #import "GYUtils.h"
 
-#define BASE_URL @"https://api.glassfy.io/v0"
+#define BASE_URL @"https://api.glassfy.io"
+
+typedef NSString *     GYAPIVersion;
+#define GYAPIVersionV0 @"v0"
+#define GYAPIVersionV1 @"v1"
 
 typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 
@@ -56,25 +60,33 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     return self;
 }
 
-- (NSURLComponents *)baseURL
+- (NSURLComponents *)baseURL:(GYAPIVersion)apiVersion
 {
-    NSURLComponents *baseURL = [NSURLComponents componentsWithString:BASE_URL];
+    NSURLComponents *baseURL = [NSURLComponents componentsWithString:[BASE_URL stringByAppendingPathComponent:apiVersion]];
     
-    NSString *installationId = self.cache.installationId;
     NSMutableArray *queryItems = [NSMutableArray array];
-    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"installationid" value:installationId]];
+    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"installationid" value:self.cache.installationId]];
     [queryItems addObject:[NSURLQueryItem queryItemWithName:@"glii" value:self.glii]];
     baseURL.queryItems = [queryItems copy];
-    
+
     return baseURL;
 }
 
+- (NSURLComponents *)baseURLV0
+{
+    return [self baseURL:GYAPIVersionV0];
+}
+
+- (NSURLComponents *)baseURLV1
+{
+    return [self baseURL:GYAPIVersionV1];
+}
 
 #pragma mark - public
 
 - (void)getInitWithInfoWithCompletion:(GYGetInitCompletion)block
 {
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"init"];
     
     NSURLRequest *req = [self authorizedRequestWithComponents:url];
@@ -83,7 +95,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 
 - (void)getSku:(NSString *)skuid withCompletion:(GYGetSkuCompletion)block
 {
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"sku"];
     NSMutableArray<NSURLQueryItem*> *queryItems = [(url.queryItems ?: @[]) mutableCopy];
     [queryItems addObject:[NSURLQueryItem queryItemWithName:@"identifier" value:skuid]];
@@ -95,7 +107,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 
 - (void)getOfferingsWithCompletion:(GYGetOfferingsCompletion)block
 {
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"offerings"];
 
     NSURLRequest *req = [self authorizedRequestWithComponents:url];
@@ -106,7 +118,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
                          offerId:(NSString *)offerId
                       completion:(GYGetSignatureCompletion)block
 {
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"signature"];
     NSMutableArray<NSURLQueryItem*> *queryItems = [(url.queryItems ?: @[]) mutableCopy];
     [queryItems addObject:[NSURLQueryItem queryItemWithName:@"productid" value:productid]];
@@ -120,7 +132,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 
 - (void)getPermissionsWithCompletion:(GYGetPermissionsCompletion)block
 {
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"permissions"];
     
     NSURLRequest *req = [self authorizedRequestWithComponents:url];
@@ -157,7 +169,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
         return;
     }
     
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"products"];
     
     NSMutableURLRequest *req = [self authorizedRequestWithComponents:url];
@@ -198,7 +210,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
         return;
     }
     
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"receipt"];
     
     NSMutableURLRequest *req = [self authorizedRequestWithComponents:url];
@@ -210,7 +222,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 
 - (void)postLogoutWithCompletion:(GYLogoutCompletion _Nullable)block
 {
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"logout"];
     
     NSMutableURLRequest *req = [self authorizedRequestWithComponents:url];
@@ -221,7 +233,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 
 - (void)postLogin:(NSString *)userId withCompletion:(GYLoginCompletion _Nullable)block
 {
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"login"];
     
     NSMutableDictionary *bodyEncoded = [NSMutableDictionary dictionary];
@@ -255,20 +267,19 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 
 - (void)putLastSeen
 {
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"lastseen"];
     NSMutableURLRequest *req = [self authorizedRequestWithComponents:url];
     [req setHTTPMethod:@"PUT"];
     [self callApiWithRequest:req response:nil completion:nil];
 }
 
-- (void)postProperty:(GYUserPropertyType)property obj:(id _Nullable)obj completion:(GYGetPropertiesCompletion _Nullable)block
+- (void)postProperty:(GYUserPropertyType)property obj:(id _Nullable)obj completion:(GYPropertyCompletion _Nullable)block
 {
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV1];
     url.path = [url.path stringByAppendingPathComponent:@"property"];
     
-    NSString *propertyStr = [GYUserProperties stringWithPropertyType:property];
-    NSDictionary *bodyEncoded = @{propertyStr: obj ?: NSNull.null};
+    NSDictionary *bodyEncoded = @{property: obj ?: NSNull.null};
     
     NSError *err;
     NSData *body;
@@ -285,7 +296,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     
     if (err) {
         dispatch_async(Glassfy.shared.glqueue, ^{
-            GYGetPropertiesCompletion completion = block;
+            GYPropertyCompletion completion = block;
             if (completion) {
                 completion(nil, err);
             }
@@ -297,12 +308,12 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [req setHTTPMethod:@"POST"];
     [req setHTTPBody:body];
-    [self callApiWithRequest:req response:GYAPIPropertiesResponse.class completion:block];
+    [self callApiWithRequest:req response:GYAPIBaseResponse.class completion:block];
 }
 
 - (void)getPropertiesWithCompletion:(GYGetPropertiesCompletion _Nullable)block
 {
-    NSURLComponents *url = [self baseURL];
+    NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"property"];
     
     NSURLRequest *req = [self authorizedRequestWithComponents:url];
@@ -344,7 +355,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
         }
     }
     
-    __weak typeof(self) weakSelf = self;
+    typeof(self) __weak weakSelf = self;
     [[self.session dataTaskWithRequest:req completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         //ToDO test NSHTTPURLResponse code != 200?
         id obj;

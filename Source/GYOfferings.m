@@ -18,7 +18,7 @@
 
 + (instancetype)offeringsWithOffers:(NSArray<GYOffering *> *)offerings products:(NSArray<SKProduct *> *)products
 {
-    GYOfferings *offers = [GYOfferings new];
+    GYOfferings *offers = [[self alloc] init];
     offers.all = [NSArray arrayWithArray:offerings];
     [offers matchSkusInOfferings:offers.all withProducts:products];
     return offers;
@@ -33,8 +33,16 @@
             s.product = [products filteredArrayUsingPredicate:p].firstObject;
         }
         
-        // filter sku without product
-        NSPredicate *p = [NSPredicate predicateWithFormat:@"product != nil"];
+        // filter sku without product and sku with promotionalid and no discount
+        NSPredicate *p = [NSPredicate predicateWithBlock:^BOOL(GYSku *s, NSDictionary<NSString*,id> * _Nullable bindings) {
+            if (!s.product) {
+                return NO;
+            }
+            if (@available(iOS 12.2, macOS 10.14.4, watchOS 6.2, *)) {
+                return s.promotionalId == nil ?: s.discount != nil;
+            }
+            return s.promotionalId == nil;
+        }];
         o.skus = [o.skus filteredArrayUsingPredicate:p];
     }
 }

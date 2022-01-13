@@ -13,16 +13,20 @@
 @property(nonatomic, readwrite, strong) NSArray<GYPermission *> *all;
 @property(nonatomic, readwrite, strong) NSString *originalApplicationVersion;
 @property(nonatomic, readwrite, strong) NSDate *originalApplicationDate;
+@property(nonatomic, readwrite, strong) NSString *subscriberId;
+@property(nonatomic, readwrite, strong) NSString *installationId;
 @end
 
 @implementation GYPermissions (Private)
 
-+ (instancetype)permissionsWithResponse:(GYAPIPermissionsResponse *)response
++ (instancetype)permissionsWithResponse:(GYAPIPermissionsResponse *)response installationId:(NSString *)installationId
 {
-    GYPermissions *installation = [GYPermissions new];
+    GYPermissions *installation = [[self alloc] init];
     installation.all = response.permissions ?: @[];
     installation.originalApplicationVersion = response.originalApplicationVersion;
     installation.originalApplicationDate = response.originalApplicationDate;
+    installation.subscriberId = response.subscriberId;
+    installation.installationId = installationId;
     
     return installation;
 }

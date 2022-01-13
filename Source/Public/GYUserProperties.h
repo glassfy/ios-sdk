@@ -11,9 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(Glassfy.UserProperties)
 @interface GYUserProperties : NSObject
-@property(nullable, nonatomic, readonly) NSString* email;
-@property(nullable, nonatomic, readonly) NSString* token;
-@property(nullable, nonatomic, readonly) NSDictionary* extra;
+@property(nullable, nonatomic, readonly) NSString *email;
+@property(nullable, nonatomic, readonly) NSString *token;
+@property(nullable, nonatomic, readonly) NSDictionary<NSString*,NSString*> *extra;
 @end
 
 NS_ASSUME_NONNULL_END

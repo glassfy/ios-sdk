@@ -51,6 +51,11 @@ NSErrorDomain const GYErrorDomain = @"GYErrorDomain";
     return [NSError errorWithDomain:GYErrorDomain code:GYErrorCodeStoreProductNotFound userInfo:@{NSLocalizedDescriptionKey:@"Store does not return the SKProduct"}];
 }
 
++ (NSError *)wrongParameterType
+{
+    return [NSError errorWithDomain:GYErrorDomain code:GYErrorCodeWrongParameterType userInfo:@{NSLocalizedDescriptionKey:@"Wrong parameter type"}];
+}
+
 + (NSError *)serverError:(GYErrorCode)code description:(nullable NSString *)description
 {
     return [NSError errorWithDomain:GYErrorDomain code:code userInfo:description ? @{NSLocalizedDescriptionKey:description} : nil];

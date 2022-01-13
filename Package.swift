@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "Glassfy",
     platforms: [
-        .iOS(.v9),
+        .iOS(.v10),
         .macOS(.v10_15)
     ],
     products: [

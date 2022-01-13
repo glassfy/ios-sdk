@@ -42,11 +42,11 @@ typedef NS_ENUM(NSInteger, GYEntitlement) {
     // The system canceled the subscription because the customer upgraded.
     GYEntitlementUpgraded = -6,
     // The customer intentionally cancelled the subscription.
-    GYEntitlementExpiredVoloutary = -5,
+    GYEntitlementExpiredVoluntary = -5,
     // The product is no longer available.
     GYEntitlementProductNotAvailable = -4,
     // The customer did not accept the price increase.
-    GYEntitlementFailToAcceptIncrase = -3,
+    GYEntitlementFailToAcceptIncrease = -3,
     // The receipt is fully expired due to a billing issue.
     GYEntitlementExpiredFromBilling = -2,
     // The receipt is expired but the subscription is still in a billing-retry state.
@@ -71,12 +71,6 @@ typedef NS_OPTIONS(NSUInteger, GYLogFlag) {
     GYLogFlagDebug = 1 << 1,
     GYLogFlagInfo = 1 << 2
 } NS_SWIFT_NAME(Glassfy.LogFlag);
-
-typedef NS_ENUM(NSUInteger, GYUserPropertyType) {
-    GYUserPropertyTypeEmail,    // string
-    GYUserPropertyTypeToken,    // string
-    GYUserPropertyTypeExtra     // dictionary
-} NS_SWIFT_NAME(Glassfy.UserPropertyType);
 
 typedef NS_ENUM(NSUInteger, GYLogLevel) {
     GYLogLevelOff   = 0,

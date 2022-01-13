@@ -40,6 +40,11 @@ NS_ASSUME_NONNULL_BEGIN
             self.timestamp = @(timestamp.integerValue);
         }
         
+        NSString *applicationUsername = obj[@"applicationusername"];
+        if ([applicationUsername isKindOfClass:NSString.class] && applicationUsername.length > 0) {
+            self.applicationUsername = applicationUsername;
+        }
+        
         // verify
         if (!self.signature || !self.keyIdentifier || !self.nonce || self.timestamp == nil) {
             if (error) {

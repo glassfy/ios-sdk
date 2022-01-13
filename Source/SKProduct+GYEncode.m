@@ -20,7 +20,7 @@
     productInfo[@"pricelocale"] = [self.priceLocale objectForKey:NSLocaleCurrencyCode];
     productInfo[@"countrycode"] = [self.priceLocale objectForKey:NSLocaleCountryCode];
     productInfo[@"productidentifier"] = self.productIdentifier;
-    if (@available(macOS 10.15, watchOS 6.2, *)) {
+    if (@available(iOS 6, macOS 10.15, watchOS 6.2, *)) {
         productInfo[@"isdownloadable"] = @(self.isDownloadable);
     }
     

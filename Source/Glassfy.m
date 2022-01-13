@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.1.6";
+    return @"1.1.7";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -111,10 +111,24 @@
     });
 }
 
-+ (void)setUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYUserPropertiesCompletion)block
++ (void)setEmailUserProperty:(NSString *)email completion:(GYErrorCompletion)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
-        [Glassfy.shared.manager setUserProperty:property value:obj completion:block];
+        [Glassfy.shared.manager setEmailUserProperty:email completion:block];
+    });
+}
+
++ (void)setDeviceToken:(NSString *_Nullable)deviceToken completion:(GYErrorCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager setDeviceToken:deviceToken completion:block];
+    });
+}
+
++ (void)setExtraUserProperty:(NSDictionary *)extra completion:(GYErrorCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager setExtraUserProperty:extra completion:block];
     });
 }
 

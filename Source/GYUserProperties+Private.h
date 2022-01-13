@@ -9,10 +9,14 @@
 #import "GYCodableProtocol.h"
 #import "GYTypes.h"
 
+typedef NSString *              GYUserPropertyType;
+#define GYUserPropertyTypeEmail @"email"
+#define GYUserPropertyTypeToken @"token"
+#define GYUserPropertyTypeExtra @"info"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GYUserProperties (Private) <GYDecodeProtocol>
-+ (NSString *)stringWithPropertyType:(GYUserPropertyType)property;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) NSString *identifier;
 @property(nonatomic, strong) NSString *productId;
+@property(nonatomic, nullable, strong) NSString *promotionalId;
 @property(nonatomic, nullable, strong) NSString *offeringId;
 @property(nonatomic, assign) GYSkuEligibility introductoryEligibility;
 @property(nonatomic, assign) GYSkuEligibility promotionalEligibility;
