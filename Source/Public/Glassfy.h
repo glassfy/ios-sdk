@@ -16,6 +16,7 @@
 #import <Glassfy/GYPermissions.h>
 #import <Glassfy/GYOfferings.h>
 #import <Glassfy/GYUserProperties.h>
+#import <Glassfy/GYPaywallViewController.h>
 
 #import <Glassfy/GYTypes.h>
 #import <Glassfy/GYError.h>
@@ -27,6 +28,7 @@
 #import "GYPermissions.h"
 #import "GYOfferings.h"
 #import "GYUserProperties.h"
+#import "GYPaywallViewController.h"
 
 #import "GYTypes.h"
 #import "GYError.h"
@@ -173,6 +175,14 @@ Save extra user properties
  @param block Completion block
  */
 + (void)getUserProperties:(GYUserPropertiesCompletion)block NS_SWIFT_NAME(userProperties(completion:));
+
+/**
+ Initialize a ViewController to show paywall
+ 
+ @param paywallId Paywall identifier
+ @param block Completion block
+ */
++ (void)getPaywall:(NSString *)paywallId completion:(GYPaywallCompletion)block NS_SWIFT_NAME(paywall(identifier:completion:));
 
 @end
 
