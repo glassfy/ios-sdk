@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="https://glassfy.io/assets/images/glassfy-logo.svg" height="70"/>
+</p>
+
+---
+
 # Glassfy iOS SDK
 
 Is the client for Glassfy: a subscription revenue optimisation infrastructure for mobile applications.
