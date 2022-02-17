@@ -1,6 +1,4 @@
-<p align="">
-  <img src="https://glassfy.io/assets/images/glassfy-logo.svg" height="50"/>
-</p>
+<img src="https://media.glassfy.io/banner_purple.png" />
 
 [![Platform](https://img.shields.io/cocoapods/p/Glassfy.svg?style=flat)](https://glassfy.io)
 [![License](https://img.shields.io/cocoapods/l/Glassfy.svg?style=flat)](https://glassfy.io)
