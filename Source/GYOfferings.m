@@ -53,7 +53,7 @@
 
 #pragma mark - Custom Keyed Subscripting method
 
-- (GYOffering *)objectForKeyedSubscript:(NSString *)identifier
+- (GYOffering *)objectForKeyedSubscript:(NSString *)offeringid
 {
     GYOffering *result = nil;
     if (!self.all || self.all.count == 0) {
@@ -61,7 +61,7 @@
     }
     
     for (GYOffering *o in self.all) {
-        if ([o.identifier isEqualToString:identifier]) {
+        if ([o.offeringId isEqualToString:offeringid]) {
             result = o;
             break;
         }

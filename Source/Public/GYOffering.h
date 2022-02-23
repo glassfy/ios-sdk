@@ -12,9 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(Glassfy.Offering)
 @interface GYOffering : NSObject
-//@property(nullable, readonly, strong) NSString *name;
-@property(readonly, strong) NSString *identifier;
+@property(readonly, strong) NSString *offeringId;
 @property(readonly, strong) NSArray<GYSku*> *skus;
+
+
+/// Deprecations
+@property(nonatomic, readonly) NSString *identifier __attribute__((deprecated("Renamed to offeringId")));
+
 @end
 
 NS_ASSUME_NONNULL_END

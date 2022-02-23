@@ -26,10 +26,10 @@ typedef void(^GYBooleanCompletion)(BOOL, NSError* _Nullable) NS_SWIFT_NAME(Glass
 typedef void(^GYErrorCompletion)(NSError* _Nullable) NS_SWIFT_NAME(Glassfy.ErrorCompletion);
 typedef void(^GYUserPropertiesCompletion)(GYUserProperties* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.UserPropertiesCompletion);
 
-typedef NS_ENUM(NSUInteger, GYSkuEligibility) {
-    GYSkuEligibilityEligible,
-    GYSkuEligibilityNonEligible,
-    GYSkuEligibilityUnknown
+typedef NS_ENUM(NSInteger, GYSkuEligibility) {
+    GYSkuEligibilityEligible = 1,
+    GYSkuEligibilityNonEligible = -1,
+    GYSkuEligibilityUnknown = 0
 } NS_SWIFT_NAME(Glassfy.SkuEligibility);
 
 typedef NS_ENUM(NSInteger, GYEntitlement) {

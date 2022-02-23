@@ -19,6 +19,7 @@
 
 #import <Glassfy/GYTypes.h>
 #import <Glassfy/GYError.h>
+#import <Glassfy/GYPurchaseDelegate.h>
 #else
 #import "GYSku.h"
 #import "GYOffering.h"
@@ -30,6 +31,7 @@
 
 #import "GYTypes.h"
 #import "GYError.h"
+#import "GYPurchaseDelegate.h"
 #endif
 
 
@@ -108,7 +110,18 @@ NS_ASSUME_NONNULL_BEGIN
  @param skuid Sku's identifier
  @param block Completion block with result
  */
-+ (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block NS_SWIFT_NAME(sku(identifier:completion:));
++ (void)skuWithId:(NSString *)skuid completion:(GYSkuBlock)block NS_SWIFT_NAME(sku(id:completion:));
+
+/**
+ Fetch Sku
+ 
+ @note For more details, check the documentation https://docs.glassfy.io/dashboard/configure-products
+  
+ @param productid SKProduct product identifier
+ @param promoid Promotional Identifier
+ @param block Completion block with result
+ */
++ (void)skuWithProductId:(NSString *)productid promotionalId:(NSString *_Nullable)promoid completion:(GYSkuBlock)block NS_SWIFT_NAME(sku(productId:promotionalId:completion:));
 
 /**
  Make a purchase
@@ -174,6 +187,16 @@ Save extra user properties
  */
 + (void)getUserProperties:(GYUserPropertiesCompletion)block NS_SWIFT_NAME(userProperties(completion:));
 
+/**
+ Set purchase delegate
+ 
+ @param delegate implementing GYPurchaseDelegate protocol
+ */
++ (void)setPurchaseDelegate:(id<GYPurchaseDelegate> _Nullable)delegate;
+
+
+/// Deprecations
++ (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block NS_SWIFT_NAME(sku(identifier:completion:)) __attribute__((deprecated("Renamed to +skuWithId:completion:")));
 @end
 
 NS_ASSUME_NONNULL_END

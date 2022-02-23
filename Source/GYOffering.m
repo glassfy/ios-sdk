@@ -11,7 +11,7 @@
 
 @interface GYOffering()
 //@property(nonatomic, nullable, strong) NSString *name;
-@property(nonatomic, strong) NSString *identifier;
+@property(nonatomic, strong) NSString *offeringId;
 @property(nonatomic, strong) NSArray<GYSku*> *skus;
 @end
 
@@ -23,10 +23,6 @@
     if ([obj[@"identifier"] isKindOfClass:NSString.class]) {
         identifier = obj[@"identifier"];
     }
-//    NSString *name;
-//    if ([obj[@"name"] isKindOfClass:NSString.class]) {
-//        name = obj[@"name"];
-//    }
     
     NSMutableArray<GYSku*> *skus = [NSMutableArray array];
     if ([obj[@"skus"] isKindOfClass:NSArray.class]) {
@@ -54,8 +50,7 @@
     
     self = [super init];
     if (self) {
-//        self.name = name;
-        self.identifier = identifier;
+        self.offeringId = identifier;
         self.skus = skus;
     }
     return self;
@@ -65,4 +60,12 @@
 
 
 @implementation GYOffering
+
+#pragma mark - Deprecations
+
+- (NSString *)identifier
+{
+    return self.offeringId;
+}
+
 @end

@@ -15,7 +15,7 @@ NS_SWIFT_NAME(Glassfy.Offerings)
 @property(nonatomic, readonly) NSArray<GYOffering*> *all;
 
 // Custom Keyed Subscripting method
-- (nullable GYOffering *)objectForKeyedSubscript:(NSString *)identifier;
+- (nullable GYOffering *)objectForKeyedSubscript:(NSString *)offeringid;
 @end
 
 NS_ASSUME_NONNULL_END

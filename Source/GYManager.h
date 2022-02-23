@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GYTypes.h"
+#import "GYPurchaseDelegate.h"
 @class GYSku;
 
 
@@ -18,12 +19,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (GYManager *)managerWithApiKey:(NSString *)apiKey watcherMode:(BOOL)watcherMode;
 
+- (void)setPurchaseDelegate:(id<GYPurchaseDelegate>)delegate;
+
 - (void)loginUser:(NSString *_Nullable)userId withCompletion:(GYErrorCompletion _Nullable)block;
 - (void)logoutWithCompletion:(GYErrorCompletion _Nullable)block;
 
 - (void)permissionsWithCompletion:(GYPermissionsCompletion)block;
 - (void)offeringsWithCompletion:(GYOfferingsCompletion)block;
-- (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block;
+- (void)skuWithId:(NSString *)skuid completion:(GYSkuBlock)block;
+- (void)skuWithProductId:(NSString *)productid promotionalId:(NSString *_Nullable)promoid completion:(GYSkuBlock)block;
 
 - (void)purchaseSku:(GYSku *)sku completion:(GYPaymentTransactionBlock)block;
 - (void)purchaseSku:(GYSku *)sku withDiscount:(SKProductDiscount *_Nullable)discount completion:(GYPaymentTransactionBlock)block API_AVAILABLE(ios(12.2), macos(10.14.4), watchos(6.2));

@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getInitWithInfoWithCompletion:(GYGetInitCompletion _Nullable)block;
 
 - (void)getSku:(NSString *)skuid withCompletion:(GYGetSkuCompletion _Nullable)block;
+- (void)getSkuWithProductId:(NSString *)productid promotionalId:(NSString *_Nullable)promoid withCompletion:(GYGetSkuCompletion _Nullable)block;
 - (void)getOfferingsWithCompletion:(GYGetOfferingsCompletion _Nullable)block;
 - (void)getPermissionsWithCompletion:(GYGetPermissionsCompletion _Nullable)block;
 

@@ -105,6 +105,21 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     [self callApiWithRequest:req response:GYAPISkuResponse.class completion:block];
 }
 
+- (void)getSkuWithProductId:(NSString *)productid promotionalId:(NSString *)promoid withCompletion:(GYGetSkuCompletion)block
+{
+    NSURLComponents *url = [self baseURLV0];
+    url.path = [url.path stringByAppendingPathComponent:@"sku"];
+    NSMutableArray<NSURLQueryItem*> *queryItems = [(url.queryItems ?: @[]) mutableCopy];
+    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"productid" value:productid]];
+    if (promoid && promoid.length > 0) {
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:@"promotionalid" value:promoid]];
+    }
+    url.queryItems = queryItems;
+
+    NSURLRequest *req = [self authorizedRequestWithComponents:url];
+    [self callApiWithRequest:req response:GYAPISkuResponse.class completion:block];
+}
+
 - (void)getOfferingsWithCompletion:(GYGetOfferingsCompletion)block
 {
     NSURLComponents *url = [self baseURLV0];

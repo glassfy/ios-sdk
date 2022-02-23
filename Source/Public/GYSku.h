@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(Glassfy.Sku)
 @interface GYSku : NSObject
-@property(nonatomic, readonly) NSString *identifier;
+@property(nonatomic, readonly) NSString *skuId;
 @property(nonatomic, readonly) NSString *productId;
 @property(nonatomic, readonly) GYSkuEligibility introductoryEligibility;
 @property(nonatomic, readonly) GYSkuEligibility promotionalEligibility;
@@ -26,6 +26,10 @@ NS_SWIFT_NAME(Glassfy.Sku)
 
 @property(nonatomic, readonly) SKProduct *product;
 @property(nonatomic, nullable, readonly) SKProductDiscount *discount API_AVAILABLE(ios(12.2), macos(10.14.4), watchos(6.2));
+
+
+/// Deprecations
+@property(nonatomic, readonly) NSString *identifier __attribute__((deprecated("Renamed to skuId:")));
 @end
 
 NS_ASSUME_NONNULL_END

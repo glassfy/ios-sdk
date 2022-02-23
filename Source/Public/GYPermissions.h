@@ -21,7 +21,7 @@ NS_SWIFT_NAME(Glassfy.Permissions)
 @property(nullable, nonatomic, readonly) NSString *installationId;
 
 // Custom Keyed Subscripting method
-- (nullable GYPermission *)objectForKeyedSubscript:(NSString *)identifier;
+- (nullable GYPermission *)objectForKeyedSubscript:(NSString *)permissionid;
 @end
 
 NS_ASSUME_NONNULL_END

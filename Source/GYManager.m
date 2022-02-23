@@ -32,6 +32,7 @@
 @property(nonatomic, assign) BOOL watcherMode;
 @property(nonatomic, assign) BOOL initialized;
 
+@property(nonatomic, weak) id<GYPurchaseDelegate> purchasesDelegate;
 @property(nonatomic, strong) NSMapTable<GYSku*, GYPaymentTransactionBlock> *purchaseCompletions;
 @end
 
@@ -67,6 +68,11 @@
 - (void)dealloc
 {
     [NSNotificationCenter.defaultCenter removeObserver:self];
+}
+
+- (void)setPurchaseDelegate:(id<GYPurchaseDelegate>)delegate
+{
+    _purchasesDelegate = delegate;
 }
 
 - (NSString *)apiKey
@@ -130,9 +136,41 @@
     }];
 }
 
-- (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block
+- (void)skuWithId:(NSString *)skuid completion:(GYSkuBlock)block
 {
     [self.api getSku:skuid withCompletion:^(GYAPISkuResponse *res, NSError *apiErr) {
+        GYSku *sku = res.sku;
+        [self.store productWithIdentifier:sku.productId completion:^(SKProduct *product, NSError *storeErr) {
+            sku.product = product;
+            
+            NSError *err = apiErr ?: storeErr;
+            if (!err) {
+                if (!product) {
+                    err = GYError.storeProductNotFound;
+                }
+                else if (@available(iOS 12.2, macOS 10.14.4, watchOS 6.2, *)) {
+                    if (sku.promotionalId && !sku.discount) {
+                        err = GYError.storeProductNotFound;
+                    }
+                }
+                else if (sku.promotionalId) {
+                    err = GYError.storeProductNotFound;
+                }
+            }
+            
+            typeof(block) __strong completion = block;
+            if (completion) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    err ? completion(nil, err) : completion(sku, nil);
+                });
+            }
+        }];
+    }];
+}
+
+- (void)skuWithProductId:(NSString *)productid promotionalId:(NSString *)promoid completion:(GYSkuBlock)block
+{
+    [self.api getSkuWithProductId:productid promotionalId:promoid withCompletion:^(GYAPISkuResponse *res, NSError *apiErr) {
         GYSku *sku = res.sku;
         [self.store productWithIdentifier:sku.productId completion:^(SKProduct *product, NSError *storeErr) {
             sku.product = product;
@@ -295,6 +333,37 @@
 
 #pragma mark - SKPaymentTransactionObserver
 
+- (BOOL)paymentQueue:(SKPaymentQueue *)queue shouldAddStorePayment:(SKPayment *)payment forProduct:(SKProduct *)product
+{
+    if ([self.purchasesDelegate respondsToSelector:@selector(handlePromotedProductId:withPromotionalId:purchaseHandler:)])
+    {
+        NSString *promoid;
+        if (@available(iOS 12.2, *)) {
+            promoid = payment.paymentDiscount.identifier;
+        }
+        NSString *productid = product.productIdentifier;
+        
+        typeof(self) __weak weakSelf = self;
+        [self.purchasesDelegate handlePromotedProductId:productid
+                                      withPromotionalId:promoid
+                                        purchaseHandler:^(GYPaymentTransactionBlock completionHandler)
+         {
+            dispatch_async(Glassfy.shared.glqueue, ^{
+                GYPaymentTransactionBlock completion = completionHandler ?: ^void(GYTransaction *tranansaction, NSError *err) {
+                    GYLogInfo(@"Promotion completion handler");
+                };
+                
+                GYSku *sku = [GYSku skuWithProduct:product];
+                [weakSelf.purchaseCompletions setObject:completion forKey:sku];
+                
+                [SKPaymentQueue.defaultQueue addPayment:payment];
+            });
+        }];
+        return NO;
+    }
+    return YES;
+}
+
 - (void)paymentQueue:(nonnull SKPaymentQueue *)queue updatedTransactions:(nonnull NSArray<SKPaymentTransaction *> *)transactions
 {
     typeof(self) __weak weakSelf = self;
@@ -310,11 +379,11 @@
         GYTransaction *t = [GYTransaction transactionWithPaymentTransaction:transaction];
         switch (transaction.transactionState) {
             case SKPaymentTransactionStatePurchased:
-                GYLog(@"TRANSACTION %@ PURCHASED", t.productIdentifier);
+                GYLog(@"TRANSACTION %@ PURCHASED", t.productId);
                 [self handlePurchasedTransaction:t];
                 break;
             case SKPaymentTransactionStateRestored: // status from -[SKPaymentQueue restoreCompletedTransactions];
-                GYLog(@"TRANSACTION %@ RESTORED", t.productIdentifier);
+                GYLog(@"TRANSACTION %@ RESTORED", t.productId);
                 if (!restored) {
                     [self handleRestoredTransaction:t];
                     restored = YES;
@@ -324,15 +393,15 @@
                 }
                 break;
             case SKPaymentTransactionStateFailed:
-                GYLogErr(@"TRANSACTION %@ FAILED: %@", t.productIdentifier, t.paymentTransaction.error.debugDescription);
+                GYLogErr(@"TRANSACTION %@ FAILED: %@", t.productId, t.paymentTransaction.error.debugDescription);
                 [self handleFailedTransaction:t];
                 break;
             case SKPaymentTransactionStateDeferred:
-                GYLog(@"TRANSACTION %@ DEFERRED", t.productIdentifier);
+                GYLog(@"TRANSACTION %@ DEFERRED", t.productId);
                 [self handleDeferredTransaction:t];
                 break;
             case SKPaymentTransactionStatePurchasing:
-                GYLog(@"TRANSACTION %@ PURCHASING", t.productIdentifier);
+                GYLog(@"TRANSACTION %@ PURCHASING", t.productId);
                 break;
         }
     }
@@ -343,7 +412,7 @@
     GYPaymentTransactionBlock completion;
     GYSku *sku;
     for (GYSku *s in self.purchaseCompletions.keyEnumerator) {
-        if ([s.productId isEqualToString:t.productIdentifier]) {
+        if ([s.productId isEqualToString:t.productId]) {
             sku = s;
             completion = [self.purchaseCompletions objectForKey:s];
             [self.purchaseCompletions removeObjectForKey:s];
@@ -361,7 +430,7 @@
     if (appStoreURL && [NSFileManager.defaultManager fileExistsAtPath:appStoreURL.path]) {
         typeof(self) __weak weakSelf = self;
         if (!sku) {
-            [self.store productWithIdentifier:t.productIdentifier completion:^(SKProduct *p, NSError *err) {
+            [self.store productWithIdentifier:t.productId completion:^(SKProduct *p, NSError *err) {
                 if (p) {
                     GYSku *s = [GYSku skuWithProduct:p];
                     [weakSelf.purchaseCompletions setObject:completion forKey:s];
@@ -377,6 +446,9 @@
                         t.receiptValidated = (err.code != GYErrorCodeAppleReceiptStatusError);
                         dispatch_async(dispatch_get_main_queue(), ^{
                             completion(t, err);
+                            if (!err && [weakSelf.purchasesDelegate respondsToSelector:@selector(didPurchaseProduct:)]) {
+                                [weakSelf.purchasesDelegate didPurchaseProduct:t];
+                            }
                         });
                         [weakSelf completeTransaction:t];
                     }];
@@ -394,6 +466,9 @@
                 t.receiptValidated = (err.code != GYErrorCodeAppleReceiptStatusError);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(t, err);
+                    if (!err && [weakSelf.purchasesDelegate respondsToSelector:@selector(didPurchaseProduct:)]) {
+                        [weakSelf.purchasesDelegate didPurchaseProduct:t];
+                    }
                 });
                 [weakSelf completeTransaction:t];
             }];
@@ -418,7 +493,7 @@
     
     GYPaymentTransactionBlock completion;
     for (GYSku *s in self.purchaseCompletions.keyEnumerator) {
-        if ([s.productId isEqualToString:t.productIdentifier]) {
+        if ([s.productId isEqualToString:t.productId]) {
             completion = [self.purchaseCompletions objectForKey:s];
             [self.purchaseCompletions removeObjectForKey:s];
             break;
@@ -474,7 +549,7 @@
 {
     GYPaymentTransactionBlock completion;
     for (GYSku *s in self.purchaseCompletions.keyEnumerator) {
-        if ([s.productId isEqualToString:t.productIdentifier]) {
+        if ([s.productId isEqualToString:t.productId]) {
             completion = [self.purchaseCompletions objectForKey:s];
             [self.purchaseCompletions removeObjectForKey:s];
             break;
@@ -489,10 +564,10 @@
 
 - (void)completeTransaction:(GYTransaction *)t
 {
-    GYLog(@"TRANSACTION %@ COMPLETED", t.productIdentifier);
+    GYLog(@"TRANSACTION %@ COMPLETED", t.productId);
 
     if (t.paymentTransaction && !self.watcherMode) {
-        GYLog(@"TRANSACTION %@ FINISH", t.productIdentifier);
+        GYLog(@"TRANSACTION %@ FINISH", t.productId);
         [[SKPaymentQueue defaultQueue] finishTransaction:t.paymentTransaction];
     }
 }

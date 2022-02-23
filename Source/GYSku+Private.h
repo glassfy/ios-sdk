@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GYSku (Private) <GYDecodeProtocol, GYEncodeProtocol>
 + (instancetype)skuWithProduct:(SKProduct *)product;
 
-@property(nonatomic, strong) NSString *identifier;
+@property(nonatomic, strong) NSString *skuId;
 @property(nonatomic, strong) NSString *productId;
 @property(nonatomic, nullable, strong) NSString *promotionalId;
 @property(nonatomic, nullable, strong) NSString *offeringId;

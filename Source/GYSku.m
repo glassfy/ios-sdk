@@ -10,7 +10,7 @@
 #import "SKProduct+GYEncode.h"
 
 @interface GYSku()
-@property(nonatomic, strong) NSString *identifier;
+@property(nonatomic, strong) NSString *skuId;
 @property(nonatomic, strong) NSString *productId;
 @property(nonatomic, nullable, strong) NSString *promotionalId;
 @property(nonatomic, nullable, strong) NSString *offeringId;
@@ -74,7 +74,7 @@
     self = [super init];
     if (self) {
         self.extravars = extravars;
-        self.identifier = identifier;
+        self.skuId = identifier;
         self.productId = productId;
         self.promotionalId = promotionalId;
         self.introductoryEligibility = introductoryEligibility;
@@ -89,7 +89,7 @@
     if (sku) {
         sku.product = product;
         sku.extravars = @{};
-        sku.identifier = @"";
+        sku.skuId = @"";
         sku.productId = product.productIdentifier;
         sku.introductoryEligibility = GYSkuEligibilityUnknown;
         sku.promotionalEligibility = GYSkuEligibilityUnknown;
@@ -115,6 +115,14 @@
 {
     NSPredicate *p = [NSPredicate predicateWithFormat:@"identifier = %@", self.promotionalId];
     return [self.product.discounts filteredArrayUsingPredicate:p].firstObject;
+}
+
+
+#pragma mark - Deprecations
+
+- (NSString *)identifier
+{
+    return self.skuId;
 }
 
 @end

@@ -32,9 +32,22 @@
 
 @implementation GYTransaction
 
-- (NSString *)productIdentifier
+- (NSString *)productId
 {
     return self.paymentTransaction.payment.productIdentifier;
+}
+
+- (NSString *)promotionalId
+{
+    return self.paymentTransaction.payment.paymentDiscount.identifier;
+}
+
+
+#pragma mark - Deprecations
+
+- (NSString *)productIdentifier
+{
+    return self.productId;
 }
 
 @end

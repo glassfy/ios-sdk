@@ -46,7 +46,7 @@
 
 #pragma mark - Custom Keyed Subscripting method
 
-- (nullable GYPermission *)objectForKeyedSubscript:(NSString *)identifier
+- (nullable GYPermission *)objectForKeyedSubscript:(NSString *)permissionid
 {
     GYPermission *result = nil;
     if (!self.all || self.all.count == 0) {
@@ -54,7 +54,7 @@
     }
         
     for (GYPermission *o in self.all) {
-        if ([o.permissionIdentifier isEqualToString:identifier]) {
+        if ([o.permissionId isEqualToString:permissionid]) {
             result = o;
             break;
         }

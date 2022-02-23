@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.1.7";
+    return @"1.1.8";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -83,10 +83,17 @@
     });
 }
 
-+ (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block
++ (void)skuWithId:(NSString *)skuid completion:(GYSkuBlock)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
-        [Glassfy.shared.manager skuWithIdentifier:skuid completion:block];
+        [Glassfy.shared.manager skuWithId:skuid completion:block];
+    });
+}
+
++ (void)skuWithProductId:(NSString *)productid promotionalId:(NSString *)promoid completion:(GYSkuBlock)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager skuWithProductId:productid promotionalId:promoid completion:block];
     });
 }
 
@@ -144,6 +151,21 @@
     dispatch_async(Glassfy.shared.glqueue, ^{
         GYLogSetLevel(level);
     });
+}
+
++ (void)setPurchaseDelegate:(id<GYPurchaseDelegate>)delegate
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager setPurchaseDelegate:delegate];
+    });
+}
+
+
+#pragma mark - Deprecations
+
++ (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block
+{
+    return [self skuWithId:skuid completion:block];
 }
 
 @end

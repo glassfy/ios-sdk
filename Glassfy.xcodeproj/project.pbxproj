@@ -77,6 +77,7 @@
 		81EFB54425A772D900706FCB /* GYAPIPermissionsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 81EFB54225A772D900706FCB /* GYAPIPermissionsResponse.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		81EFB54525A772D900706FCB /* GYAPIPermissionsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFB54325A772D900706FCB /* GYAPIPermissionsResponse.m */; };
 		81EFB54B25A772F200706FCB /* GYPermission.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFB54925A772F200706FCB /* GYPermission.m */; };
+		81FCCE8627C3CE0A00DF3D1A /* GYPurchaseDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 81FCCE8527C3CE0A00DF3D1A /* GYPurchaseDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +165,7 @@
 		81EFB54325A772D900706FCB /* GYAPIPermissionsResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYAPIPermissionsResponse.m; sourceTree = "<group>"; };
 		81EFB54925A772F200706FCB /* GYPermission.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYPermission.m; sourceTree = "<group>"; };
 		81EFB55025A7736B00706FCB /* GYPermission+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GYPermission+Private.h"; sourceTree = "<group>"; };
+		81FCCE8527C3CE0A00DF3D1A /* GYPurchaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GYPurchaseDelegate.h; path = Public/GYPurchaseDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,6 +267,7 @@
 				8191E86A26690C850077BDD7 /* GYUserProperties.h */,
 				816EF2882661161200513FB1 /* GYUserProperties.m */,
 				81951CD226443F82003901F1 /* GYTypes.h */,
+				81FCCE8527C3CE0A00DF3D1A /* GYPurchaseDelegate.h */,
 				816830B3258B6EA100565968 /* Core */,
 				8104537B25909F380015A728 /* Data */,
 				817A1CC7258CE9C700D1BA10 /* Utils */,
@@ -344,6 +347,7 @@
 				81010F292590C1AB00B07DE4 /* GYAPIOfferingsResponse.h in Headers */,
 				81951CD726443F94003901F1 /* GYOfferings.h in Headers */,
 				8138BAB225924D0A005CB44E /* SKProductSubscriptionPeriod+GYEncode.h in Headers */,
+				81FCCE8627C3CE0A00DF3D1A /* GYPurchaseDelegate.h in Headers */,
 				817A1CF5258CF63600D1BA10 /* GYAPIManager.h in Headers */,
 				817A1CE7258CF46600D1BA10 /* GYCacheManager.h in Headers */,
 				81E1DC3225933FC7003B5EBD /* SKPayment+GYEncode.h in Headers */,
@@ -668,7 +672,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.7;
+				MARKETING_VERSION = 1.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -695,7 +699,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.7;
+				MARKETING_VERSION = 1.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
