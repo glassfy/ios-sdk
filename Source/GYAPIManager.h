@@ -14,6 +14,7 @@
 #import "GYAPISignatureResponse.h"
 #import "GYAPIPropertiesResponse.h"
 #import "GYAPISkuResponse.h"
+#import "GYAPIPaywallResponse.h"
 @class SKProduct;
 @class SKPaymentTransaction;
 @class GYCacheManager;
@@ -23,6 +24,7 @@ typedef void(^GYGetPermissionsCompletion)(GYAPIPermissionsResponse* _Nullable, N
 typedef void(^GYGetOfferingsCompletion)(GYAPIOfferingsResponse* _Nullable, NSError* _Nullable);
 typedef void(^GYGetSignatureCompletion)(GYAPISignatureResponse* _Nullable, NSError* _Nullable);
 typedef void(^GYGetPropertiesCompletion)(GYAPIPropertiesResponse* _Nullable, NSError* _Nullable);
+typedef void(^GYGetPaywallCompletion)(GYAPIPaywallResponse* _Nullable, NSError* _Nullable);
 typedef void(^GYGetSkuCompletion)(GYAPISkuResponse* _Nullable, NSError* _Nullable);
 typedef void(^GYBaseCompletion)(GYAPIBaseResponse* _Nullable, NSError* _Nullable);
 
@@ -61,6 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getPropertiesWithCompletion:(GYGetPropertiesCompletion _Nullable)block;
 
 - (void)getSignatureForProductId:(NSString *)productId offerId:(NSString *)offerId completion:(GYGetSignatureCompletion _Nullable)block;
+
+- (void)getPaywall:(NSString *)paywallId locale:(NSString *_Nullable)locale completion:(GYGetPaywallCompletion _Nullable)block;
 
 - (void)putLastSeen;
 @end

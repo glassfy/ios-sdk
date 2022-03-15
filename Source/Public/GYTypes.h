@@ -15,6 +15,7 @@
 @class GYOfferings;
 @class GYUserProperties;
 @class GYSku;
+@class GYPaywallViewController;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,6 +26,12 @@ typedef void(^GYPermissionsCompletion)(GYPermissions* _Nullable, NSError* _Nulla
 typedef void(^GYBooleanCompletion)(BOOL, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.BooleanCompletion);
 typedef void(^GYErrorCompletion)(NSError* _Nullable) NS_SWIFT_NAME(Glassfy.ErrorCompletion);
 typedef void(^GYUserPropertiesCompletion)(GYUserProperties* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.UserPropertiesCompletion);
+typedef void(^GYPaywallCompletion)(GYPaywallViewController* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaywallCompletion);
+typedef void(^GYPaywallCloseBlock)(GYTransaction* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaywallCloseBlock);
+typedef void(^GYPaywallLinkBlock)(NSURL*) NS_SWIFT_NAME(Glassfy.PaywallLinkBlock);
+typedef void(^GYPaywallPurchaseBlock)(GYSku*) NS_SWIFT_NAME(Glassfy.PaywallPurchaseBlock);
+typedef void(^GYPaywallRestoreBlock)(void) NS_SWIFT_NAME(Glassfy.PaywallRestoreBlock);
+
 
 typedef NS_ENUM(NSInteger, GYSkuEligibility) {
     GYSkuEligibilityEligible = 1,

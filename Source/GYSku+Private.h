@@ -7,11 +7,13 @@
 
 #import "GYSku.h"
 #import "GYCodableProtocol.h"
+@class SKProduct;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GYSku (Private) <GYDecodeProtocol, GYEncodeProtocol>
 + (instancetype)skuWithProduct:(SKProduct *)product;
++ (NSArray<GYSku*> *)matchSkus:(NSArray<GYSku*>*)skus withProducts:(NSArray<SKProduct*> *)products;
 
 @property(nonatomic, strong) NSString *skuId;
 @property(nonatomic, strong) NSString *productId;

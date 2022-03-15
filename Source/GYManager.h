@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)getUserProperties:(GYUserPropertiesCompletion)block;
 
+- (void)getPaywall:(NSString *)paywallId completion:(GYPaywallCompletion)block API_UNAVAILABLE(macos, watchos);
+
 - (void)restorePurchasesWithCompletion:(GYPermissionsCompletion)block;
 @end
 

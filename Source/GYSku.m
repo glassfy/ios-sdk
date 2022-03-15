@@ -107,6 +107,27 @@
     return skuInfo;
 }
 
++ (NSArray<GYSku*> *)matchSkus:(NSArray<GYSku*>*)skus withProducts:(NSArray<SKProduct*> *)products
+{
+    // match sku with product
+    for (GYSku *s in skus) {
+        NSPredicate *p = [NSPredicate predicateWithFormat:@"productIdentifier = %@", s.productId];
+        s.product = [products filteredArrayUsingPredicate:p].firstObject;
+    }
+    
+    // filter sku without product and sku with promotionalid and no discount
+    NSPredicate *p = [NSPredicate predicateWithBlock:^BOOL(GYSku *s, NSDictionary<NSString*,id> * _Nullable bindings) {
+        if (!s.product) {
+            return NO;
+        }
+        if (@available(iOS 12.2, macOS 10.14.4, watchOS 6.2, *)) {
+            return s.promotionalId == nil ?: s.discount != nil;
+        }
+        return s.promotionalId == nil;
+    }];
+    return [skus filteredArrayUsingPredicate:p];
+}
+
 @end
 
 @implementation GYSku

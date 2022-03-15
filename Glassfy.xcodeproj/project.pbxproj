@@ -57,6 +57,11 @@
 		817A1D00258CF7EE00D1BA10 /* GYStoreRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 817A1CFE258CF7EE00D1BA10 /* GYStoreRequest.m */; };
 		817C95692678F79200DB4945 /* GYAPISkuResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 817C95682678F78400DB4945 /* GYAPISkuResponse.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		817C956B2678F7D300DB4945 /* GYAPISkuResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 817C956A2678F7D300DB4945 /* GYAPISkuResponse.m */; };
+		818880B52717153A00128A10 /* GYAPIPaywallResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 818880B32717153A00128A10 /* GYAPIPaywallResponse.h */; };
+		818880B62717153A00128A10 /* GYAPIPaywallResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 818880B42717153A00128A10 /* GYAPIPaywallResponse.m */; };
+		818880BA27171D7A00128A10 /* GYPaywallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 818880B827171D7A00128A10 /* GYPaywallViewController.m */; };
+		818880BC27171DA900128A10 /* GYPaywallViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 818880BB27171DA900128A10 /* GYPaywallViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		818880BE27171E1F00128A10 /* GYPaywallViewController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 818880BD27171E1F00128A10 /* GYPaywallViewController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		8191E86B26690C850077BDD7 /* GYUserProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 8191E86A26690C850077BDD7 /* GYUserProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		81951CD126443F65003901F1 /* Glassfy.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CD026443F65003901F1 /* Glassfy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		81951CD326443F82003901F1 /* GYTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CD226443F82003901F1 /* GYTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -67,6 +72,8 @@
 		81951CDE26443FB8003901F1 /* GYPermissions.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CDC26443FB8003901F1 /* GYPermissions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		81951CDF26443FB8003901F1 /* GYPermission.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CDD26443FB8003901F1 /* GYPermission.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		81951CE12644400B003901F1 /* GYError.h in Headers */ = {isa = PBXBuildFile; fileRef = 81951CE02644400B003901F1 /* GYError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81B49B552729A31C000BDDA1 /* GYFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 81B49B532729A31C000BDDA1 /* GYFormatter.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		81B49B562729A31C000BDDA1 /* GYFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B49B542729A31C000BDDA1 /* GYFormatter.m */; };
 		81C2816325E3F58C0048189D /* GYPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C2816125E3F58C0048189D /* GYPermissions.m */; };
 		81C684652602633500223D3E /* GYAPISignatureResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 81C684632602633500223D3E /* GYAPISignatureResponse.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		81C684662602633500223D3E /* GYAPISignatureResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C684642602633500223D3E /* GYAPISignatureResponse.m */; };
@@ -141,6 +148,11 @@
 		817A1CFE258CF7EE00D1BA10 /* GYStoreRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYStoreRequest.m; sourceTree = "<group>"; };
 		817C95682678F78400DB4945 /* GYAPISkuResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GYAPISkuResponse.h; sourceTree = "<group>"; };
 		817C956A2678F7D300DB4945 /* GYAPISkuResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYAPISkuResponse.m; sourceTree = "<group>"; };
+		818880B32717153A00128A10 /* GYAPIPaywallResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GYAPIPaywallResponse.h; sourceTree = "<group>"; };
+		818880B42717153A00128A10 /* GYAPIPaywallResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYAPIPaywallResponse.m; sourceTree = "<group>"; };
+		818880B827171D7A00128A10 /* GYPaywallViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYPaywallViewController.m; sourceTree = "<group>"; };
+		818880BB27171DA900128A10 /* GYPaywallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GYPaywallViewController.h; path = Public/GYPaywallViewController.h; sourceTree = "<group>"; };
+		818880BD27171E1F00128A10 /* GYPaywallViewController+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GYPaywallViewController+Private.h"; sourceTree = "<group>"; };
 		8191E86A26690C850077BDD7 /* GYUserProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GYUserProperties.h; path = Public/GYUserProperties.h; sourceTree = "<group>"; };
 		81951CD026443F65003901F1 /* Glassfy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Glassfy.h; path = Public/Glassfy.h; sourceTree = "<group>"; };
 		81951CD226443F82003901F1 /* GYTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GYTypes.h; path = Public/GYTypes.h; sourceTree = "<group>"; };
@@ -152,6 +164,8 @@
 		81951CDD26443FB8003901F1 /* GYPermission.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GYPermission.h; path = Public/GYPermission.h; sourceTree = "<group>"; };
 		81951CE02644400B003901F1 /* GYError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GYError.h; path = Public/GYError.h; sourceTree = "<group>"; };
 		81A7064425ACADB200169564 /* GYSku+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GYSku+Private.h"; sourceTree = "<group>"; };
+		81B49B532729A31C000BDDA1 /* GYFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GYFormatter.h; sourceTree = "<group>"; };
+		81B49B542729A31C000BDDA1 /* GYFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYFormatter.m; sourceTree = "<group>"; };
 		81C2816125E3F58C0048189D /* GYPermissions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYPermissions.m; sourceTree = "<group>"; };
 		81C2816825E3F6AC0048189D /* GYPermissions+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GYPermissions+Private.h"; sourceTree = "<group>"; };
 		81C684632602633500223D3E /* GYAPISignatureResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GYAPISignatureResponse.h; sourceTree = "<group>"; };
@@ -200,6 +214,8 @@
 				81EFB54325A772D900706FCB /* GYAPIPermissionsResponse.m */,
 				81C684632602633500223D3E /* GYAPISignatureResponse.h */,
 				81C684642602633500223D3E /* GYAPISignatureResponse.m */,
+				818880B32717153A00128A10 /* GYAPIPaywallResponse.h */,
+				818880B42717153A00128A10 /* GYAPIPaywallResponse.m */,
 				816EF28B26611C5900513FB1 /* GYAPIPropertiesResponse.h */,
 				816EF28C26611C5900513FB1 /* GYAPIPropertiesResponse.m */,
 				817C95682678F78400DB4945 /* GYAPISkuResponse.h */,
@@ -266,6 +282,8 @@
 				81EFB54925A772F200706FCB /* GYPermission.m */,
 				8191E86A26690C850077BDD7 /* GYUserProperties.h */,
 				816EF2882661161200513FB1 /* GYUserProperties.m */,
+				818880BB27171DA900128A10 /* GYPaywallViewController.h */,
+				818880B827171D7A00128A10 /* GYPaywallViewController.m */,
 				81951CD226443F82003901F1 /* GYTypes.h */,
 				81FCCE8527C3CE0A00DF3D1A /* GYPurchaseDelegate.h */,
 				816830B3258B6EA100565968 /* Core */,
@@ -287,6 +305,7 @@
 				817A1CF4258CF63600D1BA10 /* GYAPIManager.m */,
 				817A1CFD258CF7EE00D1BA10 /* GYStoreRequest.h */,
 				817A1CFE258CF7EE00D1BA10 /* GYStoreRequest.m */,
+				818880BD27171E1F00128A10 /* GYPaywallViewController+Private.h */,
 				811F322D2631CC6C00777020 /* Glassfy+Private.h */,
 				81A7064425ACADB200169564 /* GYSku+Private.h */,
 				8161C49E2594DF87009CA563 /* GYTransaction+Private.h */,
@@ -319,6 +338,8 @@
 				811BCDDE2608DA90007742D9 /* GYSysInfo.m */,
 				8179458E26565E32000EAA47 /* GYUtils.h */,
 				8179458F26565E32000EAA47 /* GYUtils.m */,
+				81B49B532729A31C000BDDA1 /* GYFormatter.h */,
+				81B49B542729A31C000BDDA1 /* GYFormatter.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -351,10 +372,13 @@
 				817A1CF5258CF63600D1BA10 /* GYAPIManager.h in Headers */,
 				817A1CE7258CF46600D1BA10 /* GYCacheManager.h in Headers */,
 				81E1DC3225933FC7003B5EBD /* SKPayment+GYEncode.h in Headers */,
+				818880BC27171DA900128A10 /* GYPaywallViewController.h in Headers */,
 				8138BA9B25924C8F005CB44E /* SKProductDiscount+GYEncode.h in Headers */,
 				81C684652602633500223D3E /* GYAPISignatureResponse.h in Headers */,
 				811F31B726317ECD00777020 /* GYPermission+Private.h in Headers */,
 				811F31A826317EBB00777020 /* GYOfferings+Private.h in Headers */,
+				818880B52717153A00128A10 /* GYAPIPaywallResponse.h in Headers */,
+				81B49B552729A31C000BDDA1 /* GYFormatter.h in Headers */,
 				811F31BC26317ED300777020 /* GYTransaction+Private.h in Headers */,
 				816EF29026611CF700513FB1 /* GYUserProperties+Private.h in Headers */,
 				811F31B226317EC800777020 /* GYOffering+Private.h in Headers */,
@@ -378,6 +402,7 @@
 				81951CDE26443FB8003901F1 /* GYPermissions.h in Headers */,
 				8138BAA225924CB4005CB44E /* SKPaymentTransaction+GYEncode.h in Headers */,
 				8138BA5F25923E78005CB44E /* GYCodableProtocol.h in Headers */,
+				818880BE27171E1F00128A10 /* GYPaywallViewController+Private.h in Headers */,
 				81951CDB26443FAA003901F1 /* GYSku.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,7 +453,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					8168309E258B6D9C00565968 = {
 						CreatedOnToolsVersion = 12.3;
@@ -499,12 +524,15 @@
 				817A1CE8258CF46600D1BA10 /* GYCacheManager.m in Sources */,
 				810F6FB425E50CFF00D3009E /* GYOfferings.m in Sources */,
 				817A1D00258CF7EE00D1BA10 /* GYStoreRequest.m in Sources */,
+				818880BA27171D7A00128A10 /* GYPaywallViewController.m in Sources */,
+				818880B62717153A00128A10 /* GYAPIPaywallResponse.m in Sources */,
 				817A1CF6258CF63600D1BA10 /* GYAPIManager.m in Sources */,
 				81EFB54525A772D900706FCB /* GYAPIPermissionsResponse.m in Sources */,
 				8138BAA925924CDF005CB44E /* SKPaymentDiscount+GYEncode.m in Sources */,
 				816EF28A2661161200513FB1 /* GYUserProperties.m in Sources */,
 				8138BAB325924D0A005CB44E /* SKProductSubscriptionPeriod+GYEncode.m in Sources */,
 				817A1C76258CE0A200D1BA10 /* Glassfy.m in Sources */,
+				81B49B562729A31C000BDDA1 /* GYFormatter.m in Sources */,
 				816EF28E26611C5900513FB1 /* GYAPIPropertiesResponse.m in Sources */,
 				81EFB54B25A772F200706FCB /* GYPermission.m in Sources */,
 				81010F2A2590C1AB00B07DE4 /* GYAPIOfferingsResponse.m in Sources */,
@@ -657,6 +685,7 @@
 		816830A8258B6D9C00565968 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -672,7 +701,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.8;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -684,6 +713,7 @@
 		816830A9258B6D9C00565968 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -699,7 +729,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.8;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

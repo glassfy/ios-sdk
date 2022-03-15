@@ -7,6 +7,7 @@
 
 #import "GYOffering.h"
 #import "GYCodableProtocol.h"
+@class SKProduct;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 // @property(nonatomic, nullable, strong) NSString *name;
 @property(nonatomic, strong) NSString *offeringId;
 @property(nonatomic, strong) NSArray<GYSku*> *skus;
+
+- (void)matchSkusWithProducts:(NSArray<SKProduct*> *)products;
 @end
 
 NS_ASSUME_NONNULL_END

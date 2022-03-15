@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.1.8";
+    return @"1.2.0";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -143,6 +143,13 @@
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager getUserProperties:block];
+    });
+}
+
++ (void)paywallWithId:(NSString *)paywallid completion:(GYPaywallCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager getPaywall:paywallid completion:block];
     });
 }
 

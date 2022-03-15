@@ -16,6 +16,7 @@
 #import <Glassfy/GYPermissions.h>
 #import <Glassfy/GYOfferings.h>
 #import <Glassfy/GYUserProperties.h>
+#import <Glassfy/GYPaywallViewController.h>
 
 #import <Glassfy/GYTypes.h>
 #import <Glassfy/GYError.h>
@@ -28,6 +29,7 @@
 #import "GYPermissions.h"
 #import "GYOfferings.h"
 #import "GYUserProperties.h"
+#import "GYPaywallViewController.h"
 
 #import "GYTypes.h"
 #import "GYError.h"
@@ -193,6 +195,14 @@ Save extra user properties
  @param delegate implementing GYPurchaseDelegate protocol
  */
 + (void)setPurchaseDelegate:(id<GYPurchaseDelegate> _Nullable)delegate;
+
+/**
+ Initialize a ViewController to show paywall
+ 
+ @param paywallid Paywall identifier
+ @param block Completion block
+ */
++ (void)paywallWithId:(NSString *)paywallid completion:(GYPaywallCompletion)block API_UNAVAILABLE(macos, watchos) NS_SWIFT_NAME(paywall(id:completion:));
 
 
 /// Deprecations

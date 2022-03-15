@@ -61,4 +61,9 @@ NSErrorDomain const GYErrorDomain = @"GYErrorDomain";
     return [NSError errorWithDomain:GYErrorDomain code:code userInfo:description ? @{NSLocalizedDescriptionKey:description} : nil];
 }
 
++ (NSError *)notSupported
+{
+    return [NSError errorWithDomain:GYErrorDomain code:GYErrorCodeAPINotSupported userInfo:@{NSLocalizedDescriptionKey:@"API not supported on this platform"}];
+}
+
 @end

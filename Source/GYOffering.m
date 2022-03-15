@@ -56,6 +56,11 @@
     return self;
 }
 
+- (void)matchSkusWithProducts:(NSArray<SKProduct*> *)products
+{
+    self.skus = [GYSku matchSkus:self.skus withProducts:products];
+}
+
 @end
 
 

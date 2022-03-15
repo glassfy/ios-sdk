@@ -22,6 +22,7 @@
 #import "GYPermissions+Private.h"
 #import "GYOfferings+Private.h"
 #import "GYUserProperties+Private.h"
+#import "GYPaywallViewController+Private.h"
 #import "Glassfy+Private.h"
 #import "GYSysInfo.h"
 
@@ -319,6 +320,35 @@
         }
     }];
 }
+
+- (void)getPaywall:(NSString *)paywallId completion:(GYPaywallCompletion)block
+{
+    NSString *lang = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
+    [self.api getPaywall:paywallId locale:lang completion:^(GYAPIPaywallResponse *res, NSError *paywallErr) {
+        [self.store productWithSkus:res.skus completion:^(NSArray<SKProduct *> *products, NSError *storeErr) {
+            res.skus = [GYSku matchSkus:res.skus withProducts:products ?: @[]];
+            
+            typeof(block) __strong completion = block;
+            if (completion) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+#if TARGET_OS_IPHONE
+
+                    NSError *err = paywallErr ?: storeErr;
+                    GYPaywallViewController *vc = nil;
+                    if (!err) {
+                        vc = [GYPaywallViewController paywallWithResponse:res];
+                    }
+                    
+                    err ? completion(nil, err) : completion(vc, nil);
+#else
+                    completion(nil, GYError.notSupported);
+#endif
+                });
+            }
+        }];
+    }];
+}
+
 
 #pragma mark - Notification
 

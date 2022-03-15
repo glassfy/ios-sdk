@@ -335,6 +335,22 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     [self callApiWithRequest:req response:GYAPIPropertiesResponse.class completion:block];
 }
 
+- (void)getPaywall:(NSString *)paywallId locale:(NSString *)locale completion:(GYGetPaywallCompletion _Nullable)block
+{
+    NSURLComponents *url = [self baseURLV0];
+    url.path = [url.path stringByAppendingPathComponent:@"paywall"];
+    
+    NSMutableArray<NSURLQueryItem*> *queryItems = [(url.queryItems ?: @[]) mutableCopy];
+    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"identifier" value:paywallId]];
+    if (locale) {
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:@"locale" value:locale]];
+    }
+    url.queryItems = queryItems;
+
+    NSURLRequest *req = [self authorizedRequestWithComponents:url];
+    [self callApiWithRequest:req response:GYAPIPaywallResponse.class completion:block];
+}
+
 #pragma mark - private
 
 - (NSMutableURLRequest *_Nullable)authorizedRequestWithComponents:(NSURLComponents *)urlComponents
