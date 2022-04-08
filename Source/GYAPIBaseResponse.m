@@ -15,7 +15,7 @@
         NSDictionary *err = obj[@"error"];
         if ([err isKindOfClass:NSDictionary.class]) {
             NSInteger errorCode = [err[@"code"] integerValue];
-            if (errorCode < GYErrorCodeInvalidAPIToken || errorCode > GYErrorCodeInvalidFieldNameError) {
+            if (errorCode < GYErrorCodeInvalidAPIToken) {
                 errorCode = GYErrorCodeUnknow;
             }
             NSString *description;

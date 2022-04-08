@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Glassfy"
-  s.version          = "1.2.0"
+  s.version          = "1.3.0-beta.0"
   s.summary          = "Subscription and in-app-purchase service."
   s.license          =  { :type => 'MIT', :file => 'LICENSE' }
   s.source           = { :git => "https://github.com/glassfy/ios-sdk.git", :tag => s.version.to_s }

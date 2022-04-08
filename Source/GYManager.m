@@ -12,10 +12,10 @@
 #import "GYAPIManager.h"
 #import "GYStoreRequest.h"
 #import "GYOffering.h"
-#import "GYSku+Private.h"
 #import "GYLogger.h"
 #import "GYError.h"
 #import "GYTypes.h"
+#import "GYSku+Private.h"
 #import "GYPermission+Private.h"
 #import "GYTransaction+Private.h"
 #import "GYOffering+Private.h"
@@ -349,6 +349,29 @@
     }];
 }
 
+- (void)connectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block
+{
+    [self.api postConnectPaddleLicenseKey:licenseKey force:force completion:^(GYAPIBaseResponse *res, NSError *err) {
+        typeof(block) __strong completion = block;
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(err);
+            });
+        }
+    }];
+}
+
+- (void)connectCustomSubscriber:(NSString *_Nullable)customId completion:(GYErrorCompletion)block
+{
+    [self.api postConnectUser:customId completion:^(GYAPIBaseResponse *res, NSError *err) {
+        typeof(block) __strong completion = block;
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(err);
+            });
+        }
+    }];
+}
 
 #pragma mark - Notification
 
@@ -741,5 +764,6 @@
         }
     }];
 }
+
 
 @end

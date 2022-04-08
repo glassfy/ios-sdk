@@ -17,6 +17,7 @@
 #import "GYLogger.h"
 #import "GYCacheManager.h"
 #import "GYUtils.h"
+#import "GYPlatform.h"
 
 #define BASE_URL @"https://api.glassfy.io"
 
@@ -312,6 +313,77 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     if (err) {
         dispatch_async(Glassfy.shared.glqueue, ^{
             GYPropertyCompletion completion = block;
+            if (completion) {
+                completion(nil, err);
+            }
+        });
+        return;
+    }
+    
+    NSMutableURLRequest *req = [self authorizedRequestWithComponents:url];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [req setHTTPMethod:@"POST"];
+    [req setHTTPBody:body];
+    [self callApiWithRequest:req response:GYAPIBaseResponse.class completion:block];
+}
+
+- (void)postConnectUser:(NSString *_Nullable)customId
+             completion:(GYPlatformCompletion _Nullable)block
+{
+    NSURLComponents *url = [self baseURLV0];
+    url.path = [url.path stringByAppendingPathComponent:@"connect"];
+        
+    NSDictionary *bodyEncoded = @{@"customid": customId ?: NSNull.null};
+    
+    NSError *err;
+    NSData *body;
+    if (![NSJSONSerialization isValidJSONObject:bodyEncoded]) {
+        err = GYError.encodeData;
+    }
+    else {
+        body = [NSJSONSerialization dataWithJSONObject:bodyEncoded options:kNilOptions error:&err];
+    }
+    if (err) {
+        dispatch_async(Glassfy.shared.glqueue, ^{
+            GYLoginCompletion completion = block;
+            if (completion) {
+                completion(nil, err);
+            }
+        });
+        return;
+    }
+    
+    NSMutableURLRequest *req = [self authorizedRequestWithComponents:url];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [req setHTTPMethod:@"POST"];
+    [req setHTTPBody:body];
+    [self callApiWithRequest:req response:GYAPIBaseResponse.class completion:block];
+}
+
+- (void)postConnectPaddleLicenseKey:(NSString *)licenseKey
+                                  force:(BOOL)force
+                             completion:(GYPlatformCompletion _Nullable)block
+{
+    NSURLComponents *url = [self baseURLV0];
+    url.path = [url.path stringByAppendingPathComponent:@"connect"];
+        
+    NSDictionary *bodyEncoded = @{
+        @"store": GYPlatformTypePaddle,
+        @"licensekey": licenseKey,
+        @"force": [NSNumber numberWithBool:force]
+    };
+    
+    NSError *err;
+    NSData *body;
+    if (![NSJSONSerialization isValidJSONObject:bodyEncoded]) {
+        err = GYError.encodeData;
+    }
+    else {
+        body = [NSJSONSerialization dataWithJSONObject:bodyEncoded options:kNilOptions error:&err];
+    }
+    if (err) {
+        dispatch_async(Glassfy.shared.glqueue, ^{
+            GYLoginCompletion completion = block;
             if (completion) {
                 completion(nil, err);
             }

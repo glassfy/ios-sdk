@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.2.0";
+    return @"1.3.0-beta.0";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -164,6 +164,25 @@
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager setPurchaseDelegate:delegate];
+    });
+}
+
++ (void)connectPaddleLicenseKey:(NSString *_Nullable)licenseKey completion:(GYErrorCompletion)block
+{
+    [self connectPaddleLicenseKey:licenseKey force:NO completion:block];
+}
+
++ (void)connectPaddleLicenseKey:(NSString *_Nullable)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager connectPaddleLicenseKey:licenseKey force:force completion:block];
+    });
+}
+
++ (void)connectCustomSubscriber:(NSString *_Nullable)customId completion:(GYErrorCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager connectCustomSubscriber:customId completion:block];
     });
 }
 

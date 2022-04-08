@@ -204,6 +204,32 @@ Save extra user properties
  */
 + (void)paywallWithId:(NSString *)paywallid completion:(GYPaywallCompletion)block API_UNAVAILABLE(macos, watchos) NS_SWIFT_NAME(paywall(id:completion:));
 
+/**
+ Connect paddle license key
+ 
+ @param licenseKey Paddle license key
+ @param block Completion block
+ @note  Check error code in GYDomain - GYErrorCodeLicenseAlreadyConnected, GYErrorCodeLicenseNotFound to handle those cases
+ */
++ (void)connectPaddleLicenseKey:(NSString *_Nullable)licenseKey completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectPaddle(licenseKey:completion:));
+
+/**
+ Connect paddle license key
+ 
+ @param licenseKey Paddle license key
+ @param force Disconnect license from other subscriber(s) and connect with current subscriber
+ @param block Completion block
+ @note  Check error code in GYDomain - GYErrorCodeLicenseAlreadyConnected, GYErrorCodeLicenseInvalid to handle those cases
+ */
++ (void)connectPaddleLicenseKey:(NSString *_Nullable)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectPaddle(licenseKey:force:completion:));
+
+/**
+ Connect custom subscriber
+ 
+ @param customId Custom subscriber id
+ @param block Completion block
+ */
++ (void)connectCustomSubscriber:(NSString *_Nullable)customId completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectCustomSubscriber(_:completion:));
 
 /// Deprecations
 + (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block NS_SWIFT_NAME(sku(identifier:completion:)) __attribute__((deprecated("Renamed to +skuWithId:completion:")));

@@ -36,6 +36,8 @@ typedef NS_ERROR_ENUM(GYErrorDomain, GYErrorCode) {
     GYErrorCodeAppleReceiptStatusError  = 1011,
     GYErrorCodeInvalidFieldValueError   = 1012,
     GYErrorCodeInvalidFieldNameError    = 1013,
+    GYErrorCodeLicenseAlreadyConnected  = 1050,
+    GYErrorCodeLicenseNotFound          = 1051,
     GYErrorCodeUnknow                   = -1
 } NS_SWIFT_NAME(Glassfy.ErrorCode);
 

@@ -32,6 +32,7 @@ typedef GYBaseCompletion GYProductsCompletion;
 typedef GYBaseCompletion GYLogoutCompletion;
 typedef GYBaseCompletion GYLoginCompletion;
 typedef GYBaseCompletion GYPropertyCompletion;
+typedef GYBaseCompletion GYPlatformCompletion;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -61,6 +62,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)postProperty:(GYUserPropertyType)property obj:(id _Nullable)obj completion:(GYPropertyCompletion _Nullable)block;
 - (void)getPropertiesWithCompletion:(GYGetPropertiesCompletion _Nullable)block;
+
+- (void)postConnectUser:(NSString *_Nullable)customId completion:(GYPlatformCompletion _Nullable)block;
+- (void)postConnectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYPlatformCompletion _Nullable)block;
 
 - (void)getSignatureForProductId:(NSString *)productId offerId:(NSString *)offerId completion:(GYGetSignatureCompletion _Nullable)block;
 

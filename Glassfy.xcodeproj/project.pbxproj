@@ -36,6 +36,7 @@
 		8138BAB325924D0A005CB44E /* SKProductSubscriptionPeriod+GYEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8138BAB125924D0A005CB44E /* SKProductSubscriptionPeriod+GYEncode.m */; };
 		8161C42825948D82009CA563 /* GYError.m in Sources */ = {isa = PBXBuildFile; fileRef = 8161C42625948D82009CA563 /* GYError.m */; };
 		8161C4992594DD2F009CA563 /* GYTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8161C4972594DD2F009CA563 /* GYTransaction.m */; };
+		8168224727F1DC5E002B9857 /* GYPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = 8168224627F1DB5E002B9857 /* GYPlatform.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		816830B8258B6EE400565968 /* GYManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 816830B6258B6EE400565968 /* GYManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		816830B9258B6EE400565968 /* GYManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 816830B7258B6EE400565968 /* GYManager.m */; };
 		816EF28A2661161200513FB1 /* GYUserProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 816EF2882661161200513FB1 /* GYUserProperties.m */; };
@@ -125,6 +126,7 @@
 		8161C42625948D82009CA563 /* GYError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYError.m; sourceTree = "<group>"; };
 		8161C4972594DD2F009CA563 /* GYTransaction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GYTransaction.m; sourceTree = "<group>"; };
 		8161C49E2594DF87009CA563 /* GYTransaction+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GYTransaction+Private.h"; sourceTree = "<group>"; };
+		8168224627F1DB5E002B9857 /* GYPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GYPlatform.h; sourceTree = "<group>"; };
 		8168309F258B6D9C00565968 /* Glassfy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Glassfy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		816830A3258B6D9C00565968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		816830B6258B6EE400565968 /* GYManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GYManager.h; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				81C2816825E3F6AC0048189D /* GYPermissions+Private.h */,
 				810F6FB725E50D2000D3009E /* GYOfferings+Private.h */,
 				816EF28F26611CF100513FB1 /* GYUserProperties+Private.h */,
+				8168224627F1DB5E002B9857 /* GYPlatform.h */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				811F31A826317EBB00777020 /* GYOfferings+Private.h in Headers */,
 				818880B52717153A00128A10 /* GYAPIPaywallResponse.h in Headers */,
 				81B49B552729A31C000BDDA1 /* GYFormatter.h in Headers */,
+				8168224727F1DC5E002B9857 /* GYPlatform.h in Headers */,
 				811F31BC26317ED300777020 /* GYTransaction+Private.h in Headers */,
 				816EF29026611CF700513FB1 /* GYUserProperties+Private.h in Headers */,
 				811F31B226317EC800777020 /* GYOffering+Private.h in Headers */,
@@ -701,7 +705,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0-beta.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -729,7 +733,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0-beta.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.glassfy.sdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
