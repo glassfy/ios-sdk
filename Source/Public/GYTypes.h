@@ -14,6 +14,7 @@
 @class GYPermissions;
 @class GYOfferings;
 @class GYUserProperties;
+@class GYPlatformsInfo;
 @class GYSku;
 @class GYPaywallViewController;
 
@@ -26,6 +27,7 @@ typedef void(^GYPermissionsCompletion)(GYPermissions* _Nullable, NSError* _Nulla
 typedef void(^GYBooleanCompletion)(BOOL, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.BooleanCompletion);
 typedef void(^GYErrorCompletion)(NSError* _Nullable) NS_SWIFT_NAME(Glassfy.ErrorCompletion);
 typedef void(^GYUserPropertiesCompletion)(GYUserProperties* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.UserPropertiesCompletion);
+typedef void(^GYPlatformCompletion)(GYPlatformsInfo* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PlatformCompletion);
 typedef void(^GYPaywallCompletion)(GYPaywallViewController* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaywallCompletion);
 typedef void(^GYPaywallCloseBlock)(GYTransaction* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaywallCloseBlock);
 typedef void(^GYPaywallLinkBlock)(NSURL*) NS_SWIFT_NAME(Glassfy.PaywallLinkBlock);
@@ -86,6 +88,12 @@ typedef NS_ENUM(NSUInteger, GYLogLevel) {
     GYLogLevelInfo  = (GYLogLevelDebug | GYLogFlagInfo),
     GYLogLevelAll   = NSUIntegerMax
 } NS_SWIFT_NAME(Glassfy.LogLevel);
+
+typedef NS_ENUM(NSUInteger, GYPlatform) {
+    GYPlatformIos = 1,
+    GYPlatformAndroid = 2,
+    GYPlatformPaddle = 3
+} NS_SWIFT_NAME(Glassfy.Platform);
 
 NS_ASSUME_NONNULL_END
 

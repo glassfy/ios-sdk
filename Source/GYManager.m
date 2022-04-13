@@ -23,6 +23,7 @@
 #import "GYOfferings+Private.h"
 #import "GYUserProperties+Private.h"
 #import "GYPaywallViewController+Private.h"
+#import "GYPlatformsInfo+Private.h"
 #import "Glassfy+Private.h"
 #import "GYSysInfo.h"
 
@@ -368,6 +369,20 @@
         if (completion) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completion(err);
+            });
+        }
+    }];
+}
+
+- (void)platformInfo:(GYPlatformCompletion)block
+{
+    [self.api getPlatformInfoWithCompletion:^(GYAPIPlatformInfoResponse *res, NSError *err) {
+        GYPlatformsInfo *platformsInfo = [GYPlatformsInfo platformsInfoWithResponse:res];
+        
+        typeof(block) __strong completion = block;
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                err ? completion(nil, err) : completion(platformsInfo, nil);
             });
         }
     }];

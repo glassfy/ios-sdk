@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.3.0-beta.0";
+    return @"1.3.0-beta.1";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -167,12 +167,12 @@
     });
 }
 
-+ (void)connectPaddleLicenseKey:(NSString *_Nullable)licenseKey completion:(GYErrorCompletion)block
++ (void)connectPaddleLicenseKey:(NSString *)licenseKey completion:(GYErrorCompletion)block
 {
     [self connectPaddleLicenseKey:licenseKey force:NO completion:block];
 }
 
-+ (void)connectPaddleLicenseKey:(NSString *_Nullable)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block
++ (void)connectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager connectPaddleLicenseKey:licenseKey force:force completion:block];
@@ -186,6 +186,12 @@
     });
 }
 
++ (void)platformInfo:(GYPlatformCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager platformInfo:block];
+    });
+}
 
 #pragma mark - Deprecations
 

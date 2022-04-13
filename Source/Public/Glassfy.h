@@ -21,6 +21,8 @@
 #import <Glassfy/GYTypes.h>
 #import <Glassfy/GYError.h>
 #import <Glassfy/GYPurchaseDelegate.h>
+#import <Glassfy/GYPlatformsInfo.h>
+#import <Glassfy/GYPlatformInfoPaddle.h>
 #else
 #import "GYSku.h"
 #import "GYOffering.h"
@@ -34,6 +36,8 @@
 #import "GYTypes.h"
 #import "GYError.h"
 #import "GYPurchaseDelegate.h"
+#import "GYPlatformsInfo.h"
+#import "GYPlatformInfoPaddle.h"
 #endif
 
 
@@ -70,21 +74,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param watcherMode Take advantage of our charts and stats without change your existing code
  */
 + (void)initializeWithAPIKey:(NSString *)apiKey watcherMode:(BOOL)watcherMode NS_SWIFT_NAME(initialize(apiKey:watcherMode:));
-
-/**
- Customize User Identifier to identify user across devices
- 
- @param userId UserId to identify user across devices. Passing nil is equivalent to call logout API
- @param block Completion block called after login
- */
-+ (void)loginUser:(NSString *_Nullable)userId withCompletion:(GYErrorCompletion _Nullable)block NS_SWIFT_NAME(login(user:completion:));
-
-/**
- Remove associations between user and userID
- 
- @param block Completion block called after log out
- */
-+ (void)logoutWithCompletion:(GYErrorCompletion _Nullable)block NS_SWIFT_NAME(logout(completion:));
 
 /**
  Chek permissions status of the user
@@ -211,7 +200,7 @@ Save extra user properties
  @param block Completion block
  @note  Check error code in GYDomain - GYErrorCodeLicenseAlreadyConnected, GYErrorCodeLicenseNotFound to handle those cases
  */
-+ (void)connectPaddleLicenseKey:(NSString *_Nullable)licenseKey completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectPaddle(licenseKey:completion:));
++ (void)connectPaddleLicenseKey:(NSString *)licenseKey completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectPaddle(licenseKey:completion:));
 
 /**
  Connect paddle license key
@@ -221,7 +210,7 @@ Save extra user properties
  @param block Completion block
  @note  Check error code in GYDomain - GYErrorCodeLicenseAlreadyConnected, GYErrorCodeLicenseInvalid to handle those cases
  */
-+ (void)connectPaddleLicenseKey:(NSString *_Nullable)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectPaddle(licenseKey:force:completion:));
++ (void)connectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectPaddle(licenseKey:force:completion:));
 
 /**
  Connect custom subscriber
@@ -231,8 +220,30 @@ Save extra user properties
  */
 + (void)connectCustomSubscriber:(NSString *_Nullable)customId completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectCustomSubscriber(_:completion:));
 
+/**
+ Info about user connected platforms
+ 
+ @param block Completion block
+ */
++ (void)platformInfo:(GYPlatformCompletion)block NS_SWIFT_NAME(platformInfo(completion:));
+
+
 /// Deprecations
+
+/**
+@warning Deprecated in favour of `+skuWithId:completion:`
+*/
 + (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block NS_SWIFT_NAME(sku(identifier:completion:)) __attribute__((deprecated("Renamed to +skuWithId:completion:")));
+
+/**
+ @warning Deprecated in favour of `+connectCustomSubscriber:completion:`
+ */
++ (void)loginUser:(NSString *_Nullable)userId withCompletion:(GYErrorCompletion _Nullable)block NS_SWIFT_NAME(login(user:completion:)) __attribute__((deprecated()));
+
+/**
+ @warning Deprecated in favour of `+connectCustomSubscriber:completion:`
+ */
++ (void)logoutWithCompletion:(GYErrorCompletion _Nullable)block NS_SWIFT_NAME(logout(completion:)) __attribute__((deprecated()));
 @end
 
 NS_ASSUME_NONNULL_END

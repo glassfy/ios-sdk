@@ -15,6 +15,7 @@
 #import "GYAPIPropertiesResponse.h"
 #import "GYAPISkuResponse.h"
 #import "GYAPIPaywallResponse.h"
+#import "GYAPIPlatformInfoResponse.h"
 @class SKProduct;
 @class SKPaymentTransaction;
 @class GYCacheManager;
@@ -27,12 +28,13 @@ typedef void(^GYGetPropertiesCompletion)(GYAPIPropertiesResponse* _Nullable, NSE
 typedef void(^GYGetPaywallCompletion)(GYAPIPaywallResponse* _Nullable, NSError* _Nullable);
 typedef void(^GYGetSkuCompletion)(GYAPISkuResponse* _Nullable, NSError* _Nullable);
 typedef void(^GYBaseCompletion)(GYAPIBaseResponse* _Nullable, NSError* _Nullable);
+typedef void(^GYGetPlatformInfo)(GYAPIPlatformInfoResponse* _Nullable, NSError* _Nullable);
 
 typedef GYBaseCompletion GYProductsCompletion;
 typedef GYBaseCompletion GYLogoutCompletion;
 typedef GYBaseCompletion GYLoginCompletion;
 typedef GYBaseCompletion GYPropertyCompletion;
-typedef GYBaseCompletion GYPlatformCompletion;
+typedef GYBaseCompletion GYGetConnectCompletion;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -63,8 +65,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)postProperty:(GYUserPropertyType)property obj:(id _Nullable)obj completion:(GYPropertyCompletion _Nullable)block;
 - (void)getPropertiesWithCompletion:(GYGetPropertiesCompletion _Nullable)block;
 
-- (void)postConnectUser:(NSString *_Nullable)customId completion:(GYPlatformCompletion _Nullable)block;
-- (void)postConnectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYPlatformCompletion _Nullable)block;
+- (void)postConnectUser:(NSString *_Nullable)customId completion:(GYGetConnectCompletion _Nullable)block;
+- (void)postConnectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYGetConnectCompletion _Nullable)block;
+
+- (void)getPlatformInfoWithCompletion:(GYGetPlatformInfo _Nullable)block;
 
 - (void)getSignatureForProductId:(NSString *)productId offerId:(NSString *)offerId completion:(GYGetSignatureCompletion _Nullable)block;
 

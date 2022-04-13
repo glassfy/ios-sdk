@@ -17,7 +17,6 @@
 #import "GYLogger.h"
 #import "GYCacheManager.h"
 #import "GYUtils.h"
-#import "GYPlatform.h"
 
 #define BASE_URL @"https://api.glassfy.io"
 
@@ -328,7 +327,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 }
 
 - (void)postConnectUser:(NSString *_Nullable)customId
-             completion:(GYPlatformCompletion _Nullable)block
+             completion:(GYGetConnectCompletion _Nullable)block
 {
     NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"connect"];
@@ -361,14 +360,14 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 }
 
 - (void)postConnectPaddleLicenseKey:(NSString *)licenseKey
-                                  force:(BOOL)force
-                             completion:(GYPlatformCompletion _Nullable)block
+                              force:(BOOL)force
+                         completion:(GYGetConnectCompletion _Nullable)block
 {
     NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"connect"];
         
     NSDictionary *bodyEncoded = @{
-        @"store": GYPlatformTypePaddle,
+        @"store": @(GYPlatformPaddle),
         @"licensekey": licenseKey,
         @"force": [NSNumber numberWithBool:force]
     };
@@ -396,6 +395,16 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     [req setHTTPMethod:@"POST"];
     [req setHTTPBody:body];
     [self callApiWithRequest:req response:GYAPIBaseResponse.class completion:block];
+}
+
+
+- (void)getPlatformInfoWithCompletion:(GYGetPlatformInfo _Nullable)block
+{
+    NSURLComponents *url = [self baseURLV0];
+    url.path = [url.path stringByAppendingPathComponent:@"platforminfo"];
+    
+    NSURLRequest *req = [self authorizedRequestWithComponents:url];
+    [self callApiWithRequest:req response:GYAPIPlatformInfoResponse.class completion:block];
 }
 
 - (void)getPropertiesWithCompletion:(GYGetPropertiesCompletion _Nullable)block
