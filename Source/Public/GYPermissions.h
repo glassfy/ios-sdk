@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(Glassfy.Permissions)
 @interface GYPermissions : NSObject
-@property(nonatomic, readonly) NSArray<GYPermission *> *all;
+@property(nonatomic, readonly) NSArray<GYPermission*> *all;
 
 @property(nullable, nonatomic, readonly) NSString *originalApplicationVersion;
 @property(nullable, nonatomic, readonly) NSDate *originalApplicationDate;

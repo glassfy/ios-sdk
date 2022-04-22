@@ -15,7 +15,7 @@
 
 @implementation GYOfferings (Private)
 
-+ (instancetype)offeringsWithOffers:(NSArray<GYOffering *> *)offerings products:(NSArray<SKProduct *> *)products
++ (instancetype)offeringsWithOffers:(NSArray<GYOffering*> *)offerings products:(NSArray<SKProduct*> *)products
 {
     GYOfferings *offers = [[self alloc] init];
     offers.all = [NSArray arrayWithArray:offerings];

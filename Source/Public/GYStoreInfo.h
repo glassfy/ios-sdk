@@ -1,5 +1,5 @@
 //
-//  GYPlatformsInfo.h
+//  GYStoreInfo.h
 //  Glassfy
 //
 //  Created by Luca Garbolino on 12/04/22.
@@ -11,15 +11,13 @@
 #else
 #import "GYTypes.h"
 #endif
-@class GYPlatformInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(Glassfy.PlatformsInfo)
-@interface GYPlatformsInfo : NSObject
-@property(nonatomic, readonly) NSArray<GYPlatformInfo *> *all;
-
-- (NSArray<GYPlatformInfo *> *)filter:(GYPlatform)type;
+NS_SWIFT_NAME(Glassfy.StoreInfo)
+@interface GYStoreInfo : NSObject
+@property(nonatomic, readonly) GYStore store;
+@property(nonatomic, readonly) NSDictionary *rawInfo;
 @end
 
 NS_ASSUME_NONNULL_END

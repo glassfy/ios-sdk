@@ -6,12 +6,13 @@
 //
 
 #import "GYPermission.h"
+#import "GYSkuBase.h"
 
 @interface GYPermission()
 @property(nonatomic, readwrite, strong) NSString *permissionId;
 @property(nonatomic, assign) GYEntitlement entitlement;
 @property(nonatomic, readwrite, strong) NSDate *expireDate;
-@property(nonatomic, readwrite, strong) NSSet<NSString*> *accountableSkus;
+@property(nonatomic, readwrite, strong) NSSet<GYSkuBase*> *accountableSkus;
 @end
 
 @implementation GYPermission (Private)
@@ -19,13 +20,13 @@
 + (instancetype)permissionWithIdentifier:(NSString *)identifier
                              entitlement:(GYEntitlement)entitlement
                                   expire:(NSDate *)date
-                         accountableSkus:(NSSet<NSString*> *)skuIds
+                         accountableSkus:(NSSet<GYSkuBase*> *)accountableSkus
 {
     GYPermission *permission = [[self alloc] init];
     permission.permissionId = identifier;
     permission.entitlement = entitlement;
     permission.expireDate = date;
-    permission.accountableSkus = skuIds;
+    permission.accountableSkus = accountableSkus;
     return permission;
 }
 

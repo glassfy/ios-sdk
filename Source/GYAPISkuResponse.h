@@ -7,12 +7,12 @@
 
 #import <Foundation/Foundation.h>
 #import "GYAPIBaseResponse.h"
-@class GYSku;
+@class GYSkuBase;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GYAPISkuResponse : GYAPIBaseResponse
-@property(nonatomic, strong) GYSku *sku;
+@property(nonatomic, strong) GYSkuBase *sku;
 @end
 
 NS_ASSUME_NONNULL_END

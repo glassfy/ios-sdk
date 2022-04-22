@@ -41,7 +41,7 @@ typedef void (^GYProductResponseHandler)(SKProductsResponse* _Nullable, NSError*
 
 #pragma mark - public
 
-- (void)productWithOfferings:(NSArray<GYOffering *> *)offerings completion:(GYStoreProductsCompletion)block
+- (void)productWithOfferings:(NSArray<GYOffering*> *)offerings completion:(GYStoreProductsCompletion)block
 {
     NSMutableSet *productIds = [NSMutableSet set];
     for (GYOffering *o in offerings) {
@@ -52,7 +52,7 @@ typedef void (^GYProductResponseHandler)(SKProductsResponse* _Nullable, NSError*
     [self productWithIdentifiers:productIds completion:block];
 }
 
-- (void)productWithSkus:(NSArray<GYSku *> *)skus completion:(GYStoreProductsCompletion)block
+- (void)productWithSkus:(NSArray<GYSku*> *)skus completion:(GYStoreProductsCompletion)block
 {
     NSMutableSet *productIds = [NSMutableSet set];
     [skus enumerateObjectsUsingBlock:^(GYSku *sku, NSUInteger idx, BOOL *stop) {

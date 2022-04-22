@@ -1,13 +1,13 @@
 //
-//  GYPlatformInfoPaddle.m
+//  GYStoreInfoPaddle.m
 //  Glassfy
 //
 //  Created by Luca Garbolino on 12/04/22.
 //
 
-#import "GYPlatformInfoPaddle.h"
+#import "GYStoreInfoPaddle.h"
 
-@implementation GYPlatformInfoPaddle
+@implementation GYStoreInfoPaddle
 
 - (NSString *)userId
 {

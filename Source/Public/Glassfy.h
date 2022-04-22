@@ -10,6 +10,7 @@
 
 #if __has_include(<Glassfy/GYTypes.h>)
 #import <Glassfy/GYSku.h>
+#import <Glassfy/GYSkuPaddle.h>
 #import <Glassfy/GYOffering.h>
 #import <Glassfy/GYTransaction.h>
 #import <Glassfy/GYPermission.h>
@@ -21,10 +22,11 @@
 #import <Glassfy/GYTypes.h>
 #import <Glassfy/GYError.h>
 #import <Glassfy/GYPurchaseDelegate.h>
-#import <Glassfy/GYPlatformsInfo.h>
-#import <Glassfy/GYPlatformInfoPaddle.h>
+#import <Glassfy/GYStoresInfo.h>
+#import <Glassfy/GYStoreInfoPaddle.h>
 #else
 #import "GYSku.h"
+#import "GYSkuPaddle.h"
 #import "GYOffering.h"
 #import "GYTransaction.h"
 #import "GYPermission.h"
@@ -36,8 +38,8 @@
 #import "GYTypes.h"
 #import "GYError.h"
 #import "GYPurchaseDelegate.h"
-#import "GYPlatformsInfo.h"
-#import "GYPlatformInfoPaddle.h"
+#import "GYStoresInfo.h"
+#import "GYStoreInfoPaddle.h"
 #endif
 
 
@@ -94,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)offeringsWithCompletion:(GYOfferingsCompletion)block;
 
 /**
- Fetch Sku
+ Fetch sku along with appstore info
  
  @note For more details, check the documentation https://docs.glassfy.io/dashboard/configure-products
   
@@ -104,7 +106,18 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)skuWithId:(NSString *)skuid completion:(GYSkuBlock)block NS_SWIFT_NAME(sku(id:completion:));
 
 /**
- Fetch Sku
+ Fetch sku along with store info
+ 
+ @note For more details, check the documentation https://docs.glassfy.io/dashboard/configure-products
+  
+ @param skuid Sku's identifier
+ @param store Store
+ @param block Completion block with result.
+ */
++ (void)skuWithId:(NSString *)skuid store:(GYStore)store completion:(GYSkuBaseCompletion)block NS_SWIFT_NAME(sku(id:store:completion:));
+
+/**
+ Fetch sku along with appstore info
  
  @note For more details, check the documentation https://docs.glassfy.io/dashboard/configure-products
   
@@ -221,11 +234,11 @@ Save extra user properties
 + (void)connectCustomSubscriber:(NSString *_Nullable)customId completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectCustomSubscriber(_:completion:));
 
 /**
- Info about user connected platforms
+ Info about user connected stores
  
  @param block Completion block
  */
-+ (void)platformInfo:(GYPlatformCompletion)block NS_SWIFT_NAME(platformInfo(completion:));
++ (void)storeInfo:(GYStoreCompletion)block NS_SWIFT_NAME(storeInfo(completion:));
 
 
 /// Deprecations

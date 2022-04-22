@@ -7,6 +7,7 @@
 
 #import "GYAPIPermissionsResponse.h"
 #import "GYError.h"
+#import "GYSkuBase+Private.h"
 #import "GYPermission+Private.h"
 
 @implementation GYAPIPermissionsResponse
@@ -37,21 +38,24 @@
                             expireDate = [NSDate dateWithTimeIntervalSince1970:dateJSON.integerValue];
                         }
                         
-                        NSMutableSet<NSString*> *skuIds = [NSMutableSet set];
-                        NSArray *skuidsJSON = permissionJSON[@"skuarray"];
-                        if ([skuidsJSON isKindOfClass:NSArray.class]) {
-                            for (NSString *skuId in skuidsJSON) {
-                                if (![skuId isKindOfClass:NSString.class]) {
+                        NSMutableSet<GYSkuBase*> *accountableSkus = [NSMutableSet set];
+                        NSArray *accountableSkusJSON = permissionJSON[@"skuarray"];
+                        if ([accountableSkusJSON isKindOfClass:NSArray.class]) {
+                            for (NSDictionary *baseSkuJSON in accountableSkusJSON) {
+                                if (![baseSkuJSON isKindOfClass:NSDictionary.class]) {
                                     continue;
                                 }
-                                [skuIds addObject:skuId];
+                                GYSkuBase *baseSku = [[GYSkuBase alloc] initWithObject:baseSkuJSON error:nil];
+                                if (baseSku) {
+                                    [accountableSkus addObject:baseSku];
+                                }
                             }
                         }
                         
                         GYPermission *permission = [GYPermission permissionWithIdentifier:identifier
                                                                               entitlement:entitlementJSON.integerValue
                                                                                    expire:expireDate
-                                                                          accountableSkus:skuIds];
+                                                                          accountableSkus:accountableSkus];
                         [permissions addObject:permission];
                     }
                 }

@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GYUtils : NSObject
 + (NSString *)requestSignature:(NSURLRequest *)req;
++ (NSLocale *_Nullable)localeFromCurrencyCode:(NSString *)code;
 @end
 
 NS_ASSUME_NONNULL_END

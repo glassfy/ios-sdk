@@ -363,7 +363,7 @@
         commonMsg[@"$YEAR"] = [GYFormatter formatUnit:SKProductPeriodUnitYear locale:self.locale];
     }
     
-    NSMutableArray<NSNumber *> *priceCorrections = [NSMutableArray array];
+    NSMutableArray<NSNumber*> *priceCorrections = [NSMutableArray array];
     for (GYSku *s in self.skus) {
         SKProduct *p = s.product;
         

@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)permissionsWithCompletion:(GYPermissionsCompletion)block;
 - (void)offeringsWithCompletion:(GYOfferingsCompletion)block;
 - (void)skuWithId:(NSString *)skuid completion:(GYSkuBlock)block;
+- (void)skuWithId:(NSString *)skuId store:(GYStore)store completion:(GYSkuBaseCompletion)block;
 - (void)skuWithProductId:(NSString *)productid promotionalId:(NSString *_Nullable)promoid completion:(GYSkuBlock)block;
 
 - (void)purchaseSku:(GYSku *)sku completion:(GYPaymentTransactionBlock)block;
@@ -44,7 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)restorePurchasesWithCompletion:(GYPermissionsCompletion)block;
 
-- (void)platformInfo:(GYPlatformCompletion)block;
+- (void)storeInfo:(GYStoreCompletion)block;
+
 @end
 
 NS_ASSUME_NONNULL_END

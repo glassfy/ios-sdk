@@ -10,7 +10,7 @@
 #import "GYAPIPermissionsResponse.h"
 
 @interface GYPermissions()
-@property(nonatomic, readwrite, strong) NSArray<GYPermission *> *all;
+@property(nonatomic, readwrite, strong) NSArray<GYPermission*> *all;
 @property(nonatomic, readwrite, strong) NSString *originalApplicationVersion;
 @property(nonatomic, readwrite, strong) NSDate *originalApplicationDate;
 @property(nonatomic, readwrite, strong) NSString *subscriberId;

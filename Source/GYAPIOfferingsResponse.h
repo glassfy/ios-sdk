@@ -14,7 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GYAPIOfferingsResponse: GYAPIBaseResponse
-@property(nonatomic, strong) NSArray<GYOffering *> *offerings;
+@property(nonatomic, strong) NSArray<GYOffering*> *offerings;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GYAPIInitResponse: GYAPIBaseResponse
-@property(nonatomic, strong) NSArray<GYSku *> *skus;
+@property(nonatomic, strong) NSArray<GYSku*> *skus;
 @property(nonatomic, assign) BOOL hasReceipt;
 @end
 

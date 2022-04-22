@@ -23,7 +23,7 @@
 #import "GYOfferings+Private.h"
 #import "GYUserProperties+Private.h"
 #import "GYPaywallViewController+Private.h"
-#import "GYPlatformsInfo+Private.h"
+#import "GYStoresInfo+Private.h"
 #import "Glassfy+Private.h"
 #import "GYSysInfo.h"
 
@@ -124,7 +124,7 @@
 - (void)offeringsWithCompletion:(GYOfferingsCompletion)block
 {
     [self.api getOfferingsWithCompletion:^(GYAPIOfferingsResponse *res, NSError *apiErr) {
-        [self.store productWithOfferings:res.offerings completion:^(NSArray<SKProduct *> *products, NSError *storeErr) {
+        [self.store productWithOfferings:res.offerings completion:^(NSArray<SKProduct*> *products, NSError *storeErr) {
             GYOfferings *offers = [GYOfferings offeringsWithOffers:res.offerings products:products];
             
             typeof(block) __strong completion = block;
@@ -140,8 +140,8 @@
 
 - (void)skuWithId:(NSString *)skuid completion:(GYSkuBlock)block
 {
-    [self.api getSku:skuid withCompletion:^(GYAPISkuResponse *res, NSError *apiErr) {
-        GYSku *sku = res.sku;
+    [self.api getSkuWithId:skuid store:GYStoreAppStore withCompletion:^(GYAPISkuResponse *res, NSError *apiErr) {
+        GYSku *sku = (GYSku *) res.sku;
         [self.store productWithIdentifier:sku.productId completion:^(SKProduct *product, NSError *storeErr) {
             sku.product = product;
             
@@ -173,7 +173,7 @@
 - (void)skuWithProductId:(NSString *)productid promotionalId:(NSString *)promoid completion:(GYSkuBlock)block
 {
     [self.api getSkuWithProductId:productid promotionalId:promoid withCompletion:^(GYAPISkuResponse *res, NSError *apiErr) {
-        GYSku *sku = res.sku;
+        GYSku *sku = (GYSku *) res.sku;
         [self.store productWithIdentifier:sku.productId completion:^(SKProduct *product, NSError *storeErr) {
             sku.product = product;
             
@@ -199,6 +199,27 @@
                 });
             }
         }];
+    }];
+}
+
+- (void)skuWithId:(NSString *)skuid store:(GYStore)store completion:(GYSkuBaseCompletion)block
+{
+    if (store == GYStoreAppStore) {
+        [self skuWithId:skuid completion:block];
+        return;
+    }
+    
+    [self.api getSkuWithId:skuid store:store withCompletion:^(GYAPISkuResponse *res, NSError *apiErr) {
+        NSError *err = apiErr;
+        if (!res && !err) {
+            err = GYError.storeProductNotFound;
+        }
+        typeof(block) __strong completion = block;
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                err ? completion(nil, err) : completion(res.sku, nil);
+            });
+        }
     }];
 }
 
@@ -326,7 +347,7 @@
 {
     NSString *lang = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
     [self.api getPaywall:paywallId locale:lang completion:^(GYAPIPaywallResponse *res, NSError *paywallErr) {
-        [self.store productWithSkus:res.skus completion:^(NSArray<SKProduct *> *products, NSError *storeErr) {
+        [self.store productWithSkus:res.skus completion:^(NSArray<SKProduct*> *products, NSError *storeErr) {
             res.skus = [GYSku matchSkus:res.skus withProducts:products ?: @[]];
             
             typeof(block) __strong completion = block;
@@ -374,19 +395,20 @@
     }];
 }
 
-- (void)platformInfo:(GYPlatformCompletion)block
+- (void)storeInfo:(GYStoreCompletion)block
 {
-    [self.api getPlatformInfoWithCompletion:^(GYAPIPlatformInfoResponse *res, NSError *err) {
-        GYPlatformsInfo *platformsInfo = [GYPlatformsInfo platformsInfoWithResponse:res];
+    [self.api getStoreInfoWithCompletion:^(GYAPIStoreInfoResponse *res, NSError *err) {
+        GYStoresInfo *storesInfo = [GYStoresInfo storesInfoWithResponse:res];
         
         typeof(block) __strong completion = block;
         if (completion) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                err ? completion(nil, err) : completion(platformsInfo, nil);
+                err ? completion(nil, err) : completion(storesInfo, nil);
             });
         }
     }];
 }
+
 
 #pragma mark - Notification
 
@@ -432,7 +454,7 @@
     return YES;
 }
 
-- (void)paymentQueue:(nonnull SKPaymentQueue *)queue updatedTransactions:(nonnull NSArray<SKPaymentTransaction *> *)transactions
+- (void)paymentQueue:(nonnull SKPaymentQueue *)queue updatedTransactions:(nonnull NSArray<SKPaymentTransaction*> *)transactions
 {
     typeof(self) __weak weakSelf = self;
     dispatch_async(Glassfy.shared.glqueue, ^{
@@ -440,7 +462,7 @@
     });
 }
 
-- (void)handleUpdatedTransactions:(nonnull NSArray<SKPaymentTransaction *> *)transactions
+- (void)handleUpdatedTransactions:(nonnull NSArray<SKPaymentTransaction*> *)transactions
 {
     BOOL restored = NO;
     for (SKPaymentTransaction *transaction in transactions) {
@@ -671,7 +693,7 @@
     
     [self.api getInitWithInfoWithCompletion:^(GYAPIInitResponse *res, NSError *err) {
         BOOL shouldSendReceipt = !res.hasReceipt;
-        [self.store productWithSkus:res.skus completion:^(NSArray<SKProduct *> *products, NSError *err) {
+        [self.store productWithSkus:res.skus completion:^(NSArray<SKProduct*> *products, NSError *err) {
             if (products.count) {
                 [weakSelf.api postProducts:products completion:^(GYAPIBaseResponse *r, NSError *e) {
                     sendReceipt(shouldSendReceipt);

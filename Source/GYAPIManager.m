@@ -93,26 +93,43 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     [self callApiWithRequest:req response:GYAPIInitResponse.class completion:block];
 }
 
-- (void)getSku:(NSString *)skuid withCompletion:(GYGetSkuCompletion)block
+- (void)getSkuWithProductId:(NSString *)productid
+              promotionalId:(NSString *)promoid
+             withCompletion:(GYGetSkuCompletion)block
 {
-    NSURLComponents *url = [self baseURLV0];
-    url.path = [url.path stringByAppendingPathComponent:@"sku"];
-    NSMutableArray<NSURLQueryItem*> *queryItems = [(url.queryItems ?: @[]) mutableCopy];
-    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"identifier" value:skuid]];
-    url.queryItems = queryItems;
-
-    NSURLRequest *req = [self authorizedRequestWithComponents:url];
-    [self callApiWithRequest:req response:GYAPISkuResponse.class completion:block];
+    [self getSkuWithId:nil productId:productid promotionalId:promoid store:GYStoreAppStore withCompletion:block];
 }
 
-- (void)getSkuWithProductId:(NSString *)productid promotionalId:(NSString *)promoid withCompletion:(GYGetSkuCompletion)block
+- (void)getSkuWithId:(NSString *)skuid
+               store:(GYStore)store
+      withCompletion:(GYGetSkuCompletion)block
 {
-    NSURLComponents *url = [self baseURLV0];
+    [self getSkuWithId:skuid productId:nil promotionalId:nil store:store withCompletion:block];
+}
+
+- (void)getSkuWithId:(NSString *)skuid
+           productId:(NSString *)productid
+       promotionalId:(NSString *)promoid
+               store:(GYStore)store
+      withCompletion:(GYGetSkuCompletion)block
+{
+    NSURLComponents *url = [self baseURLV1];
     url.path = [url.path stringByAppendingPathComponent:@"sku"];
+    
     NSMutableArray<NSURLQueryItem*> *queryItems = [(url.queryItems ?: @[]) mutableCopy];
-    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"productid" value:productid]];
+    if (skuid) {
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:@"identifier" value:skuid]];
+    }
+    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"store" value:[NSString stringWithFormat:@"%lu", (unsigned long)store]]];
+    if (productid) {
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:@"productid" value:productid]];
+    }
     if (promoid && promoid.length > 0) {
         [queryItems addObject:[NSURLQueryItem queryItemWithName:@"promotionalid" value:promoid]];
+    }
+    NSString *pricelocale = [NSLocale.currentLocale objectForKey:NSLocaleCurrencyCode];
+    if (pricelocale && pricelocale.length > 0) {
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:@"pricelocale" value:pricelocale]];
     }
     url.queryItems = queryItems;
 
@@ -147,14 +164,14 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 
 - (void)getPermissionsWithCompletion:(GYGetPermissionsCompletion)block
 {
-    NSURLComponents *url = [self baseURLV0];
+    NSURLComponents *url = [self baseURLV1];
     url.path = [url.path stringByAppendingPathComponent:@"permissions"];
     
     NSURLRequest *req = [self authorizedRequestWithComponents:url];
     [self callApiWithRequest:req response:GYAPIPermissionsResponse.class completion:block];
 }
 
-- (void)postProducts:(NSArray<SKProduct *> *)products completion:(GYBaseCompletion)block
+- (void)postProducts:(NSArray<SKProduct*> *)products completion:(GYBaseCompletion)block
 {
     NSMutableArray *productsEncoded = [NSMutableArray array];
     for (SKProduct *p in products) {
@@ -225,7 +242,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
         return;
     }
     
-    NSURLComponents *url = [self baseURLV0];
+    NSURLComponents *url = [self baseURLV1];
     url.path = [url.path stringByAppendingPathComponent:@"receipt"];
     
     NSMutableURLRequest *req = [self authorizedRequestWithComponents:url];
@@ -367,7 +384,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     url.path = [url.path stringByAppendingPathComponent:@"connect"];
         
     NSDictionary *bodyEncoded = @{
-        @"store": @(GYPlatformPaddle),
+        @"store": @(GYStorePaddle),
         @"licensekey": licenseKey,
         @"force": [NSNumber numberWithBool:force]
     };
@@ -398,13 +415,13 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 }
 
 
-- (void)getPlatformInfoWithCompletion:(GYGetPlatformInfo _Nullable)block
+- (void)getStoreInfoWithCompletion:(GYGetStoreInfo _Nullable)block
 {
     NSURLComponents *url = [self baseURLV0];
-    url.path = [url.path stringByAppendingPathComponent:@"platforminfo"];
+    url.path = [url.path stringByAppendingPathComponent:@"storeinfo"];
     
     NSURLRequest *req = [self authorizedRequestWithComponents:url];
-    [self callApiWithRequest:req response:GYAPIPlatformInfoResponse.class completion:block];
+    [self callApiWithRequest:req response:GYAPIStoreInfoResponse.class completion:block];
 }
 
 - (void)getPropertiesWithCompletion:(GYGetPropertiesCompletion _Nullable)block

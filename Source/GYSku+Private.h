@@ -15,13 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)skuWithProduct:(SKProduct *)product;
 + (NSArray<GYSku*> *)matchSkus:(NSArray<GYSku*>*)skus withProducts:(NSArray<SKProduct*> *)products;
 
-@property(nonatomic, strong) NSString *skuId;
-@property(nonatomic, strong) NSString *productId;
 @property(nonatomic, nullable, strong) NSString *promotionalId;
 @property(nonatomic, nullable, strong) NSString *offeringId;
 @property(nonatomic, assign) GYSkuEligibility introductoryEligibility;
 @property(nonatomic, assign) GYSkuEligibility promotionalEligibility;
-@property(nonatomic, strong) NSDictionary<NSString*, NSString*>* extravars;
 @property(nonatomic, nullable, strong) SKProduct *product;
 @end
 

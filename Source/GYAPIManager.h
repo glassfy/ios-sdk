@@ -15,7 +15,7 @@
 #import "GYAPIPropertiesResponse.h"
 #import "GYAPISkuResponse.h"
 #import "GYAPIPaywallResponse.h"
-#import "GYAPIPlatformInfoResponse.h"
+#import "GYAPIStoreInfoResponse.h"
 @class SKProduct;
 @class SKPaymentTransaction;
 @class GYCacheManager;
@@ -28,7 +28,7 @@ typedef void(^GYGetPropertiesCompletion)(GYAPIPropertiesResponse* _Nullable, NSE
 typedef void(^GYGetPaywallCompletion)(GYAPIPaywallResponse* _Nullable, NSError* _Nullable);
 typedef void(^GYGetSkuCompletion)(GYAPISkuResponse* _Nullable, NSError* _Nullable);
 typedef void(^GYBaseCompletion)(GYAPIBaseResponse* _Nullable, NSError* _Nullable);
-typedef void(^GYGetPlatformInfo)(GYAPIPlatformInfoResponse* _Nullable, NSError* _Nullable);
+typedef void(^GYGetStoreInfo)(GYAPIStoreInfoResponse* _Nullable, NSError* _Nullable);
 
 typedef GYBaseCompletion GYProductsCompletion;
 typedef GYBaseCompletion GYLogoutCompletion;
@@ -46,12 +46,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)getInitWithInfoWithCompletion:(GYGetInitCompletion _Nullable)block;
 
-- (void)getSku:(NSString *)skuid withCompletion:(GYGetSkuCompletion _Nullable)block;
+- (void)getSkuWithId:(NSString *)skuid store:(GYStore)store withCompletion:(GYGetSkuCompletion _Nullable)block;
 - (void)getSkuWithProductId:(NSString *)productid promotionalId:(NSString *_Nullable)promoid withCompletion:(GYGetSkuCompletion _Nullable)block;
 - (void)getOfferingsWithCompletion:(GYGetOfferingsCompletion _Nullable)block;
 - (void)getPermissionsWithCompletion:(GYGetPermissionsCompletion _Nullable)block;
 
-- (void)postProducts:(NSArray<SKProduct *> *)products
+- (void)postProducts:(NSArray<SKProduct*> *)products
           completion:(GYProductsCompletion _Nullable)block;
 
 - (void)postReceipt:(NSData *)receipt
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)postConnectUser:(NSString *_Nullable)customId completion:(GYGetConnectCompletion _Nullable)block;
 - (void)postConnectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYGetConnectCompletion _Nullable)block;
 
-- (void)getPlatformInfoWithCompletion:(GYGetPlatformInfo _Nullable)block;
+- (void)getStoreInfoWithCompletion:(GYGetStoreInfo _Nullable)block;
 
 - (void)getSignatureForProductId:(NSString *)productId offerId:(NSString *)offerId completion:(GYGetSignatureCompletion _Nullable)block;
 

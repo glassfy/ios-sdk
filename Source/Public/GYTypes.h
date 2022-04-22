@@ -14,20 +14,22 @@
 @class GYPermissions;
 @class GYOfferings;
 @class GYUserProperties;
-@class GYPlatformsInfo;
+@class GYStoresInfo;
 @class GYSku;
+@class GYSkuBase;
 @class GYPaywallViewController;
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^GYSkuBlock)(GYSku* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.SkuBlock);
+typedef void(^GYSkuBaseCompletion)(GYSkuBase* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.SkuBaseCompletion);
 typedef void(^GYPaymentTransactionBlock)(GYTransaction* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaymentTransactionBlock);
 typedef void(^GYOfferingsCompletion)(GYOfferings* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.OfferingsCompletion);
 typedef void(^GYPermissionsCompletion)(GYPermissions* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PermissionsCompletion);
 typedef void(^GYBooleanCompletion)(BOOL, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.BooleanCompletion);
 typedef void(^GYErrorCompletion)(NSError* _Nullable) NS_SWIFT_NAME(Glassfy.ErrorCompletion);
 typedef void(^GYUserPropertiesCompletion)(GYUserProperties* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.UserPropertiesCompletion);
-typedef void(^GYPlatformCompletion)(GYPlatformsInfo* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PlatformCompletion);
+typedef void(^GYStoreCompletion)(GYStoresInfo* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.StoreCompletion);
 typedef void(^GYPaywallCompletion)(GYPaywallViewController* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaywallCompletion);
 typedef void(^GYPaywallCloseBlock)(GYTransaction* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaywallCloseBlock);
 typedef void(^GYPaywallLinkBlock)(NSURL*) NS_SWIFT_NAME(Glassfy.PaywallLinkBlock);
@@ -89,11 +91,11 @@ typedef NS_ENUM(NSUInteger, GYLogLevel) {
     GYLogLevelAll   = NSUIntegerMax
 } NS_SWIFT_NAME(Glassfy.LogLevel);
 
-typedef NS_ENUM(NSUInteger, GYPlatform) {
-    GYPlatformIos = 1,
-    GYPlatformAndroid = 2,
-    GYPlatformPaddle = 3
-} NS_SWIFT_NAME(Glassfy.Platform);
+typedef NS_ENUM(NSUInteger, GYStore) {
+    GYStoreAppStore = 1,
+    GYStorePlayStore = 2,
+    GYStorePaddle = 3
+} NS_SWIFT_NAME(Glassfy.Store);
 
 NS_ASSUME_NONNULL_END
 

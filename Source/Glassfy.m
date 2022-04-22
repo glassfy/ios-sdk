@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.3.0-beta.1";
+    return @"1.3.0-beta.2";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -94,6 +94,13 @@
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager skuWithProductId:productid promotionalId:promoid completion:block];
+    });
+}
+
++ (void)skuWithId:(NSString *)skuid store:(GYStore)store completion:(GYSkuBaseCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager skuWithId:skuid store:store completion:block];
     });
 }
 
@@ -186,12 +193,13 @@
     });
 }
 
-+ (void)platformInfo:(GYPlatformCompletion)block
++ (void)storeInfo:(GYStoreCompletion)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
-        [Glassfy.shared.manager platformInfo:block];
+        [Glassfy.shared.manager storeInfo:block];
     });
 }
+
 
 #pragma mark - Deprecations
 

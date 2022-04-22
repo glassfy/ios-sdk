@@ -1,22 +1,22 @@
 //
-//  GYPlatformInfoPaddle.h
+//  GYStoreInfoPaddle.h
 //  Glassfy
 //
 //  Created by Luca Garbolino on 12/04/22.
 //
 
 #import <Foundation/Foundation.h>
-#if __has_include(<Glassfy/GYPlatformInfo.h>)
-#import <Glassfy/GYPlatformInfo.h>
+#if __has_include(<Glassfy/GYStoreInfo.h>)
+#import <Glassfy/GYStoreInfo.h>
 #else
-#import "GYPlatformInfo.h"
+#import "GYStoreInfo.h"
 #endif
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(Glassfy.PlatformInfoPaddle)
-@interface GYPlatformInfoPaddle : GYPlatformInfo
+NS_SWIFT_NAME(Glassfy.StoreInfoPaddle)
+@interface GYStoreInfoPaddle : GYStoreInfo
 @property(nonatomic, nullable, readonly) NSString *userId;
 @property(nonatomic, nullable, readonly) NSString *planId;
 @property(nonatomic, nullable, readonly) NSString *subscriptionId;
