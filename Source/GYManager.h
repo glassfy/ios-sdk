@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setEmailUserProperty:(NSString *)email completion:(GYErrorCompletion)block;
 - (void)setDeviceToken:(NSString *)deviceToken completion:(GYErrorCompletion)block;
 - (void)setExtraUserProperty:(NSDictionary<NSString*,NSString*> *)extra completion:(GYErrorCompletion)block;
+
 - (void)getUserProperties:(GYUserPropertiesCompletion)block;
 
 - (void)connectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block;
