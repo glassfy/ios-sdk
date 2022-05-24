@@ -14,8 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *skuId;
 @property(nonatomic, strong) NSString *productId;
 @property(nonatomic, assign) GYStore store;
-
-@property(nonatomic, strong) NSDictionary<NSString*, NSString*>* extravars;
 @end
 
 NS_ASSUME_NONNULL_END

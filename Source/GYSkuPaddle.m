@@ -13,14 +13,11 @@
 
 @interface GYSkuPaddle()
 @property(nonatomic, strong) NSString *name;
-
-@property(nonatomic, strong) NSDecimalNumber *initialPrice;
-@property(nonatomic, strong) NSLocale *initialPriceLocale;
-@property(nonatomic, strong) NSString *initialPriceCode;        // three-letter ISO currency code
-
-@property(nonatomic, strong) NSDecimalNumber *recurringPrice;
-@property(nonatomic, strong) NSLocale *recurringPriceLocale;
-@property(nonatomic, strong) NSString *recurringPriceCode;      // three-letter ISO currency code
+@property(nonatomic, nullable, strong) NSDecimalNumber *initialPrice;
+@property(nonatomic, nullable, strong) NSString *initialPriceCode;        // three-letter ISO currency code
+@property(nonatomic, nullable, strong) NSDecimalNumber *recurringPrice;
+@property(nonatomic, nullable, strong) NSString *recurringPriceCode;      // three-letter ISO currency code
+@property(nonatomic, strong) NSDictionary<NSString*, NSString*>* extravars;
 @end
 
 @implementation GYSkuPaddle (Private)
@@ -33,7 +30,6 @@
             name = obj[@"name"];
         }
         
-        NSLocale *initialPriceLocale;
         NSString *initialPriceCode;
         NSDecimalNumber *initialPrice;
         NSDictionary *initialPriceJSON = obj[@"initialprice"];
@@ -45,11 +41,9 @@
             
             if ([initialPriceJSON[@"locale"] isKindOfClass:NSString.class]) {
                 initialPriceCode = initialPriceJSON[@"locale"];
-                initialPriceLocale = [GYUtils localeFromCurrencyCode:initialPriceCode];
             }
         }
         
-        NSLocale *recurringPriceLocale;
         NSString *recurringPriceCode;
         NSDecimalNumber *recurringPrice;
         NSDictionary *recurringPriceJSON = obj[@"recurringprice"];
@@ -61,23 +55,26 @@
             
             if ([recurringPriceJSON[@"locale"] isKindOfClass:NSString.class]) {
                 recurringPriceCode = recurringPriceJSON[@"locale"];
-                recurringPriceLocale = [GYUtils localeFromCurrencyCode:recurringPriceCode];
             }
+        }
+        
+        NSDictionary<NSString*, NSString*>* extravars = @{};
+        if ([obj[@"extravars"] isKindOfClass:NSDictionary.class]) {
+            extravars = obj[@"extravars"];
         }
         
         if (initialPriceCode && initialPriceCode.length) {
             self.initialPrice = initialPrice;
             self.initialPriceCode = initialPriceCode;
-            self.initialPriceLocale = initialPriceLocale;
         }
         
         if (recurringPriceCode && recurringPriceCode.length) {
             self.recurringPrice = recurringPrice;
             self.recurringPriceCode = recurringPriceCode;
-            self.recurringPriceLocale = recurringPriceLocale;
         }
         
         self.name = name;
+        self.extravars = extravars;
     }
     return self;
 }

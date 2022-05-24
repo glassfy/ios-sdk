@@ -42,32 +42,4 @@
     return @"";
 }
 
-+ (NSLocale *)localeFromCurrencyCode:(NSString *)code
-{
-    if (!code || code.length == 0) {
-        return nil;
-    }
-    
-    NSString *localeIdentifier;
-    NSString *preferredLang = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
-    if (preferredLang) {
-        NSDictionary *components = @{
-            NSLocaleCurrencyCode: code,
-            NSLocaleLanguageCode: preferredLang
-        };
-        localeIdentifier = [NSLocale localeIdentifierFromComponents:components];
-    }
-    
-    if (!localeIdentifier) {
-        NSDictionary *components = @{NSLocaleCurrencyCode: code};
-        localeIdentifier = [NSLocale localeIdentifierFromComponents:components];
-    }
-    
-    NSLocale *locale;
-    if (localeIdentifier && localeIdentifier.length) {
-        locale = [NSLocale localeWithLocaleIdentifier:localeIdentifier];
-    }
-    return locale;
-}
-
 @end

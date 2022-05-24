@@ -16,6 +16,7 @@
 @property(nonatomic, assign) GYSkuEligibility introductoryEligibility;
 @property(nonatomic, assign) GYSkuEligibility promotionalEligibility;
 @property(nonatomic, nullable, strong) SKProduct *product;
+@property(nonatomic, strong) NSDictionary<NSString*, NSString*>* extravars;
 @end
 
 @implementation GYSku (Private)
@@ -49,11 +50,17 @@
                 promotionalEligibility = GYSkuEligibilityNonEligible;
             }
         }
-
+        
+        NSDictionary<NSString*, NSString*>* extravars = @{};
+        if ([obj[@"extravars"] isKindOfClass:NSDictionary.class]) {
+            extravars = obj[@"extravars"];
+        }
+        
         
         self.promotionalId = promotionalId;
         self.introductoryEligibility = introductoryEligibility;
         self.promotionalEligibility = promotionalEligibility;
+        self.extravars = extravars;
     }
     return self;
 }

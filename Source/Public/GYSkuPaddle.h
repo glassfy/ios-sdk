@@ -19,11 +19,9 @@ NS_SWIFT_NAME(Glassfy.SkuPaddle)
 @property(nonatomic, readonly) NSString *name;
 
 @property(nonatomic, nullable, readonly) NSDecimalNumber *initialPrice;
-@property(nonatomic, nullable, readonly) NSLocale *initialPriceLocale;
 @property(nonatomic, nullable, readonly) NSString *initialPriceCode;        // three-letter ISO currency code
 
 @property(nonatomic, nullable, readonly) NSDecimalNumber *recurringPrice;
-@property(nonatomic, nullable, readonly) NSLocale *recurringPriceLocale;
 @property(nonatomic, nullable, readonly) NSString *recurringPriceCode;      // three-letter ISO currency code
 
 @property(nonatomic, readonly) NSDictionary<NSString*, NSString*>* extravars;

@@ -13,7 +13,6 @@
 @property(nonatomic, strong) NSString *skuId;
 @property(nonatomic, strong) NSString *productId;
 @property(nonatomic, assign) GYStore store;
-@property(nonatomic, strong) NSDictionary<NSString*, NSString*>* extravars;
 @end
 
 @implementation GYSkuBase (Private)
@@ -36,12 +35,6 @@
         if ([store isKindOfClass:NSString.class]) {
             self.store = store.integerValue;
         }
-        
-        NSDictionary<NSString*, NSString*>* extravars = @{};
-        if ([obj[@"extravars"] isKindOfClass:NSDictionary.class]) {
-            extravars = obj[@"extravars"];
-        }
-        self.extravars = extravars;
     }
     
     if (!self.skuId || !self.productId || self.store == 0) {
