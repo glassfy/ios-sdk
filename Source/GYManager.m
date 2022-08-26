@@ -440,7 +440,7 @@
          {
             dispatch_async(Glassfy.shared.glqueue, ^{
                 GYPaymentTransactionBlock completion = completionHandler ?: ^void(GYTransaction *tranansaction, NSError *err) {
-                    GYLogInfo(@"Promotion completion handler");
+                    GYLogInfo(@"TRANSACTION %@ Promoted purchase default completion handler", tranansaction.productId);
                 };
                 
                 GYSku *sku = [GYSku skuWithProduct:product];
@@ -469,11 +469,11 @@
         GYTransaction *t = [GYTransaction transactionWithPaymentTransaction:transaction];
         switch (transaction.transactionState) {
             case SKPaymentTransactionStatePurchased:
-                GYLog(@"TRANSACTION %@ PURCHASED", t.productId);
+                GYLogInfo(@"TRANSACTION %@ Purchased", t.productId);
                 [self handlePurchasedTransaction:t];
                 break;
             case SKPaymentTransactionStateRestored: // status from -[SKPaymentQueue restoreCompletedTransactions];
-                GYLog(@"TRANSACTION %@ RESTORED", t.productId);
+                GYLogInfo(@"TRANSACTION %@ Restored", t.productId);
                 if (!restored) {
                     [self handleRestoredTransaction:t];
                     restored = YES;
@@ -483,15 +483,15 @@
                 }
                 break;
             case SKPaymentTransactionStateFailed:
-                GYLogErr(@"TRANSACTION %@ FAILED: %@", t.productId, t.paymentTransaction.error.debugDescription);
+                GYLogErr(@"TRANSACTION %@ Failed:\n\t%@", t.productId, t.paymentTransaction.error.debugDescription);
                 [self handleFailedTransaction:t];
                 break;
             case SKPaymentTransactionStateDeferred:
-                GYLog(@"TRANSACTION %@ DEFERRED", t.productId);
+                GYLogInfo(@"TRANSACTION %@ Deferred", t.productId);
                 [self handleDeferredTransaction:t];
                 break;
             case SKPaymentTransactionStatePurchasing:
-                GYLog(@"TRANSACTION %@ PURCHASING", t.productId);
+                GYLogInfo(@"TRANSACTION %@ Purchasing", t.productId);
                 break;
         }
     }
@@ -512,7 +512,7 @@
     }
     if (!completion) {
         completion = ^void(GYTransaction *tranansaction, NSError *err) {
-            GYLogInfo(@"Default Purchase Completion Handler");
+            GYLogInfo(@"TRANSACTION %@ Purchase default completion handler", tranansaction.productId);
         };
     }
     
@@ -598,10 +598,10 @@
                 GYLogErr(@"An Unknown error occurs");
                 break;
             case SKErrorClientInvalid:
-                GYLogErr(@"Client is not allowed to issue the request, etc.");
+                GYLogErr(@"Client is not allowed to issue the request");
                 break;
             case SKErrorPaymentCancelled:
-                GYLogErr(@"User cancelled the payment request, etc.");
+                GYLogErr(@"User cancelled the payment request");
                 break;
             case SKErrorPaymentNotAllowed:
                 GYLogErr(@"This device (user) is not allowed to authorize payments");
@@ -610,7 +610,8 @@
         if (@available(iOS 12.2, macOS 10.14.4, watchOS 6.2, *)) {
             switch (t.paymentTransaction.error.code) {
                 case SKErrorInvalidSignature:
-                    GYLogErr(@"The cryptographic signature provided for SKPaymentDiscount is not valid: Make sure 'Subscription p8 Key File' and 'Subscription p8 Key ID' are correct on the app settings page at https://dashboard.glassfy.io.");
+                    GYLogErr(@"The cryptographic signature provided for SKPaymentDiscount is not valid.");
+                    GYLogHint(@"Make sure 'Subscription p8 Key File' and 'Subscription p8 Key ID' are correct on the app settings page 🔗 https://dashboard.glassfy.io");
                     break;
                 case SKErrorInvalidOfferPrice:
                     GYLogErr(@"The price (specified in App Store Connect) of the selected offer is no longer valid (e.g. lower than the current base subscription price");
@@ -654,10 +655,10 @@
 
 - (void)completeTransaction:(GYTransaction *)t
 {
-    GYLog(@"TRANSACTION %@ COMPLETED", t.productId);
+    GYLogInfo(@"TRANSACTION %@ Completed", t.productId);
 
     if (t.paymentTransaction && !self.watcherMode) {
-        GYLog(@"TRANSACTION %@ FINISH", t.productId);
+        GYLog(@"TRANSACTION %@ Finish", t.productId);
         [[SKPaymentQueue defaultQueue] finishTransaction:t.paymentTransaction];
     }
 }
@@ -667,6 +668,9 @@
 
 - (void)startSDK
 {
+#if TARGET_OS_SIMULATOR
+    GYLogHint(@"Not all features are supported on simulator.\nUse a real device to test.");
+#endif
     self.initialized = NO;
     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     
@@ -674,7 +678,7 @@
     void (^sendReceipt)(BOOL) = ^(BOOL shouldSendReceipt) {
         NSURL *receiptURL = NSBundle.mainBundle.appStoreReceiptURL;
         if (shouldSendReceipt && receiptURL && [NSFileManager.defaultManager fileExistsAtPath:receiptURL.path]) {
-            GYLogInfo(@"MANAGER STARTSDK sending local receipt");
+            GYLogInfo(@"MANAGER sending local receipt");
             [weakSelf.api postReceipt:[NSData dataWithContentsOfURL:receiptURL]
                                   sku:nil
                           transaction:nil
@@ -684,9 +688,7 @@
             }];
         }
         else {
-            GYLogInfo(shouldSendReceipt ?
-                      @"MANAGER STARTSDK local receipt is missing, nothing to send..." :
-                      @"MANAGER STARTSDK receipt not requested");
+            GYLogInfo(shouldSendReceipt ? @"MANAGER local receipt is missing, nothing to send..." : nil);
             weakSelf.initialized = YES;
         }
     };
@@ -708,9 +710,18 @@
 
 - (void)purchaseSku:(GYSku *)sku withDiscountId:(NSString *)discountid completion:(GYPaymentTransactionBlock)block
 {
+#if TARGET_OS_SIMULATOR
+    GYLogErr(@"Currently we do not support purchase through simulator, use a real device.\nFor more info check 🔗 https://docs.glassfy.io/1758942");
+    GYPaymentTransactionBlock completion = block;
+    if (completion) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(nil, GYError.notSupported);
+        });
+    }
+#else
     for (GYSku *s in self.purchaseCompletions.keyEnumerator) {
         if ([s.productId isEqualToString:sku.productId]) {
-            GYLogErr(@"PURCHASE already in progress");
+            GYLogErr(@"TRANSACTION %@ Purchase already in progress", s.productId);
             
             GYPaymentTransactionBlock completion = block;
             if (completion) {
@@ -758,6 +769,7 @@
 
         [SKPaymentQueue.defaultQueue addPayment:payment];
     }];
+#endif
 }
 
 - (void)permissionsMaxRetries:(NSUInteger)times completion:(GYPermissionsCompletion)block

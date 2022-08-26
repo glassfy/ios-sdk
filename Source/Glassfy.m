@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.3.1";
+    return @"1.3.2";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey

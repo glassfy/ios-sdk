@@ -20,14 +20,17 @@ Our SDK can be easly integrated through Cocoapods or Swift Package Manager
 #### Integrate using Cocoapods
 Add the pod to your Podfile:
 
-```pod 'Glassfy', '~> 1.3.1'```
+```pod 'Glassfy', '~> 1.3.2'```
 
 Then, run the following command:
 
 ```pod install```
 
 #### Integrate using Swift Package Manager
-You can use Swift Package Manager to integrate Glassfy SDK in your application. In your Xcode project select file -> Add Packages... and enter the Glassfy GitHub URL: https://github.com/glassfy/ios-sdk. Set the version “Up to Next Major” to the version you want to use.
+You can use Swift Package Manager to integrate Glassfy SDK in your application. 
+- In your Xcode project select file -> Add Packages... 
+- Enter the Glassfy GitHub URL: `https://github.com/glassfy/ios-sdk`. 
+- Set the version “Up to Next Major” to the version you want to use.
 
 ### More Info
 

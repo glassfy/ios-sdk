@@ -467,7 +467,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 {
     NSString *reqSignature = [GYUtils requestSignature:req];
     if (self.completions[reqSignature]) {
-        GYLog(@"API [%@] IN FLIGHT %@?%@", [reqSignature substringToIndex:3], req.URL.lastPathComponent, req.URL.query);
+        GYLog(@"API [%@] In Progress", [reqSignature substringToIndex:3]);
         if (block) {
             NSMutableArray *arr = self.completions[reqSignature];
             [arr addObject:[block copy]];
@@ -475,7 +475,8 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
         return;
     }
     else {
-        GYLog(@"API [%@] START %@?%@", [reqSignature substringToIndex:3], req.URL.lastPathComponent, req.URL.query);
+        GYLog(@"API [%@] Start\t/%@", [reqSignature substringToIndex:3], req.URL.lastPathComponent);
+        GYLogInfo(@"API [%@] Query:\n?%@", [reqSignature substringToIndex:3], req.URL.query);
         if (block) {
             self.completions[reqSignature] = [NSMutableArray arrayWithObject:[block copy]];
         }
@@ -497,21 +498,21 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
             res = [[(Class)R alloc] initWithObject:obj error:&err];
         }
         
-        GYLogInfo(@"API [%@] RESPONSE: %@", [reqSignature substringToIndex:3], [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        GYLogInfo(@"API [%@] Response:\n%@", [reqSignature substringToIndex:3], err ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:obj options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding] );
         
         dispatch_async(Glassfy.shared.glqueue, ^{
             NSArray *completions = weakSelf.completions[reqSignature];
             weakSelf.completions[reqSignature] = nil;
             for (GYBaseAPICompletion c in completions) {
                 if (err) {
-                    GYLogErr(@"API [%@] ERROR: %@", [reqSignature substringToIndex:3], err);
+                    GYLogErr(@"API [%@] Error: %@", [reqSignature substringToIndex:3], err);
                     
                     c(nil, err);
                 }
                 else {
                     c(res, nil);
                 }
-                GYLog(@"API [%@] END", [reqSignature substringToIndex:3]);
+                GYLog(@"API [%@] End", [reqSignature substringToIndex:3]);
             }
         });
     }] resume];

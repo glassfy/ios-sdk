@@ -6,7 +6,6 @@
 //
 
 #import "GYSkuBase.h"
-#import "GYLogger.h"
 #import "GYError.h"
 
 @interface GYSkuBase()

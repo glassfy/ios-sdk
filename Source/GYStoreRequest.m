@@ -100,13 +100,16 @@ typedef void (^GYProductResponseHandler)(SKProductsResponse* _Nullable, NSError*
 
 - (void)startProductRequest:(NSSet<NSString*> *)ids completion:(GYProductResponseHandler)block
 {
+    GYLog(@"STORE Start %lu product request", (unsigned long) ids.allObjects.count);
+    GYLogInfo(@"STORE Requested products:\n\t%@", [ids.allObjects componentsJoinedByString:@"\n\t"]);
+    
     for (SKRequest *r in self.reqs) {
         NSSet *rIds = [self.requestedProductIds objectForKey:r];
         if (![ids isEqualToSet:rIds]) {
             continue;
         }
         
-        GYLog(@"STORE IN FLIGHT product request: %@", [ids.allObjects componentsJoinedByString:@","]);
+        GYLog(@"STORE Product request already in progress");
     
         NSArray *completions = [self.productCompletions objectForKey:r];
         completions = [completions arrayByAddingObject:block];
@@ -114,9 +117,6 @@ typedef void (^GYProductResponseHandler)(SKProductsResponse* _Nullable, NSError*
         
         return;
     }
-    
-    
-    GYLog(@"STORE START product request: %@", [ids.allObjects componentsJoinedByString:@","]);
     
     SKProductsRequest *req = [[SKProductsRequest alloc] initWithProductIdentifiers:ids];
     req.delegate = self;
@@ -130,13 +130,13 @@ typedef void (^GYProductResponseHandler)(SKProductsResponse* _Nullable, NSError*
 - (void)startRefreshReceiptWithCompletion:(GYRefreshReceiptCompletion)block
 {
     if (self.receiptCompletions.count) {
-        GYLog(@"STORE IN FLIGHT refresh receipt");
+        GYLog(@"STORE Refresh receipt 🧾 in progress");
         
         [self.receiptCompletions addObject:block];
         return;
     }
 
-    GYLog(@"STORE START refresh receipt");
+    GYLog(@"STORE Start refresh receipt 🧾");
 
     [self.receiptCompletions addObject:block];
     SKReceiptRefreshRequest *req = [[SKReceiptRefreshRequest alloc] init];
@@ -150,10 +150,18 @@ typedef void (^GYProductResponseHandler)(SKProductsResponse* _Nullable, NSError*
 - (void)handleSuccessfulRequest:(SKRequest *)req response:(nullable SKProductsResponse *)response
 {
     if ([req isKindOfClass:SKProductsRequest.class]) {
-        GYLog(@"STORE FOUND %lu products", (unsigned long)response.products.count);
-        if (response.invalidProductIdentifiers.count) {
-            GYLog(@"STORE INVALID products: %@", response.invalidProductIdentifiers);
-        }
+        GYLog(@"STORE Found %lu products", (unsigned long)response.products.count);
+        GYLogErr(response.invalidProductIdentifiers.count ?
+                 [NSString stringWithFormat:@"STORE Invalid %lu products", (unsigned long)response.invalidProductIdentifiers.count] :
+                 nil);
+        GYLogHint(response.invalidProductIdentifiers.count ?
+                  [NSString stringWithFormat:@"StoreKit does not return details for the following products:\n\t%@\nCheck the guide at 🔗 https://docs.glassfy.io/16293898", [response.invalidProductIdentifiers componentsJoinedByString:@"\n\t"]] :
+                  nil);
+        
+        
+        
+        
+        
         NSArray *completions = [self.productCompletions objectForKey:req];
         [self.productCompletions removeObjectForKey:req];
         [self.requestedProductIds removeObjectForKey:req];
@@ -162,7 +170,7 @@ typedef void (^GYProductResponseHandler)(SKProductsResponse* _Nullable, NSError*
         }
     }
     else if ([req isKindOfClass:SKReceiptRefreshRequest.class]) {
-        GYLog(@"STORE SUCCESS refresh receipt");
+        GYLog(@"STORE Success refresh receipt 🧾");
         for (GYRefreshReceiptCompletion completion in self.receiptCompletions) {
             completion(nil);
         }
@@ -172,7 +180,7 @@ typedef void (^GYProductResponseHandler)(SKProductsResponse* _Nullable, NSError*
 
 - (void)handleFailedRequest:(SKRequest *)req withError:(NSError *)error
 {
-    GYLogErr(@"STORE ERROR: %@", error.debugDescription);
+    GYLogErr(@"STORE Error: %@", error.debugDescription);
     
     if ([req isKindOfClass:SKProductsRequest.class]) {
         NSArray *completions = [self.productCompletions objectForKey:req];

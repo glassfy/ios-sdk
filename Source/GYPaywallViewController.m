@@ -56,12 +56,12 @@
         // default handlers
         __weak typeof(self) weakSelf = self;
         _closeHandler = ^(GYTransaction *t, NSError *err) {
-            GYLogInfo(@"Close default handler...");
+            GYLogInfo(@"PAYWALL Close default handler...");
             [weakSelf dismissViewControllerAnimated:YES completion:nil];
         };
 
         _purchaseHandler = ^(GYSku *sku) {
-            GYLogInfo(@"Purchase default handler...");
+            GYLogInfo(@"PAYWALL Purchase default handler...");
             [weakSelf.activityView removeFromSuperview];
             
             UIView *activityView = [weakSelf buildActivityView:weakSelf.view.bounds];
@@ -74,12 +74,12 @@
         };
         
         _linkHandler = ^(NSURL *url) {
-            GYLogInfo(@"Link default handler...");
+            GYLogInfo(@"PAYWALL Link default handler...");
             [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
         };
         
         _restoreHandler = ^{
-            GYLogInfo(@"Restore default handler...");
+            GYLogInfo(@"PAYWALL Restore default handler...");
             [weakSelf.activityView removeFromSuperview];
             
             UIView *activityView = [weakSelf buildActivityView:weakSelf.view.bounds];
@@ -212,13 +212,13 @@
     
     NSDictionary *body = message.body;
     if (![body isKindOfClass:NSDictionary.class]) {
-        GYLogErr(@"Wrong message format from paywall's js");
+        GYLogErr(@"PAYWALL Wrong message format from paywall's js");
         return;
     }
     
     NSString *action = body[@"action"];
     if (![action isKindOfClass:NSString.class] || !action.length) {
-        GYLogErr(@"Missing action from paywall's js");
+        GYLogErr(@"PAYWALL Missing action from paywall's js");
         return;
     }
     
@@ -245,7 +245,7 @@
             }
         }
         if (!sku) {
-            GYLogErr(@"Paywall purchase action err: SKU not found");
+            GYLogErr(@"PAYWALL Purchase action err: SKU not found");
             return;
         }
         
@@ -259,13 +259,13 @@
     else if ([action isEqualToString:@"link"]) {
         NSString *urlStr = data[@"url"];
         if (![urlStr isKindOfClass:NSString.class]) {
-            GYLogErr(@"Paywall link action: url is missing");
+            GYLogErr(@"PAYWALL Link action: url is missing");
             return;
         }
         
         NSURL *url = [NSURL URLWithString:urlStr];
         if (!url) {
-            GYLogErr(@"Paywall link action: url malformed");
+            GYLogErr(@"PAYWALL Link action: url malformed");
             return;
         }
         
@@ -286,7 +286,7 @@
         });
     }
     else {
-        GYLogErr(@"Paywall message not handled: %@", body);
+        GYLogErr(@"PAYWALL Paywall message not handled: %@", body);
         
         [self updatePaywallTags];
         return;
@@ -326,7 +326,7 @@
 
 - (void)startLoadingPaywall
 {
-    GYLogInfo(@"startLoadingPaywall");
+    GYLogInfo(@"PAYWALL Start loading");
     [self.webview.configuration.userContentController addScriptMessageHandler:self name:@"GYMessageHandler"];
     [self.webview setNavigationDelegate:self];
     
@@ -335,7 +335,7 @@
 
 - (void)stopLoadingPaywall
 {
-    GYLogInfo(@"stopLoadingPaywall");
+    GYLogInfo(@"PAYWALL Stop loading");
     [self.webview.configuration.userContentController removeScriptMessageHandlerForName:@"GYMessageHandler"];
     [self.webview setNavigationDelegate:nil];
 
@@ -347,7 +347,7 @@
     NSDictionary *skusDetails = [self skuDetails];
     [self evaluateJs:@"setSkuDetails" data:skusDetails completion:^(id res, NSError *error) {
         if (error) {
-            GYLogErr(@"evaluateJs error: %@", error);
+            GYLogErr(@"PAYWALL Error evaluating js:\n%@", error);
         }
     }];
 }
