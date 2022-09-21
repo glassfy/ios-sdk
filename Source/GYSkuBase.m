@@ -11,6 +11,8 @@
 @interface GYSkuBase()
 @property(nonatomic, strong) NSString *skuId;
 @property(nonatomic, strong) NSString *productId;
+@property(nonatomic, assign) BOOL isInIntroOffer;
+@property(nonatomic, assign) BOOL isTrial;
 @property(nonatomic, assign) GYStore store;
 @end
 
@@ -28,6 +30,16 @@
         NSString *productId = obj[@"productid"];
         if ([productId isKindOfClass:NSString.class] && productId.length) {
             self.productId = productId;
+        }
+        
+        NSNumber *isInIntroOffer = obj[@"isinintrooffer"];
+        if ([isInIntroOffer isKindOfClass:NSNumber.class]) {
+            self.isInIntroOffer = isInIntroOffer.boolValue;
+        }
+        
+        NSNumber *isTrial = obj[@"istrial"];
+        if ([isTrial isKindOfClass:NSNumber.class]) {
+            self.isTrial = isTrial.boolValue;
         }
         
         NSString *store = obj[@"store"];
