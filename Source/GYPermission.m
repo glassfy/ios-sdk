@@ -12,7 +12,7 @@
 @property(nonatomic, readwrite, strong) NSString *permissionId;
 @property(nonatomic, assign) GYEntitlement entitlement;
 @property(nonatomic, readwrite, strong) NSDate *expireDate;
-@property(nonatomic, readwrite, strong) NSSet<GYSkuBase*> *accountableSkus;
+@property(nonatomic, readwrite, strong) NSSet<GYAccountableSku*> *accountableSkus;
 @end
 
 @implementation GYPermission (Private)
@@ -20,7 +20,7 @@
 + (instancetype)permissionWithIdentifier:(NSString *)identifier
                              entitlement:(GYEntitlement)entitlement
                                   expire:(NSDate *)date
-                         accountableSkus:(NSSet<GYSkuBase*> *)accountableSkus
+                         accountableSkus:(NSSet<GYAccountableSku*> *)accountableSkus
 {
     GYPermission *permission = [[self alloc] init];
     permission.permissionId = identifier;

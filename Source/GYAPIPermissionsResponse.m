@@ -7,7 +7,7 @@
 
 #import "GYAPIPermissionsResponse.h"
 #import "GYError.h"
-#import "GYSkuBase+Private.h"
+#import "GYAccountableSku+Private.h"
 #import "GYPermission+Private.h"
 
 @implementation GYAPIPermissionsResponse
@@ -38,14 +38,14 @@
                             expireDate = [NSDate dateWithTimeIntervalSince1970:dateJSON.integerValue];
                         }
                         
-                        NSMutableSet<GYSkuBase*> *accountableSkus = [NSMutableSet set];
+                        NSMutableSet<GYAccountableSku*> *accountableSkus = [NSMutableSet set];
                         NSArray *accountableSkusJSON = permissionJSON[@"skuarray"];
                         if ([accountableSkusJSON isKindOfClass:NSArray.class]) {
                             for (NSDictionary *baseSkuJSON in accountableSkusJSON) {
                                 if (![baseSkuJSON isKindOfClass:NSDictionary.class]) {
                                     continue;
                                 }
-                                GYSkuBase *baseSku = [[GYSkuBase alloc] initWithObject:baseSkuJSON error:nil];
+                                GYAccountableSku *baseSku = [[GYAccountableSku alloc] initWithObject:baseSkuJSON error:nil];
                                 if (baseSku) {
                                     [accountableSkus addObject:baseSku];
                                 }

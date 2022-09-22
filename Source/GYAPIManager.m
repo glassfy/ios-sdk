@@ -361,7 +361,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     }
     if (err) {
         dispatch_async(Glassfy.shared.glqueue, ^{
-            GYLoginCompletion completion = block;
+            GYGetConnectCompletion completion = block;
             if (completion) {
                 completion(nil, err);
             }
@@ -399,7 +399,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     }
     if (err) {
         dispatch_async(Glassfy.shared.glqueue, ^{
-            GYLoginCompletion completion = block;
+            GYGetConnectCompletion completion = block;
             if (completion) {
                 completion(nil, err);
             }

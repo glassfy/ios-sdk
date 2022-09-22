@@ -12,7 +12,7 @@
 #import "GYTypes.h"
 #endif
 
-@class GYSkuBase;
+@class GYAccountableSku;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,7 +22,7 @@ NS_SWIFT_NAME(Glassfy.Permission)
 @property(nonatomic, readonly, assign) GYEntitlement entitlement;
 @property(nonatomic, readonly, assign) BOOL isValid;
 @property(nonatomic, readonly, strong, nullable) NSDate *expireDate;
-@property(nonatomic, readonly, strong) NSSet<GYSkuBase*> *accountableSkus;
+@property(nonatomic, readonly, strong) NSSet<GYAccountableSku*> *accountableSkus;
 
 
 /// Deprecations

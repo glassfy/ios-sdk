@@ -11,6 +11,7 @@
 #if __has_include(<Glassfy/GYTypes.h>)
 #import <Glassfy/GYSku.h>
 #import <Glassfy/GYSkuPaddle.h>
+#import <Glassfy/GYAccountableSku.h>
 #import <Glassfy/GYOffering.h>
 #import <Glassfy/GYTransaction.h>
 #import <Glassfy/GYPermission.h>
@@ -27,6 +28,7 @@
 #else
 #import "GYSku.h"
 #import "GYSkuPaddle.h"
+#import "GYAccountableSku.h"
 #import "GYOffering.h"
 #import "GYTransaction.h"
 #import "GYPermission.h"

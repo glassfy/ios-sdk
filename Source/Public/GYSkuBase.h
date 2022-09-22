@@ -19,9 +19,6 @@ NS_SWIFT_NAME(Glassfy.SkuBase)
 @property(nonatomic, readonly) NSString *skuId;
 @property(nonatomic, readonly) NSString *productId;
 
-@property(nonatomic, readonly) BOOL isInIntroOffer;
-@property(nonatomic, readonly) BOOL isTrial;
-
 @property(nonatomic, readonly) GYStore store;
 
 /// Deprecations

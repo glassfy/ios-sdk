@@ -209,6 +209,10 @@
         return;
     }
     
+    GYLogHint(store == GYStorePlayStore ?
+              @"Impossible to retrive all information on a PlayStore SKU, only skuId and productId will be returned"
+              : nil);
+    
     [self.api getSkuWithId:skuid store:store withCompletion:^(GYAPISkuResponse *res, NSError *apiErr) {
         NSError *err = apiErr;
         if (!res && !err) {
