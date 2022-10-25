@@ -18,6 +18,7 @@
 #import <Glassfy/GYPermissions.h>
 #import <Glassfy/GYOfferings.h>
 #import <Glassfy/GYUserProperties.h>
+#import <Glassfy/GYPaywall.h>
 #import <Glassfy/GYPaywallViewController.h>
 
 #import <Glassfy/GYTypes.h>
@@ -35,6 +36,7 @@
 #import "GYPermissions.h"
 #import "GYOfferings.h"
 #import "GYUserProperties.h"
+#import "GYPaywall.h"
 #import "GYPaywallViewController.h"
 
 #import "GYTypes.h"
@@ -207,6 +209,16 @@ Save extra user properties
  @param block Completion block
  */
 + (void)paywallWithId:(NSString *)paywallid completion:(GYPaywallCompletion)block API_UNAVAILABLE(macos, watchos) NS_SWIFT_NAME(paywall(id:completion:));
+
+
+/**
+ Initialize a paywall object
+ 
+ @param paywallid Paywall identifier
+ @param preload Preload paywall content
+ @param block Completion block
+ */
++ (void)paywallWithId:(NSString *)paywallid preload:(BOOL)preload completion:(GYPaywallCompletion)block API_UNAVAILABLE(macos, watchos) NS_SWIFT_NAME(paywall(id:preload:completion:));
 
 /**
  Connect paddle license key

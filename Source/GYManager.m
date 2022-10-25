@@ -25,6 +25,7 @@
 #import "GYPaywallViewController+Private.h"
 #import "GYStoresInfo+Private.h"
 #import "Glassfy+Private.h"
+#import "GYPaywall+Private.h"
 #import "GYSysInfo.h"
 
 @interface GYManager() <SKPaymentTransactionObserver>
@@ -349,31 +350,62 @@
 
 - (void)getPaywall:(NSString *)paywallId completion:(GYPaywallCompletion)block
 {
+    [self getPaywall:paywallId preload:YES completion:block];
+}
+
+- (void)getPaywall:(NSString *)paywallId preload:(BOOL)preload completion:(GYPaywallCompletion)block
+{
+#if TARGET_OS_IPHONE
     NSString *lang = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
     [self.api getPaywall:paywallId locale:lang completion:^(GYAPIPaywallResponse *res, NSError *paywallErr) {
-        [self.store productWithSkus:res.skus completion:^(NSArray<SKProduct*> *products, NSError *storeErr) {
-            res.skus = [GYSku matchSkus:res.skus withProducts:products ?: @[]];
-            
-            typeof(block) __strong completion = block;
-            if (completion) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-#if TARGET_OS_IPHONE
-
-                    NSError *err = paywallErr ?: storeErr;
-                    GYPaywallViewController *vc = nil;
-                    if (!err) {
-                        vc = [GYPaywallViewController paywallWithResponse:res];
-                    }
-                    
-                    err ? completion(nil, err) : completion(vc, nil);
-#else
-                    completion(nil, GYError.notSupported);
-#endif
-                });
+        GYPaywall *paywall;
+        
+        // Create the dispatch group
+        dispatch_group_t serviceGroup = dispatch_group_create();
+        
+        // Define errors to be processed when everything is complete.
+        // One error per service
+        __block NSError *loadError = nil;
+        __block NSError *storeError = nil;
+        if (!paywallErr) {
+            paywall = [GYPaywall paywallWithResponse:res];
+            if (preload) {
+                // Start loading from paywall contentURL
+                dispatch_group_enter(serviceGroup);
+                [paywall loadPaywallViewController:^(GYPaywallViewController *p, NSError *err) {
+                    loadError = err;
+                    dispatch_group_leave(serviceGroup);
+                }];
             }
-        }];
+            
+            // Start sku request with appstore
+            dispatch_group_enter(serviceGroup);
+            [self.store productWithSkus:res.skus completion:^(NSArray<SKProduct*> *products, NSError *storeErr) {
+                storeError = storeErr;
+                if (!storeErr && (res.skus.count != products.count)) {
+                    storeError = GYError.storeProductNotFound;
+                }
+                res.skus = [GYSku matchSkus:res.skus withProducts:products ?: @[]];
+                dispatch_group_leave(serviceGroup);
+            }];
+        }
+        
+        dispatch_group_notify(serviceGroup, dispatch_get_main_queue(), ^{
+            NSError *overallError = paywallErr ?: (loadError ?: storeError);
+            if (overallError) {
+                block(nil, overallError);
+                return;
+            }
+            block(paywall, nil);
+        });
     }];
+#else
+    dispatch_async(dispatch_get_main_queue(), ^{
+        block(nil, GYError.notSupported);
+    });
+#endif
 }
+
 
 - (void)connectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block
 {

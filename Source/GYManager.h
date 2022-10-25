@@ -36,13 +36,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setEmailUserProperty:(NSString *)email completion:(GYErrorCompletion)block;
 - (void)setDeviceToken:(NSString *)deviceToken completion:(GYErrorCompletion)block;
 - (void)setExtraUserProperty:(NSDictionary<NSString*,NSString*> *)extra completion:(GYErrorCompletion)block;
-
 - (void)getUserProperties:(GYUserPropertiesCompletion)block;
 
 - (void)connectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block;
 - (void)connectCustomSubscriber:(NSString *_Nullable)customId completion:(GYErrorCompletion)block;
 
 - (void)getPaywall:(NSString *)paywallId completion:(GYPaywallCompletion)block API_UNAVAILABLE(macos, watchos);
+- (void)getPaywall:(NSString *)paywallid preload:(BOOL)preload completion:(GYPaywallCompletion)block API_UNAVAILABLE(macos, watchos);
 
 - (void)restorePurchasesWithCompletion:(GYPermissionsCompletion)block;
 

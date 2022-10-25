@@ -14,7 +14,9 @@ API_UNAVAILABLE_BEGIN(macos, watchos)
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GYPaywallViewController (Private)
-+ (instancetype)paywallWithResponse:(GYAPIPaywallResponse *)res;
+
++ (instancetype)paywallViewController:(GYPaywall*)paywall;
+                           
 @end
 
 NS_ASSUME_NONNULL_END

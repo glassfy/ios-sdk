@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.3.4";
+    return @"1.4.0-beta.0";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -153,10 +153,17 @@
     });
 }
 
-+ (void)paywallWithId:(NSString *)paywallid completion:(GYPaywallCompletion)block
++ (void)paywallWithId:(NSString *)paywallId completion:(GYPaywallCompletion)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
-        [Glassfy.shared.manager getPaywall:paywallid completion:block];
+        [Glassfy.shared.manager getPaywall:paywallId completion:block];
+    });
+}
+
++ (void)paywallWithId:(NSString *)paywallId preload:(BOOL)preload completion:(GYPaywallCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager getPaywall:paywallId preload:preload completion:block];
     });
 }
 

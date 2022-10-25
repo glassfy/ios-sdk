@@ -449,6 +449,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     [self callApiWithRequest:req response:GYAPIPaywallResponse.class completion:block];
 }
 
+
 #pragma mark - private
 
 - (NSMutableURLRequest *_Nullable)authorizedRequestWithComponents:(NSURLComponents *)urlComponents
