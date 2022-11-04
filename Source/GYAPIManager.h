@@ -19,6 +19,7 @@
 @class SKProduct;
 @class SKPaymentTransaction;
 @class GYCacheManager;
+@class GYAttributionItem;
 
 typedef void(^GYGetInitCompletion)(GYAPIInitResponse* _Nullable, NSError* _Nullable);
 typedef void(^GYGetPermissionsCompletion)(GYAPIPermissionsResponse* _Nullable, NSError* _Nullable);
@@ -35,6 +36,7 @@ typedef GYBaseCompletion GYLogoutCompletion;
 typedef GYBaseCompletion GYLoginCompletion;
 typedef GYBaseCompletion GYPropertyCompletion;
 typedef GYBaseCompletion GYGetConnectCompletion;
+typedef GYBaseCompletion GYPostAttributionsCompletion;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -75,6 +77,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getPaywall:(NSString *)paywallId locale:(NSString *_Nullable)locale completion:(GYGetPaywallCompletion _Nullable)block;
 
 - (void)putLastSeen;
+
+- (void)postAttributions:(NSArray<GYAttributionItem*> *)items withCompletion:(GYPostAttributionsCompletion _Nullable)block;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -25,6 +25,7 @@
 #import <Glassfy/GYPurchaseDelegate.h>
 #import <Glassfy/GYStoresInfo.h>
 #import <Glassfy/GYStoreInfoPaddle.h>
+#import <Glassfy/GYAttributionItem.h>
 #else
 #import "GYSku.h"
 #import "GYSkuPaddle.h"
@@ -42,6 +43,7 @@
 #import "GYPurchaseDelegate.h"
 #import "GYStoresInfo.h"
 #import "GYStoreInfoPaddle.h"
+#import "GYAttributionItem.h"
 #endif
 
 
@@ -241,6 +243,23 @@ Save extra user properties
  @param block Completion block
  */
 + (void)storeInfo:(GYStoreCompletion)block NS_SWIFT_NAME(storeInfo(completion:));
+
+/**
+Set attribution values
+
+@param type Attribution identifier
+@param value Attribution value
+@param block Completion block
+*/
++ (void)setAttributionWithType:(GYAttributionType)type value:(NSString *_Nullable)value completion:(GYErrorCompletion)block NS_SWIFT_NAME(setAttribution(type:value:completion:));
+
+/**
+Set attribution values
+
+@param attributions Array of AttributionItem
+@param block Completion block
+*/
++ (void)setAttributions:(NSArray<GYAttributionItem*> *)attributions completion:(GYErrorCompletion)block NS_SWIFT_NAME(setAttributions(_:completion:));
 
 
 /// Deprecations

@@ -9,7 +9,7 @@
 #import "GYTypes.h"
 #import "GYPurchaseDelegate.h"
 @class GYSku;
-
+@class GYAttributionItem;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,7 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setEmailUserProperty:(NSString *)email completion:(GYErrorCompletion)block;
 - (void)setDeviceToken:(NSString *)deviceToken completion:(GYErrorCompletion)block;
 - (void)setExtraUserProperty:(NSDictionary<NSString*,NSString*> *)extra completion:(GYErrorCompletion)block;
-
 - (void)getUserProperties:(GYUserPropertiesCompletion)block;
 
 - (void)connectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block;
@@ -47,6 +46,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)restorePurchasesWithCompletion:(GYPermissionsCompletion)block;
 
 - (void)storeInfo:(GYStoreCompletion)block;
+
+- (void)setAttributionWithType:(GYAttributionType)type value:(NSString *_Nullable)value completion:(GYErrorCompletion)block;
+- (void)setAttributions:(NSArray<GYAttributionItem*> *)attributions completion:(GYErrorCompletion)block;
 
 @end
 

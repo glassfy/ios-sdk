@@ -20,7 +20,7 @@ Our SDK can be easly integrated through Cocoapods or Swift Package Manager
 #### Integrate using Cocoapods
 Add the pod to your Podfile:
 
-```pod 'Glassfy', '~> 1.3.4'```
+```pod 'Glassfy', '~> 1.3.5-beta.0'```
 
 Then, run the following command:
 

@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.3.4";
+    return @"1.3.5-beta.0";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -200,6 +200,19 @@
     });
 }
 
++ (void)setAttributionWithType:(GYAttributionType)type value:(NSString *)value completion:(GYErrorCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager setAttributionWithType:type value:value completion:block];
+    });
+}
+
++ (void)setAttributions:(NSArray<GYAttributionItem*> *)attributions completion:(GYErrorCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager setAttributions:attributions completion:block];
+    });
+}
 
 #pragma mark - Deprecations
 

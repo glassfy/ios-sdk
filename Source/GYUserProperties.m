@@ -16,6 +16,7 @@
 @implementation GYUserProperties (Private)
 
 - (instancetype)initWithObject:(nonnull NSDictionary *)obj error:(NSError **)error {
+    
     self = [super init];
     if (self) {
         NSString *email = obj[GYUserPropertyTypeEmail];
