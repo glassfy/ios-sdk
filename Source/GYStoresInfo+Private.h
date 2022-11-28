@@ -1,5 +1,5 @@
 //
-//  GYStoreInfo+Private.h.h
+//  GYStoreInfo+Private.h
 //  Glassfy
 //
 //  Created by Luca Garbolino on 12/04/22.

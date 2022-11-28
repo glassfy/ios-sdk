@@ -11,6 +11,7 @@
 #import "GYSku+Private.h"
 #import "SKPaymentTransaction+GYEncode.h"
 #import "SKProduct+GYEncode.h"
+#import "GYAttributionItem+Private.h"
 #import "GYSysInfo.h"
 #import "GYAPIManager.h"
 #import "GYError.h"
@@ -447,6 +448,41 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 
     NSURLRequest *req = [self authorizedRequestWithComponents:url];
     [self callApiWithRequest:req response:GYAPIPaywallResponse.class completion:block];
+}
+
+- (void)postAttributions:(NSArray<GYAttributionItem*> *)items withCompletion:(GYPostAttributionsCompletion _Nullable)block
+{
+    NSURLComponents *url = [self baseURLV0];
+    url.path = [url.path stringByAppendingPathComponent:@"attribution"];
+    
+    NSMutableDictionary *bodyEncoded = [NSMutableDictionary new];
+    for (GYAttributionItem *item in items) {
+        [bodyEncoded addEntriesFromDictionary:[item encodedObject]];
+    }
+    
+    NSError *err;
+    NSData *body;
+    if (![NSJSONSerialization isValidJSONObject:bodyEncoded]) {
+        err = GYError.encodeData;
+    }
+    else {
+        body = [NSJSONSerialization dataWithJSONObject:bodyEncoded options:kNilOptions error:&err];
+    }
+    if (err) {
+        dispatch_async(Glassfy.shared.glqueue, ^{
+            GYGetConnectCompletion completion = block;
+            if (completion) {
+                completion(nil, err);
+            }
+        });
+        return;
+    }
+    
+    NSMutableURLRequest *req = [self authorizedRequestWithComponents:url];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [req setHTTPMethod:@"POST"];
+    [req setHTTPBody:body];
+    [self callApiWithRequest:req response:GYAPIBaseResponse.class completion:block];
 }
 
 #pragma mark - private

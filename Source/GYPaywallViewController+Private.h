@@ -1,5 +1,5 @@
 //
-//  GYPaywallViewController.h
+//  GYPaywallViewController+Private.h
 //  Glassfy
 //
 //  Created by Luca Garbolino on 13/10/21.

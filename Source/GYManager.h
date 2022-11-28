@@ -9,7 +9,7 @@
 #import "GYTypes.h"
 #import "GYPurchaseDelegate.h"
 @class GYSku;
-
+@class GYAttributionItem;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -47,6 +47,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)restorePurchasesWithCompletion:(GYPermissionsCompletion)block;
 
 - (void)storeInfo:(GYStoreCompletion)block;
+
+- (void)setAttributionWithType:(GYAttributionType)type value:(NSString *_Nullable)value completion:(GYErrorCompletion)block;
+- (void)setAttributions:(NSArray<GYAttributionItem*> *)attributions completion:(GYErrorCompletion)block;
 
 @end
 

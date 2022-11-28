@@ -413,6 +413,17 @@
     }];
 }
 
+- (void)setAttributionWithType:(GYAttributionType)type value:(NSString *_Nullable)value completion:(GYErrorCompletion)block
+{
+    GYAttributionItem *item = [GYAttributionItem attributionItemWithType:type value:value];
+    [self setAttributions:@[item] completion:block];
+}
+
+- (void)setAttributions:(NSArray<GYAttributionItem *>*)attributions completion:(GYErrorCompletion)block
+{
+    [self setAttributions:attributions maxRetries:10 completion:block];
+}
+
 
 #pragma mark - Notification
 
@@ -818,5 +829,31 @@
     }];
 }
 
+- (void)setAttributions:(NSArray<GYAttributionItem *>*)attributions maxRetries:(NSUInteger)times completion:(GYErrorCompletion)block
+{
+    typeof(self) __weak weakSelf = self;
+    GYPostAttributionsCompletion apiCompletion = ^(GYAPIBaseResponse *res, NSError *err) {
+        if (err && times > 0) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8f * NSEC_PER_SEC)), Glassfy.shared.glqueue, ^{
+                [weakSelf setAttributions:attributions maxRetries:(times-1) completion:block];
+            });
+        }
+        else {
+            typeof(block) __strong completion = block;
+            if (completion) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(err);
+                });
+            }
+        }
+    };
+    
+    if (!self.initialized) {
+        apiCompletion(nil, GYError.sdkNotInitialized);
+        return;
+    }
+    
+    [self.api postAttributions:attributions withCompletion:apiCompletion];
+}
 
 @end
