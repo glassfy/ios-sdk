@@ -18,6 +18,7 @@
 @class GYSku;
 @class GYSkuBase;
 @class GYPaywallViewController;
+@class GYPurchasesHistory;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,6 +36,7 @@ typedef void(^GYPaywallCloseBlock)(GYTransaction* _Nullable, NSError* _Nullable)
 typedef void(^GYPaywallLinkBlock)(NSURL*) NS_SWIFT_NAME(Glassfy.PaywallLinkBlock);
 typedef void(^GYPaywallPurchaseBlock)(GYSku*) NS_SWIFT_NAME(Glassfy.PaywallPurchaseBlock);
 typedef void(^GYPaywallRestoreBlock)(void) NS_SWIFT_NAME(Glassfy.PaywallRestoreBlock);
+typedef void(^GYPurchaseHistoryCompletion)(GYPurchasesHistory* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PurchaseHistoryCompletion);
 
 
 typedef NS_ENUM(NSInteger, GYSkuEligibility) {
@@ -109,6 +111,22 @@ typedef NS_ENUM(NSUInteger, GYAttributionType) {
     // User IP address
     GYAttributionTypeIP,
 } NS_SWIFT_NAME(Glassfy.GYAttributionType);
+
+typedef NS_ENUM(NSUInteger, GYEventType) {
+    GYEventTypeInitialBuy = 5001,
+    GYEventTypeRestarted = 5002,
+    GYEventTypeRenewed = 5003,
+    GYEventTypeExpired = 5004,
+    GYEventTypeDidChangeRenewalStatus = 5005,
+    GYEventTypeIsInBillingRetryPeriod = 5006,
+    GYEventTypeProductChange = 5007,
+    GYEventTypeInAppPurchase = 5008,
+    GYEventTypeRefund = 5009,
+    GYEventTypePaused = 5010,
+    GYEventTypeResumed = 5011,
+    GYEventTypeConnectLicense = 5012,
+    GYEventTypeDisconnectLicense = 5013
+} NS_SWIFT_NAME(Glassfy.EventType);
 
 NS_ASSUME_NONNULL_END
 

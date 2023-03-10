@@ -16,6 +16,7 @@
 #import "GYAPISkuResponse.h"
 #import "GYAPIPaywallResponse.h"
 #import "GYAPIStoreInfoResponse.h"
+#import "GYAPIPurchaseHistoryResponse.h"
 @class SKProduct;
 @class SKPaymentTransaction;
 @class GYCacheManager;
@@ -30,6 +31,7 @@ typedef void(^GYGetPaywallCompletion)(GYAPIPaywallResponse* _Nullable, NSError* 
 typedef void(^GYGetSkuCompletion)(GYAPISkuResponse* _Nullable, NSError* _Nullable);
 typedef void(^GYBaseCompletion)(GYAPIBaseResponse* _Nullable, NSError* _Nullable);
 typedef void(^GYGetStoreInfo)(GYAPIStoreInfoResponse* _Nullable, NSError* _Nullable);
+typedef void(^GYGetPurchaseHistoryCompletion)(GYAPIPurchaseHistoryResponse* _Nullable, NSError* _Nullable);
 
 typedef GYBaseCompletion GYProductsCompletion;
 typedef GYBaseCompletion GYLogoutCompletion;
@@ -79,6 +81,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)putLastSeen;
 
 - (void)postAttributions:(NSArray<GYAttributionItem*> *)items withCompletion:(GYPostAttributionsCompletion _Nullable)block;
+
+- (void)getPurchaseHistoryWithCompletion:(GYGetPurchaseHistoryCompletion _Nullable)block;
 
 @end
 

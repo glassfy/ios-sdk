@@ -25,6 +25,7 @@
 #import "GYPaywallViewController+Private.h"
 #import "GYStoresInfo+Private.h"
 #import "Glassfy+Private.h"
+#import "GYPurchasesHistory+Private.h"
 #import "GYSysInfo.h"
 
 @interface GYManager() <SKPaymentTransactionObserver>
@@ -424,6 +425,11 @@
     [self setAttributions:attributions maxRetries:10 completion:block];
 }
 
+- (void)purchaseHistoryWithCompletion:(GYPurchaseHistoryCompletion)block
+{
+    [self purchaseHistoryMaxRetries:10 completion:block];
+}
+
 
 #pragma mark - Notification
 
@@ -797,8 +803,11 @@
             });
         }
         else {
-            GYPermissions *permssions = [GYPermissions permissionsWithResponse:res
-                                                                installationId:weakSelf.cache.installationId];
+            GYPermissions *permssions;
+            if (!err) {
+                permssions = [GYPermissions permissionsWithResponse:res
+                                                     installationId:weakSelf.cache.installationId];
+            }
             
             typeof(block) __strong completion = block;
             if (completion) {
@@ -815,6 +824,38 @@
     }
     
     [self.api getPermissionsWithCompletion:apiCompletion];
+}
+
+- (void)purchaseHistoryMaxRetries:(NSUInteger)times completion:(GYPurchaseHistoryCompletion)block
+{
+    typeof(self) __weak weakSelf = self;
+    GYGetPurchaseHistoryCompletion apiCompletion = ^(GYAPIPurchaseHistoryResponse *res, NSError *err) {
+        if (err && times > 0) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8f * NSEC_PER_SEC)), Glassfy.shared.glqueue, ^{
+                [weakSelf purchaseHistoryMaxRetries:(times-1) completion:block];
+            });
+        }
+        else {
+            GYPurchasesHistory *history;
+            if (!err) {
+                history = [GYPurchasesHistory purchasesHistoryWithResponse:res];
+            }
+            
+            typeof(block) __strong completion = block;
+            if (completion) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    err ? completion(nil, err) : completion(history, nil);
+                });
+            }
+        }
+    };
+    
+    if (!self.initialized) {
+        apiCompletion(nil, GYError.sdkNotInitialized);
+        return;
+    }
+    
+    [self.api getPurchaseHistoryWithCompletion:apiCompletion];
 }
 
 - (void)setUserProperty:(GYUserPropertyType)property value:(id)obj completion:(GYErrorCompletion)block

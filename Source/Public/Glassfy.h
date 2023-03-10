@@ -19,6 +19,8 @@
 #import <Glassfy/GYOfferings.h>
 #import <Glassfy/GYUserProperties.h>
 #import <Glassfy/GYPaywallViewController.h>
+#import <Glassfy/GYPurchaseHistory.h>
+#import <Glassfy/GYPurchasesHistory.h>
 
 #import <Glassfy/GYTypes.h>
 #import <Glassfy/GYError.h>
@@ -37,6 +39,8 @@
 #import "GYOfferings.h"
 #import "GYUserProperties.h"
 #import "GYPaywallViewController.h"
+#import "GYPurchaseHistory.h"
+#import "GYPurchasesHistory.h"
 
 #import "GYTypes.h"
 #import "GYError.h"
@@ -260,6 +264,13 @@ Set attribution values
 @param block Completion block
 */
 + (void)setAttributions:(NSArray<GYAttributionItem*> *)attributions completion:(GYErrorCompletion)block NS_SWIFT_NAME(setAttributions(_:completion:));
+
+/**
+Purchase history
+
+@param block Completion block
+*/
++ (void)purchaseHistoryWithCompletion:(GYPurchaseHistoryCompletion)block;
 
 
 /// Deprecations

@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.3.5";
+    return @"1.3.6";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -211,6 +211,13 @@
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
         [Glassfy.shared.manager setAttributions:attributions completion:block];
+    });
+}
+
++ (void)purchaseHistoryWithCompletion:(GYPurchaseHistoryCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager purchaseHistoryWithCompletion:block];
     });
 }
 

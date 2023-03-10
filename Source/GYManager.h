@@ -51,6 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setAttributionWithType:(GYAttributionType)type value:(NSString *_Nullable)value completion:(GYErrorCompletion)block;
 - (void)setAttributions:(NSArray<GYAttributionItem*> *)attributions completion:(GYErrorCompletion)block;
 
+- (void)purchaseHistoryWithCompletion:(GYPurchaseHistoryCompletion)block;
+
 @end
 
 NS_ASSUME_NONNULL_END

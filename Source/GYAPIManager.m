@@ -485,6 +485,15 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     [self callApiWithRequest:req response:GYAPIBaseResponse.class completion:block];
 }
 
+- (void)getPurchaseHistoryWithCompletion:(GYGetPurchaseHistoryCompletion _Nullable)block
+{
+    NSURLComponents *url = [self baseURLV0];
+    url.path = [url.path stringByAppendingPathComponent:@"purchases"];
+    
+    NSURLRequest *req = [self authorizedRequestWithComponents:url];
+    [self callApiWithRequest:req response:GYAPIPurchaseHistoryResponse.class completion:block];
+}
+
 #pragma mark - private
 
 - (NSMutableURLRequest *_Nullable)authorizedRequestWithComponents:(NSURLComponents *)urlComponents
