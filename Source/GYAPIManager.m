@@ -85,10 +85,21 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 
 #pragma mark - public
 
-- (void)getInitWithInfoWithCompletion:(GYGetInitCompletion)block
+- (void)getInitWithCrossPlatformSdkFramework:(NSString *)framework
+                     crossPlatformSdkVersion:(NSString *)version
+                                  completion:(GYGetInitCompletion)block
 {
     NSURLComponents *url = [self baseURLV0];
     url.path = [url.path stringByAppendingPathComponent:@"init"];
+    
+    NSMutableArray<NSURLQueryItem*> *queryItems = [(url.queryItems ?: @[]) mutableCopy];
+    if (framework) {
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:@"cross_platform_sdk_framework" value:framework]];
+    }
+    if (version) {
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:@"cross_platform_sdk_version" value:version]];
+    }
+    url.queryItems = queryItems;
     
     NSURLRequest *req = [self authorizedRequestWithComponents:url];
     [self callApiWithRequest:req response:GYAPIInitResponse.class completion:block];

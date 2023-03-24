@@ -28,6 +28,7 @@
 #import <Glassfy/GYStoresInfo.h>
 #import <Glassfy/GYStoreInfoPaddle.h>
 #import <Glassfy/GYAttributionItem.h>
+#import <Glassfy/GYInitializeOptions.h>
 #else
 #import "GYSku.h"
 #import "GYSkuPaddle.h"
@@ -48,6 +49,7 @@
 #import "GYStoresInfo.h"
 #import "GYStoreInfoPaddle.h"
 #import "GYAttributionItem.h"
+#import "GYInitializeOptions.h"
 #endif
 
 
@@ -84,6 +86,13 @@ NS_ASSUME_NONNULL_BEGIN
  @param watcherMode Take advantage of our charts and stats without change your existing code
  */
 + (void)initializeWithAPIKey:(NSString *)apiKey watcherMode:(BOOL)watcherMode NS_SWIFT_NAME(initialize(apiKey:watcherMode:));
+
+/**
+ Initialize the SDK
+ 
+ @param options Initialization options
+ */
++ (void)initializeWithOptions:(GYInitializeOptions *)options NS_SWIFT_NAME(initialize(options:));
 
 /**
  Chek permissions status of the user

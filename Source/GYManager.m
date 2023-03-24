@@ -27,12 +27,13 @@
 #import "Glassfy+Private.h"
 #import "GYPurchasesHistory+Private.h"
 #import "GYSysInfo.h"
+#import "GYInitializeOptions.h"
 
 @interface GYManager() <SKPaymentTransactionObserver>
 @property(nonatomic, strong) GYCacheManager *cache;
 @property(nonatomic, strong) GYAPIManager *api;
 @property(nonatomic, strong) GYStoreRequest *store;
-@property(nonatomic, assign) BOOL watcherMode;
+@property(nonatomic, strong) GYInitializeOptions *options;
 @property(nonatomic, assign) BOOL initialized;
 
 @property(nonatomic, weak) id<GYPurchaseDelegate> purchasesDelegate;
@@ -41,21 +42,22 @@
 
 @implementation GYManager
 
-+ (GYManager *)managerWithApiKey:(NSString *)apiKey watcherMode:(BOOL)watcherMode
++ (GYManager *)managerWithOptions:(GYInitializeOptions *)options
 {
-    GYManager *manager = [[self alloc] initWithApiKey:apiKey watcherMode:watcherMode];
+    GYManager *manager = [[self alloc] initWithInitializeOptions:options];
     [manager startSDK];
     return manager;
 }
 
-- (instancetype)initWithApiKey:(NSString *)apiKey watcherMode:(BOOL)watcherMode
+- (instancetype)initWithInitializeOptions:(GYInitializeOptions *)options
 {
     self = [super init];
     if (self) {
-        self.watcherMode = watcherMode;
+        self.options = options;
+        
         self.store = [GYStoreRequest new];
         self.cache = [GYCacheManager new];
-        self.api = [[GYAPIManager alloc] initWithApiKey:apiKey cache:self.cache];
+        self.api = [[GYAPIManager alloc] initWithApiKey:options.apiKey cache:self.cache];
         self.purchaseCompletions = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableCopyIn];
         
         if (GYSysInfo.applicationDidBecomeActiveNotification) {
@@ -114,7 +116,7 @@
 
 - (BOOL)watcherMode
 {
-    return _watcherMode;
+    return self.options.watcherMode;
 }
 
 - (void)permissionsWithCompletion:(GYPermissionsCompletion)block
@@ -714,7 +716,9 @@
         }
     };
     
-    [self.api getInitWithInfoWithCompletion:^(GYAPIInitResponse *res, NSError *err) {
+    [self.api getInitWithCrossPlatformSdkFramework:self.options.crossPlatformSdkFramework
+                           crossPlatformSdkVersion:self.options.crossPlatformSdkVersion
+                                        completion:^(GYAPIInitResponse *res, NSError *err) {
         BOOL shouldSendReceipt = !res.hasReceipt;
         [self.store productWithSkus:res.skus completion:^(NSArray<SKProduct*> *products, NSError *err) {
             if (products.count) {

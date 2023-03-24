@@ -48,7 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithApiKey:(NSString *)apiKey cache:(GYCacheManager *)cache;
 
-- (void)getInitWithInfoWithCompletion:(GYGetInitCompletion _Nullable)block;
+- (void)getInitWithCrossPlatformSdkFramework:(NSString *_Nullable)framework
+                     crossPlatformSdkVersion:(NSString *_Nullable)version
+                                  completion:(GYGetInitCompletion _Nullable)block;
 
 - (void)getSkuWithId:(NSString *)skuid store:(GYStore)store withCompletion:(GYGetSkuCompletion _Nullable)block;
 - (void)getSkuWithProductId:(NSString *)productid promotionalId:(NSString *_Nullable)promoid withCompletion:(GYGetSkuCompletion _Nullable)block;

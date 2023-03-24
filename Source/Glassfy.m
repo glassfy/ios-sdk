@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.3.6";
+    return @"1.3.7";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -50,8 +50,16 @@
 
 + (void)initializeWithAPIKey:(NSString *)apiKey watcherMode:(BOOL)watcherMode
 {
+    GYInitializeOptions *opt = [GYInitializeOptions initializeOptionsWithAPIKey:apiKey];
+    opt.watcherMode = watcherMode;
+    
+    [self initializeWithOptions:opt];
+}
+
++ (void)initializeWithOptions:(GYInitializeOptions *)options
+{
     dispatch_async(Glassfy.shared.glqueue, ^{
-        Glassfy.shared.manager = [GYManager managerWithApiKey:apiKey watcherMode:watcherMode];
+        Glassfy.shared.manager = [GYManager managerWithOptions:options];
     });
 }
 

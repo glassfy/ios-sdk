@@ -10,6 +10,7 @@
 #import "GYPurchaseDelegate.h"
 @class GYSku;
 @class GYAttributionItem;
+@class GYInitializeOptions;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly, strong, nonnull) NSString *apiKey;
 @property(nonatomic, readonly, assign) BOOL watcherMode;
 
-+ (GYManager *)managerWithApiKey:(NSString *)apiKey watcherMode:(BOOL)watcherMode;
++ (GYManager *)managerWithOptions:(GYInitializeOptions *)options;
 
 - (void)setPurchaseDelegate:(id<GYPurchaseDelegate>)delegate;
 
