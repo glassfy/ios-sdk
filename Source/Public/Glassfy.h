@@ -240,7 +240,21 @@ Save extra user properties
  @param block Completion block
  @note  Check error code in GYDomain - GYErrorCodeLicenseAlreadyConnected, GYErrorCodeLicenseInvalid to handle those cases
  */
-+ (void)connectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectPaddle(licenseKey:force:completion:));
++ (void)connectPaddleLicenseKey:(NSString *)licenseKey
+                          force:(BOOL)force
+                     completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectPaddle(licenseKey:force:completion:));
+
+/**
+Connect Glassfy Universal Code
+
+ @param universalCode Glassfy Universal Code
+ @param force Disconnect the code from other subscriber(s) and connect with current subscriber
+ @param block Completion block
+ @note  Check error code in GYDomain - GYErrorCodeUniversalCodeAlreadyConnected, GYErrorCodeUniversalCodeNotFound to handle those cases
+*/
++ (void)connectGlassfyUniversalCode:(NSString *)universalCode
+                              force:(BOOL)force
+                     withCompletion:(GYErrorCompletion)block NS_SWIFT_NAME(connectGlassfy(universalCode:force:completion:));
 
 /**
  Connect custom subscriber
@@ -280,7 +294,6 @@ Purchase history
 @param block Completion block
 */
 + (void)purchaseHistoryWithCompletion:(GYPurchaseHistoryCompletion)block;
-
 
 /// Deprecations
 

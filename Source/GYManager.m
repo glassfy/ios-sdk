@@ -390,6 +390,21 @@
     }];
 }
 
+- (void)connectGlassfyUniversalCode:(NSString*)universalCode
+                              force:(BOOL)force
+                     withCompletion:(GYErrorCompletion)block
+{
+    [self.api postConnectGlassfyUniversalCode:universalCode force:force completion:^(GYAPIBaseResponse *res, NSError *err) {
+        typeof(block) __strong completion = block;
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(err);
+            });
+        }
+    }];
+    
+}
+
 - (void)connectCustomSubscriber:(NSString *_Nullable)customId completion:(GYErrorCompletion)block
 {
     [self.api postConnectUser:customId completion:^(GYAPIBaseResponse *res, NSError *err) {
@@ -431,7 +446,6 @@
 {
     [self purchaseHistoryMaxRetries:10 completion:block];
 }
-
 
 #pragma mark - Notification
 

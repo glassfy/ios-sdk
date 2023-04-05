@@ -72,7 +72,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getPropertiesWithCompletion:(GYGetPropertiesCompletion _Nullable)block;
 
 - (void)postConnectUser:(NSString *_Nullable)customId completion:(GYGetConnectCompletion _Nullable)block;
-- (void)postConnectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYGetConnectCompletion _Nullable)block;
+
+- (void)postConnectPaddleLicenseKey:(NSString *)licenseKey
+                              force:(BOOL)force
+                         completion:(GYGetConnectCompletion _Nullable)block;
+
+- (void)postConnectGlassfyUniversalCode:(NSString *)universalCode
+                                  force:(BOOL)force
+                             completion:(GYGetConnectCompletion _Nullable)block;
 
 - (void)getStoreInfoWithCompletion:(GYGetStoreInfo _Nullable)block;
 

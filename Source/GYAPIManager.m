@@ -6,18 +6,18 @@
 //
 
 #import <CommonCrypto/CommonDigest.h>
-#import "Glassfy+Private.h"
-#import "GYUserProperties+Private.h"
-#import "GYSku+Private.h"
-#import "SKPaymentTransaction+GYEncode.h"
-#import "SKProduct+GYEncode.h"
-#import "GYAttributionItem+Private.h"
-#import "GYSysInfo.h"
 #import "GYAPIManager.h"
+#import "GYAttributionItem+Private.h"
+#import "GYCacheManager.h"
 #import "GYError.h"
 #import "GYLogger.h"
-#import "GYCacheManager.h"
+#import "GYSku+Private.h"
+#import "GYSysInfo.h"
+#import "GYUserProperties+Private.h"
 #import "GYUtils.h"
+#import "Glassfy+Private.h"
+#import "SKPaymentTransaction+GYEncode.h"
+#import "SKProduct+GYEncode.h"
 
 #define BASE_URL @"https://api.glassfy.io"
 
@@ -98,6 +98,11 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     }
     if (version) {
         [queryItems addObject:[NSURLQueryItem queryItemWithName:@"cross_platform_sdk_version" value:version]];
+    }
+    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    if (bundleIdentifier) {
+        NSURLQueryItem *bundleIdentifierItem = [NSURLQueryItem queryItemWithName:@"bundle_id" value:bundleIdentifier];
+        [queryItems addObject:bundleIdentifierItem];
     }
     url.queryItems = queryItems;
     
@@ -405,8 +410,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     NSData *body;
     if (![NSJSONSerialization isValidJSONObject:bodyEncoded]) {
         err = GYError.encodeData;
-    }
-    else {
+    } else {
         body = [NSJSONSerialization dataWithJSONObject:bodyEncoded options:kNilOptions error:&err];
     }
     if (err) {
@@ -475,8 +479,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     NSData *body;
     if (![NSJSONSerialization isValidJSONObject:bodyEncoded]) {
         err = GYError.encodeData;
-    }
-    else {
+    } else {
         body = [NSJSONSerialization dataWithJSONObject:bodyEncoded options:kNilOptions error:&err];
     }
     if (err) {
@@ -503,6 +506,46 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
     
     NSURLRequest *req = [self authorizedRequestWithComponents:url];
     [self callApiWithRequest:req response:GYAPIPurchaseHistoryResponse.class completion:block];
+}
+
+- (void)postConnectGlassfyUniversalCode:(NSString*)universalCode
+                                  force:(BOOL)force
+                             completion:(GYGetConnectCompletion _Nullable)block
+{
+    NSDictionary *payload = @{
+        @"licenseKey": universalCode,
+        @"store": @(GYStoreGlassfy),
+        @"force": @(force)
+    };
+    
+    NSError *err;
+    NSData *body;
+    if (![NSJSONSerialization isValidJSONObject:payload]) {
+        err = GYError.encodeData;
+    } else {
+        body = [NSJSONSerialization dataWithJSONObject:payload options:kNilOptions error:&err];
+    }
+    if (err) {
+        dispatch_async(Glassfy.shared.glqueue, ^{
+            GYGetConnectCompletion completion = block;
+            if (completion) {
+                completion(nil, err);
+            }
+        });
+        return;
+    }
+        
+    NSURLComponents *url = [self baseURLV0];
+    url.path = [url.path stringByAppendingPathComponent:@"connect"];
+    
+    NSMutableURLRequest *req = [self authorizedRequestWithComponents:url];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [req setHTTPMethod:@"POST"];
+    [req setHTTPBody:body];
+    
+    [self callApiWithRequest: req
+                    response: GYAPIBaseResponse.class
+                  completion: block];
 }
 
 #pragma mark - private

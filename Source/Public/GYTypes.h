@@ -96,7 +96,9 @@ typedef NS_ENUM(NSUInteger, GYLogLevel) {
 typedef NS_ENUM(NSUInteger, GYStore) {
     GYStoreAppStore = 1,
     GYStorePlayStore = 2,
-    GYStorePaddle = 3
+    GYStorePaddle = 3,
+    GYStoreStripe = 4,
+    GYStoreGlassfy = 5
 } NS_SWIFT_NAME(Glassfy.Store);
 
 typedef NS_ENUM(NSUInteger, GYAttributionType) {
