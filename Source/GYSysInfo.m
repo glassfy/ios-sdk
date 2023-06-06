@@ -16,17 +16,6 @@
 
 @implementation GYSysInfo
 
-typedef NS_ENUM(NSUInteger, GYSubplatform) {
-    GYSubplatformUnknown = 0,
-    GYSubplatformiOS = 1,
-    GYSubplatformCatalyst = 2,
-    GYSubplatformTV = 3,
-    GYSubplatformWatch = 4,
-    GYSubplatformOSx = 5,
-    GYSubplatformDrive = 6,
-    GYSubplatformSimulator = 7
-};
-
 + (NSString *)installationInfo
 {
     // store      : sub-platform : os version : device type : sdkVersion : appVersion

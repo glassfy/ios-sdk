@@ -18,6 +18,7 @@
 #import <Glassfy/GYPermissions.h>
 #import <Glassfy/GYOfferings.h>
 #import <Glassfy/GYUserProperties.h>
+#import <Glassfy/GYPaywall.h>
 #import <Glassfy/GYPaywallViewController.h>
 #import <Glassfy/GYPurchaseHistory.h>
 #import <Glassfy/GYPurchasesHistory.h>
@@ -39,6 +40,7 @@
 #import "GYPermissions.h"
 #import "GYOfferings.h"
 #import "GYUserProperties.h"
+#import "GYPaywall.h"
 #import "GYPaywallViewController.h"
 #import "GYPurchaseHistory.h"
 #import "GYPurchasesHistory.h"
@@ -178,11 +180,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setLogLevel:(GYLogLevel)level NS_SWIFT_NAME(log(level:));
 
 /**
-Save push notification device token
+ Save push notification device token
 
-@param deviceToken A globally unique token that identifies this device to APNs
-@param block Completion block
-*/
+ @param deviceToken A globally unique token that identifies this device to APNs
+ @param block Completion block
+ */
 + (void)setDeviceToken:(NSString *_Nullable)deviceToken completion:(GYErrorCompletion)block NS_SWIFT_NAME(setDeviceToken(_:completion:));
 
 /**
@@ -194,11 +196,11 @@ Save push notification device token
 + (void)setEmailUserProperty:(NSString *_Nullable)email completion:(GYErrorCompletion)block NS_SWIFT_NAME(setUserProperty(email:completion:));
 
 /**
-Save extra user properties
+ Save extra user properties
 
-@param extra Addional user properties
-@param block Completion block
-*/
+ @param extra Addional user properties
+ @param block Completion block
+ */
 + (void)setExtraUserProperty:(NSDictionary<NSString*,NSString*> *_Nullable)extra completion:(GYErrorCompletion)block NS_SWIFT_NAME(setUserProperty(extra:completion:));
 
 /**
@@ -216,12 +218,41 @@ Save extra user properties
 + (void)setPurchaseDelegate:(id<GYPurchaseDelegate> _Nullable)delegate;
 
 /**
- Initialize a ViewController to show paywall
+ Creates a Paywall object which can be used to load a PaywallViewController at a later time.
+ Automatically fetches paywall contents.
  
- @param paywallid Paywall identifier
+ @param remoteConfigId Remote config identifier
  @param block Completion block
  */
-+ (void)paywallWithId:(NSString *)paywallid completion:(GYPaywallCompletion)block API_UNAVAILABLE(macos, watchos) NS_SWIFT_NAME(paywall(id:completion:));
++ (void)paywallWithRemoteConfigurationId:(NSString *)remoteConfigId
+                              completion:(GYPaywallCompletion)block
+API_UNAVAILABLE(macos, watchos)
+NS_SWIFT_NAME(paywall(remoteConfigurationId:completion:));
+
+/**
+ Fetches a paywall configuration and returns a PaywallViewController.
+ 
+ @param remoteConfigId Remote config identifier
+ @param block Completion block
+ */
++ (void)paywallViewControllerWithRemoteConfigurationId:(NSString *)remoteConfigId
+                                            completion:(GYPaywallViewControllerCompletion)block
+API_UNAVAILABLE(macos, watchos)
+NS_SWIFT_NAME(paywallViewController(remoteConfigurationId:completion:));
+
+/**
+ Fetches a paywall configuration and returns a PaywallViewController.
+ If `awaitLoading` is `true`, the completion block is invoked only after the paywall content is ready for being shown.
+ 
+ @param remoteConfigId Remote config identifier
+ @param awaitLoading Wait for the paywall content to load before invoking the completion block.
+ @param block Completion block
+ */
++ (void)paywallViewControllerWithRemoteConfigurationId:(NSString *)remoteConfigId
+                                          awaitLoading:(BOOL)awaitLoading
+                                            completion:(GYPaywallViewControllerCompletion)block
+API_UNAVAILABLE(macos, watchos)
+NS_SWIFT_NAME(paywallViewController(remoteConfigurationId:awaitLoading:completion:));
 
 /**
  Connect paddle license key
@@ -245,13 +276,13 @@ Save extra user properties
                      completion:(GYErrorCompletion)block NS_SWIFT_NAME(connectPaddle(licenseKey:force:completion:));
 
 /**
-Connect Glassfy Universal Code
+ Connect Glassfy Universal Code
 
  @param universalCode Glassfy Universal Code
  @param force Disconnect the code from other subscriber(s) and connect with current subscriber
  @param block Completion block
  @note  Check error code in GYDomain - GYErrorCodeUniversalCodeAlreadyConnected, GYErrorCodeUniversalCodeNotFound to handle those cases
-*/
+ */
 + (void)connectGlassfyUniversalCode:(NSString *)universalCode
                               force:(BOOL)force
                      withCompletion:(GYErrorCompletion)block NS_SWIFT_NAME(connectGlassfy(universalCode:force:completion:));
@@ -272,35 +303,40 @@ Connect Glassfy Universal Code
 + (void)storeInfo:(GYStoreCompletion)block NS_SWIFT_NAME(storeInfo(completion:));
 
 /**
-Set attribution values
+ Set attribution values
 
-@param type Attribution identifier
-@param value Attribution value
-@param block Completion block
+ @param type Attribution identifier
+ @param value Attribution value
+ @param block Completion block
 */
 + (void)setAttributionWithType:(GYAttributionType)type value:(NSString *_Nullable)value completion:(GYErrorCompletion)block NS_SWIFT_NAME(setAttribution(type:value:completion:));
 
 /**
-Set attribution values
+ Set attribution values
 
-@param attributions Array of AttributionItem
-@param block Completion block
-*/
+ @param attributions Array of AttributionItem
+ @param block Completion block
+ */
 + (void)setAttributions:(NSArray<GYAttributionItem*> *)attributions completion:(GYErrorCompletion)block NS_SWIFT_NAME(setAttributions(_:completion:));
 
 /**
-Purchase history
+ Purchase history
 
-@param block Completion block
-*/
+ @param block Completion block
+ */
 + (void)purchaseHistoryWithCompletion:(GYPurchaseHistoryCompletion)block;
 
 /// Deprecations
 
 /**
-@warning Deprecated in favour of `+skuWithId:completion:`
-*/
-+ (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block NS_SWIFT_NAME(sku(identifier:completion:)) __attribute__((deprecated("Renamed to +skuWithId:completion:")));
+ @warning Deprecated in favour of `+paywallViewControllerWithRemoteConfigurationId:completion:`
+ */
++ (void)paywallWithId:(NSString *)paywallid completion:(GYPaywallViewControllerCompletion)block API_UNAVAILABLE(macos, watchos) NS_SWIFT_NAME(paywall(id:completion:)) __attribute__((deprecated("Renamed to +paywallViewController(remoteConfigurationId:awaitLoading:completion:)")));
+
+/**
+ @warning Deprecated in favour of `+skuWithId:completion:`
+ */
++ (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block NS_SWIFT_NAME(sku(identifier:completion:)) __attribute__((deprecated("Renamed to +sku(id:completion:)")));
 
 /**
  @warning Deprecated in favour of `+connectCustomSubscriber:completion:`

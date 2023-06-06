@@ -26,6 +26,7 @@
 #import "GYStoresInfo+Private.h"
 #import "Glassfy+Private.h"
 #import "GYPurchasesHistory+Private.h"
+#import "GYPaywall+Private.h"
 #import "GYSysInfo.h"
 #import "GYInitializeOptions.h"
 
@@ -350,32 +351,83 @@
     }];
 }
 
-- (void)getPaywall:(NSString *)paywallId completion:(GYPaywallCompletion)block
+- (void)paywallWithRemoteConfigurationId:(NSString *)remoteConfigId completion:(GYPaywallCompletion)block
 {
-    NSString *lang = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
-    [self.api getPaywall:paywallId locale:lang completion:^(GYAPIPaywallResponse *res, NSError *paywallErr) {
-        [self.store productWithSkus:res.skus completion:^(NSArray<SKProduct*> *products, NSError *storeErr) {
-            res.skus = [GYSku matchSkus:res.skus withProducts:products ?: @[]];
-            
-            typeof(block) __strong completion = block;
-            if (completion) {
-                dispatch_async(dispatch_get_main_queue(), ^{
 #if TARGET_OS_IPHONE
+    NSString *lang = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
+    [self.api getPaywall:remoteConfigId locale:lang completion:^(GYAPIPaywallResponse *res, NSError *paywallErr) {
+        GYPaywall *paywall;
+        
+        // Create the dispatch group
+        dispatch_group_t serviceGroup = dispatch_group_create();
+        
+        __block NSError *storeError = nil;
+        if (!paywallErr) {
+            paywall = [GYPaywall paywallWithResponse:res];
 
-                    NSError *err = paywallErr ?: storeErr;
-                    GYPaywallViewController *vc = nil;
-                    if (!err) {
-                        vc = [GYPaywallViewController paywallWithResponse:res];
-                    }
-                    
-                    err ? completion(nil, err) : completion(vc, nil);
-#else
-                    completion(nil, GYError.notSupported);
-#endif
-                });
+            // Start sku request with appstore
+            dispatch_group_enter(serviceGroup);
+            [self.store productWithSkus:res.skus completion:^(NSArray<SKProduct*> *products, NSError *storeErr) {
+                storeError = storeErr;
+                if (!storeErr && (res.skus.count != products.count)) {
+                    storeError = GYError.storeProductNotFound;
+                }
+                res.skus = [GYSku matchSkus:res.skus withProducts:products ?: @[]];
+                dispatch_group_leave(serviceGroup);
+            }];
+        }
+        
+        dispatch_group_notify(serviceGroup, dispatch_get_main_queue(), ^{
+            NSError *overallError = paywallErr ?: storeError;
+            if (overallError) {
+                block(nil, overallError);
+                return;
             }
-        }];
+            block(paywall, nil);
+        });
     }];
+#else
+    dispatch_async(dispatch_get_main_queue(), ^{
+        block(nil, GYError.notSupported);
+    });
+#endif
+}
+
+- (void)paywallViewControllerWithRemoteConfigurationId:(NSString *)remoteConfigId
+                                          awaitLoading:(BOOL)awaitLoading
+                                            completion:(GYPaywallViewControllerCompletion)block
+{
+#if TARGET_OS_IPHONE
+    [self paywallWithRemoteConfigurationId:remoteConfigId completion:^(GYPaywall * _Nullable somePaywall, NSError * _Nullable error) {
+        if (!somePaywall || error) {
+            block(nil, error);
+            return;
+        }
+        
+        __block GYPaywall *paywall = somePaywall;
+        if (awaitLoading) {
+            [paywall setContentAvailableHandler:^(GYPaywallViewController * _Nullable viewController, NSError * _Nullable error) {
+                if (error) {
+                    block(nil, error);
+                    return;
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    block(viewController, nil);
+                    paywall = nil;
+                });
+            }];
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                block([paywall viewController], nil);
+                paywall = nil;
+            });
+        }
+    }];
+#else
+    dispatch_async(dispatch_get_main_queue(), ^{
+        block(nil, GYError.notSupported);
+    });
+#endif
 }
 
 - (void)connectPaddleLicenseKey:(NSString *)licenseKey force:(BOOL)force completion:(GYErrorCompletion)block

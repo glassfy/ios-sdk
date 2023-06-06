@@ -2,15 +2,29 @@
 //  GYAPIPaywallResponse.m
 //  Glassfy
 //
-//  Created by Luca Garbolino on 13/10/21.
+//  Created by Luca Garbolino on 27/06/22.
 //
 
 #import "GYAPIPaywallResponse.h"
-#import "GYAPIBaseResponse.h"
-#import "GYError.h"
 #import "GYSku+Private.h"
+#import "GYError.h"
+
+#define PAYWALL_TYPE_HTML @"html"
+#define PAYWALL_TYPE_NOCODE @"nocode"
 
 @implementation GYAPIPaywallResponse
+
++ (GYPaywallType)paywallTypeFromString:(NSString*)typeStr
+{
+    GYPaywallType type = GYPaywallTypeNoCode;
+    if ([typeStr isKindOfClass:NSString.class]) {
+        if ([PAYWALL_TYPE_HTML isEqualToString:typeStr]) {
+            type = GYPaywallTypeHTML;
+        }
+    }
+    return type;
+}
+
 - (instancetype _Nullable)initWithObject:(NSDictionary *)obj error:(NSError **)error
 {
     self = [super initWithObject:obj error:error];
@@ -21,9 +35,17 @@
     if (self) {
         NSDictionary *paywall = obj[@"paywall"];
         if ([paywall isKindOfClass:NSDictionary.class]) {
-            NSString *content = paywall[@"content"];
-            if ([content isKindOfClass:NSString.class]) {
-                self.content = content;
+            
+            NSString *version = paywall[@"version"];
+            if ([version isKindOfClass:NSString.class]) {
+                self.version = version;
+            }
+            
+            self.type = [GYAPIPaywallResponse paywallTypeFromString:paywall[@"type"]];
+            
+            NSString *contentUrl = paywall[@"url"];
+            if ([contentUrl isKindOfClass:NSString.class]) {
+                self.contentUrl = [NSURL URLWithString:contentUrl];
             }
             
             NSString *locale = paywall[@"locale"];
@@ -56,10 +78,13 @@
         
         
         // verify
-        if (!self.content) {
-            *error = [GYError serverError:GYErrorCodeUnknow description:@"Unexpected data format"];
+        if (!self.contentUrl) {
+            if (error) {
+                *error = [GYError serverError:GYErrorCodeUnknow description:@"Unexpected data format"];
+            }
         }
     }
     return self;
 }
+
 @end

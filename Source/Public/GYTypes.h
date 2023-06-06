@@ -9,6 +9,8 @@
 #define Types_h
 
 #import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
 @class SKPaymentTransaction;
 @class GYTransaction;
 @class GYPermissions;
@@ -17,10 +19,9 @@
 @class GYStoresInfo;
 @class GYSku;
 @class GYSkuBase;
-@class GYPaywallViewController;
+@class GYPaywall;
 @class GYPurchasesHistory;
-
-NS_ASSUME_NONNULL_BEGIN
+@class GYPaywallViewController;
 
 typedef void(^GYSkuBlock)(GYSku* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.SkuBlock);
 typedef void(^GYSkuBaseCompletion)(GYSkuBase* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.SkuBaseCompletion);
@@ -31,13 +32,18 @@ typedef void(^GYBooleanCompletion)(BOOL, NSError* _Nullable) NS_SWIFT_NAME(Glass
 typedef void(^GYErrorCompletion)(NSError* _Nullable) NS_SWIFT_NAME(Glassfy.ErrorCompletion);
 typedef void(^GYUserPropertiesCompletion)(GYUserProperties* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.UserPropertiesCompletion);
 typedef void(^GYStoreCompletion)(GYStoresInfo* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.StoreCompletion);
-typedef void(^GYPaywallCompletion)(GYPaywallViewController* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaywallCompletion);
+typedef void(^GYPaywallCompletion)(GYPaywall* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaywallCompletion);
 typedef void(^GYPaywallCloseBlock)(GYTransaction* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaywallCloseBlock);
 typedef void(^GYPaywallLinkBlock)(NSURL*) NS_SWIFT_NAME(Glassfy.PaywallLinkBlock);
 typedef void(^GYPaywallPurchaseBlock)(GYSku*) NS_SWIFT_NAME(Glassfy.PaywallPurchaseBlock);
 typedef void(^GYPaywallRestoreBlock)(void) NS_SWIFT_NAME(Glassfy.PaywallRestoreBlock);
 typedef void(^GYPurchaseHistoryCompletion)(GYPurchasesHistory* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PurchaseHistoryCompletion);
+typedef void(^GYPaywallViewControllerCompletion)(GYPaywallViewController* _Nullable, NSError* _Nullable) NS_SWIFT_NAME(Glassfy.PaywallViewControllerCompletion);
 
+typedef NS_ENUM(NSUInteger, GYPaywallType) {
+    GYPaywallTypeNoCode,
+    GYPaywallTypeHTML
+};
 
 typedef NS_ENUM(NSInteger, GYSkuEligibility) {
     GYSkuEligibilityEligible = 1,

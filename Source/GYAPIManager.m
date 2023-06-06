@@ -451,7 +451,7 @@ typedef void(^GYBaseAPICompletion)(id<GYDecodeProtocol>, NSError *);
 
 - (void)getPaywall:(NSString *)paywallId locale:(NSString *)locale completion:(GYGetPaywallCompletion _Nullable)block
 {
-    NSURLComponents *url = [self baseURLV0];
+    NSURLComponents *url = [self baseURLV1];
     url.path = [url.path stringByAppendingPathComponent:@"paywall"];
     
     NSMutableArray<NSURLQueryItem*> *queryItems = [(url.queryItems ?: @[]) mutableCopy];

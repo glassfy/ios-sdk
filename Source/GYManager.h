@@ -66,8 +66,13 @@ API_AVAILABLE(ios(12.2), macos(10.14.4), watchos(6.2));
 - (void)connectCustomSubscriber:(NSString *_Nullable)customId
                      completion:(GYErrorCompletion)block;
 
-- (void)getPaywall:(NSString *)paywallId
-        completion:(GYPaywallCompletion)block
+- (void)paywallWithRemoteConfigurationId:(NSString *)remoteConfigId
+                              completion:(GYPaywallCompletion)block
+API_UNAVAILABLE(macos, watchos);
+
+- (void)paywallViewControllerWithRemoteConfigurationId:(NSString *)remoteConfigId
+                                          awaitLoading:(BOOL)awaitLoading
+                                            completion:(GYPaywallViewControllerCompletion)block
 API_UNAVAILABLE(macos, watchos);
 
 - (void)restorePurchasesWithCompletion:(GYPermissionsCompletion)block;

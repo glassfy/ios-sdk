@@ -40,7 +40,7 @@
 
 + (NSString *)sdkVersion
 {
-    return @"1.3.8";
+    return @"1.4.0";
 }
 
 + (void)initializeWithAPIKey:(NSString *)apiKey
@@ -161,10 +161,31 @@
     });
 }
 
-+ (void)paywallWithId:(NSString *)paywallid completion:(GYPaywallCompletion)block
++ (void)paywallWithRemoteConfigurationId:(NSString *)remoteConfigId
+                              completion:(GYPaywallCompletion)block
 {
     dispatch_async(Glassfy.shared.glqueue, ^{
-        [Glassfy.shared.manager getPaywall:paywallid completion:block];
+        [Glassfy.shared.manager paywallWithRemoteConfigurationId:remoteConfigId
+                                                      completion:block];
+    });
+}
+
++ (void)paywallViewControllerWithRemoteConfigurationId:(NSString *)remoteConfigId
+                                           completion:(GYPaywallViewControllerCompletion)block
+{
+    [self paywallViewControllerWithRemoteConfigurationId:remoteConfigId
+                                            awaitLoading:false
+                                              completion:block];
+}
+
++ (void)paywallViewControllerWithRemoteConfigurationId:(NSString *)remoteConfigId
+                                          awaitLoading:(BOOL)awaitLoading
+                                            completion:(GYPaywallViewControllerCompletion)block
+{
+    dispatch_async(Glassfy.shared.glqueue, ^{
+        [Glassfy.shared.manager paywallViewControllerWithRemoteConfigurationId:remoteConfigId
+                                                                  awaitLoading:awaitLoading
+                                                                    completion:block];
     });
 }
 
@@ -244,7 +265,12 @@
 
 + (void)skuWithIdentifier:(NSString *)skuid completion:(GYSkuBlock)block
 {
-    return [self skuWithId:skuid completion:block];
+    [self skuWithId:skuid completion:block];
+}
+
++ (void)paywallWithId:(NSString *)paywallid completion:(GYPaywallViewControllerCompletion)block
+{
+    [self paywallViewControllerWithRemoteConfigurationId:paywallid completion:block];
 }
 
 @end

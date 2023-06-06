@@ -4,6 +4,7 @@
 //
 //  Created by Luca Garbolino on 13/10/21.
 //
+
 #if TARGET_OS_IPHONE
 API_UNAVAILABLE_BEGIN(macos, watchos)
 
@@ -14,11 +15,12 @@ API_UNAVAILABLE_BEGIN(macos, watchos)
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GYPaywallViewController (Private)
-+ (instancetype)paywallWithResponse:(GYAPIPaywallResponse *)res;
+
++ (GYPaywallViewController*)instanceWithPaywall:(GYPaywall *)paywall;
+                           
 @end
 
 NS_ASSUME_NONNULL_END
-
 
 API_UNAVAILABLE_END
 #endif
