@@ -7,6 +7,7 @@
 
 #import "GYStoreInfo.h"
 #import "GYStoreInfoPaddle.h"
+#import "GYStoreInfoStripe.h"
 #import "GYLogger.h"
 
 @interface GYStoreInfo()
@@ -26,6 +27,9 @@
     switch (store.integerValue) {
         case GYStorePaddle:
             self = [GYStoreInfoPaddle new];
+            break;
+        case GYStoreStripe:
+            self = [GYStoreInfoStripe new];
             break;
         case GYStoreAppStore || GYStorePlayStore:
             self = [super init];

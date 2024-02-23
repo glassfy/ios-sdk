@@ -28,6 +28,7 @@
 #import <Glassfy/GYPurchaseDelegate.h>
 #import <Glassfy/GYStoresInfo.h>
 #import <Glassfy/GYStoreInfoPaddle.h>
+#import <Glassfy/GYStoreInfoStripe.h>
 #import <Glassfy/GYAttributionItem.h>
 #import <Glassfy/GYInitializeOptions.h>
 #else
@@ -50,6 +51,7 @@
 #import "GYPurchaseDelegate.h"
 #import "GYStoresInfo.h"
 #import "GYStoreInfoPaddle.h"
+#import "GYStoreInfoStripe.h"
 #import "GYAttributionItem.h"
 #import "GYInitializeOptions.h"
 #endif
