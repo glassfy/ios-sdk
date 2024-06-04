@@ -31,6 +31,7 @@ NS_SWIFT_NAME(Glassfy.PurchaseHistory)
 @property(nonatomic, readonly, strong, nullable) NSString *currencyCode;
 @property(nonatomic, readonly, strong, nullable) NSString *countryCode;
 
+@property(nonatomic, readonly, assign) BOOL isInTrialPeriod;
 @property(nonatomic, readonly, assign) BOOL isInIntroOfferPeriod;
 @property(nonatomic, readonly, strong, nullable) NSString *promotionalOfferId;
 @property(nonatomic, readonly, strong, nullable) NSString *offerCodeRefName;

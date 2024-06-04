@@ -23,6 +23,7 @@
 @property(nonatomic, readwrite, strong, nullable) NSString *currencyCode;
 @property(nonatomic, readwrite, strong, nullable) NSString *countryCode;
 
+@property(nonatomic, readwrite, assign) BOOL isInTrialPeriod;
 @property(nonatomic, readwrite, assign) BOOL isInIntroOfferPeriod;
 @property(nonatomic, readwrite, strong, nullable) NSString *promotionalOfferId;
 @property(nonatomic, readwrite, strong, nullable) NSString *offerCodeRefName;
@@ -80,6 +81,10 @@
             self.countryCode = country_code;
         }
         
+        NSNumber *is_trial = purchaseJSON[@"is_trial"];
+        if ([is_trial isKindOfClass:NSNumber.class]) {
+            self.isInTrialPeriod = is_trial.boolValue;
+        }
         NSNumber *is_in_intro_offer_period = purchaseJSON[@"is_in_intro_offer_period"];
         if ([is_in_intro_offer_period isKindOfClass:NSNumber.class]) {
             self.isInIntroOfferPeriod = is_in_intro_offer_period.boolValue;
